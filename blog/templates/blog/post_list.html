@@ -2,12 +2,9 @@
 
 {% block content %}
     {% for post in post_list %}
-        <div class="post">
-            <div class="date">
-                published: {{ post.published_date }}
-            </div>
-            <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
-            <p>{{ post.text|linebreaksbr }}</p>
-        </div>
+
+        <h2>{{ post.title }}</h2>
+        {{ post.published_date }}
+        <p>{{ post.text }}</p>
     {% endfor %}
 {% endblock %}
