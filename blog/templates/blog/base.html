@@ -1,14 +1,32 @@
 <!DOCTYPE html>
+{% load static %}
+
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Ableman's Blog</title>
+        <title>Waynoc Blog</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% static 'blog/blog.css' %}">
+
     </head>
     <body>
-        <h1><a href="/">Ableman's Blog</a></h1>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <a class="navbar-brand" href="{% url 'post_list' %}">Blog</a>
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_superuser %}
+                    <li><a href="{% url 'admin:index' %}">Admin</a></li>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'post_add' %}">New</a></li>
+                    <li><a href="{% url 'logout' %}?next={{ request.path }}">Log Out</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}?next={{ request.path }}">Log In</a></li>
+                {% endif %}
+        </nav>
         {% block content %}
         {% endblock %}
     </body>
