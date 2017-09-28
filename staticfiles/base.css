@@ -1,16 +1,12 @@
 body {
-  padding-top: 40px;
+  padding-top: 52px;
 }
 
 .navbar-right {
     padding-right: 10px;
 }
 
-/* For blog */
-form {
-  padding-top: inherit;
-}
-
+/* For Blog */
 .date {
     color: #777;
 }
