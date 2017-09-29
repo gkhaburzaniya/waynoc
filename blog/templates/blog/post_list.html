@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 
+{% block navbar %}
+    {% if user.is_authenticated %}
+        <li><a href="{% url 'post_add' %}">New</a></li>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
     {% for post in post_list %}
         <h2>{{ post.title }}</h2>
