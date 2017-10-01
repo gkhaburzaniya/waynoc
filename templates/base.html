@@ -19,10 +19,8 @@
                 <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
                     <span class="glyphicon glyphicon-menu-hamburger"></span>
                 </button>
-                {% url 'movienite:person_list' as movienite_url %}
-                <a class="navbar-brand {% if request.path == movienite_url %} active {% endif %}" href="{{ movienite_url }}">Movienite</a>
-                {% url 'blog:post_list' as blog_url %}
-                <a class="navbar-brand {% if request.path == blog_url %} active {% endif %}" href="{{ blog_url }}">Blog</a>
+                <a class="navbar-brand {% if request.resolver_match.app_name == 'movienite' %} active {% endif %}" href="{% url 'movienite:person_list' %}">Movienite</a>
+                <a class="navbar-brand {% if request.resolver_match.app_name == 'blog' %} active {% endif %}" href="{% url 'blog:post_list' %}">Blog</a>
                 {% if user.is_superuser %}
                     <a class="navbar-brand" href="{% url 'admin:index' %}">Admin</a>
                 {% endif %}
@@ -31,11 +29,10 @@
                 <ul class="nav navbar-nav navbar-right">
                     {% block navbar %}
                     {% endblock %}
-                    {% url 'login' as login_url %}
                     {% if user.is_authenticated %}
                         <li><a href="{% url 'logout' %}?next={{ request.path }}">Log Out</a></li>
-                    {% elif request.path != login  %}
-                        <li><a href="{{ login_url }}?next={{ request.path }}">Log In</a></li>
+                    {% elif request.resolver_match.url_name != 'login'  %}
+                        <li><a href="{% url 'login' %}?next={{ request.path }}">Log In</a></li>
                     {% endif %}
                 </ul>
             </div>
