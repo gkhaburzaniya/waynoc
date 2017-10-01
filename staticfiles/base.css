@@ -1,9 +1,13 @@
 body {
-  padding-top: 52px;
+  padding-top: 60px;
 }
 
 .navbar-right {
     padding-right: 10px;
+}
+
+.navbar-brand.active {
+    font-weight: bold
 }
 
 /* For Blog */
