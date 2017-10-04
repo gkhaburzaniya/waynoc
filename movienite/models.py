@@ -9,8 +9,8 @@ class Person(models.Model):
         return self.name
 
 
-class Event(models.Model):
-    movie = models.CharField(max_length=255)
+class Movie(models.Model):
+    title = models.CharField(max_length=255)
     date = models.DateField()
     picker = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True, related_name='picked')
     attendees = models.ManyToManyField(Person, related_name='attended')
