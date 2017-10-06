@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.db import models
 
 
@@ -11,7 +13,7 @@ class Person(models.Model):
 
 class Movie(models.Model):
     title = models.CharField(max_length=255)
-    date = models.DateField()
+    date = models.DateField(default=date.today)
     picker = models.ForeignKey(Person, on_delete=models.SET_NULL, null=True, related_name='picked')
     attendees = models.ManyToManyField(Person, related_name='attended')
 

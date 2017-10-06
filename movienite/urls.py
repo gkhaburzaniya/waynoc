@@ -17,5 +17,5 @@ urlpatterns = [
         name='movie_add'),
     url(r'^person_add/$', CreateView.as_view(model=Person, fields=['name'],
                                              success_url=reverse_lazy('movienite:person_list')),
-        name='movie_add'),
+        name='person_add'),
 ]
