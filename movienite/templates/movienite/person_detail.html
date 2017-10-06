@@ -1,0 +1,23 @@
+{% extends 'movienite/base.html' %}
+
+{% block content %}
+    <h3>{{ person.name }}</h3>
+    <h4> Score: {{ person.score }} </h4>
+    <table class="table">
+        <thead>
+            <tr> <th> Title </th> <th> Date </th> <th> Picker </th> <th> Attendees </th> </tr>
+        </thead>
+        <tbody>
+            {% for movie in person.attended.all %}
+                <tr>
+                    <td> {{ movie.title }} </td>
+                    <td> {{ movie.date }} </td>
+                    <td> {{ movie.picker.name }} </td>
+                    <td>
+                        {% for attendee in movie.attendees.all %} {{ attendee.name }} {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -7,13 +7,13 @@ from .models import Movie, Person
 
 
 @receiver(m2m_changed, sender=Movie.attendees.through)
-def event_changed(sender, action, **kwargs):
+def movie_changed(sender, action, **kwargs):
     if action in ["post_add", "post_remove", "post_clear"]:
         _recalculate_scores()
 
 
 @receiver(post_delete, sender=Movie)
-def event_deleted(sender, **kwargs):
+def movie_deleted(sender, **kwargs):
     _recalculate_scores()
 
 

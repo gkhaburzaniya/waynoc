@@ -18,4 +18,4 @@ class Movie(models.Model):
     attendees = models.ManyToManyField(Person, related_name='attended')
 
     def __str__(self):
-        return f'{self.movie}: {self.date}'
+        return f'{self.title}: {self.date}'
