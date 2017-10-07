@@ -1,29 +1,5 @@
 {% extends 'movienite/base.html' %}
 
 {% block content %}
-    <table class="table">
-        <thead>
-            <tr> <th> Title </th> <th> Date </th> <th> Picker </th> <th> Attendees </th> </tr>
-        </thead>
-        <tbody>
-            {% for movie in movie_list %}
-                <tr>
-                    <td> {{ movie.title }} </td>
-                    <td> {{ movie.date }} </td>
-                    <td>
-                        <a href="{% url 'movienite:person_detail' movie.picker.id %}">
-                            {{ movie.picker.name }}
-                        </a>
-                    </td>
-                    <td>
-                        {% for attendee in movie.attendees.all %}
-                            <a href="{% url 'movienite:person_detail' attendee.id %}">
-                                {{ attendee.name }}
-                            </a>
-                        {% endfor %}
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    {% include 'movienite/movie_table.html' %}
 {% endblock %}

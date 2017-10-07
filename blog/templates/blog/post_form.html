@@ -1,8 +1,5 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <form class="text-center" method="POST"> {% csrf_token %}
-        {{ form.as_p }}
-        <button class="btn btn-primary">Save</button>
-    </form>
+    {% include 'form.html' %}
 {% endblock %}
