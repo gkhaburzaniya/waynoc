@@ -19,11 +19,16 @@ def movie_deleted(sender, **kwargs):
 
 def _recalculate_scores():
     for person in Person.objects.all():
-        person.score = -100 * person.picked.count()
-        attended_movies = person.attended.order_by('-date')
-        person.score -= (date.today() - attended_movies[0].date).days
+        if person.movies_attended.count() == 0:
+            continue
+        person.score = -100 * person.movies_picked.count()
+        movies_attended = person.movies_attended.order_by('-date')
+        person.score -= (date.today() - movies_attended[0].date).days
 
-        for movie in attended_movies:
+        for movie in movies_attended:
             person.score += 100//movie.attendees.count()
+
+        if person.score < 50 and person.movies_picked.count() == 0:
+            person.score = None
 
         person.save()
