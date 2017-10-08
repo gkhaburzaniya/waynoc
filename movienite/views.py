@@ -3,13 +3,15 @@ from datetime import date
 from django.views.generic import CreateView
 
 from .models import Person, Movie
+from .forms import MovieForm
 
 
 class CreateMovieView(CreateView):
     model = Movie
+    form_class = MovieForm
 
-    def form_valid(self, form):
-        response = super().form_valid(form)
+    def form_valid(self, *args, **kwargs):
+        response = super().form_valid(*args, **kwargs)
         _recalculate_scores()
         return response
 

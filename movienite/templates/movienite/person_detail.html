@@ -2,6 +2,6 @@
 
 {% block content %}
     <h3>{{ person.name }}</h3>
-    <h4> Score: {{ person.score }} </h4>
+    <h4>Score: {{ person.score }}</h4>
     {% include 'movienite/movie_table.html' with movie_list=person.movies_attended.all %}
 {% endblock %}
