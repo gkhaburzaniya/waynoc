@@ -1,5 +1,6 @@
 from datetime import date
 
+from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
 from .models import Person, Movie
@@ -9,6 +10,7 @@ from .forms import MovieForm
 class CreateMovieView(CreateView):
     model = Movie
     form_class = MovieForm
+    success_url = reverse_lazy('movienite:movie_list')
 
     def form_valid(self, *args, **kwargs):
         response = super().form_valid(*args, **kwargs)
