@@ -15,7 +15,7 @@
                 <td>
                     {% for attendee in movie.attendees.all %}
                         <a href="{% url 'movienite:person_detail' attendee.id %}">
-                            {{ attendee.name }}
+                            {{ attendee.name }},
                         </a>
                     {% endfor %}
                 </td>
