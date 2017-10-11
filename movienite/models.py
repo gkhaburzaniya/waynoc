@@ -5,7 +5,10 @@ from django.db import models
 
 class Person(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    score = models.IntegerField(null=True, editable=False)  # Score is calculated in signals.py
+    score = models.IntegerField(null=True, editable=False)
+
+    class Meta:
+        ordering = ['-score', 'name']
 
     def __str__(self):
         return self.name
