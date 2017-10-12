@@ -20,11 +20,13 @@ class CreateMovieView(CreateView):
 
 def _recalculate_scores():
     for person in Person.objects.all():
-        if person.movies_attended.count() == 0:
+        movies_attended = list(person.movies_attended.order_by('-date'))
+        try:
+            person.score = -(date.today() - movies_attended[0].date).days
+            person.score += (date.today() - movies_attended[-1].date).days//30
+        except IndexError:
             continue
-        person.score = -100 * person.movies_picked.count()
-        movies_attended = person.movies_attended.order_by('-date')
-        person.score -= (date.today() - movies_attended[0].date).days
+        person.score -= 100 * person.movies_picked.count()
 
         for movie in movies_attended:
             person.score += 100//movie.attendees.count()

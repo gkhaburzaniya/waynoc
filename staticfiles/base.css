@@ -1,5 +1,10 @@
 body {
-  padding-top: 60px;
+    overflow-y: scroll;
+    padding-top: 60px;
+}
+
+li {
+    display: block
 }
 
 .navbar-right {
@@ -10,7 +15,7 @@ body {
     font-weight: bold
 }
 
-/* For Blog */
+/* For blog */
 .date {
     color: #777;
 }
@@ -18,4 +23,12 @@ body {
 #id_text {
     height: 500px;
     width: 100%;
+}
+
+/* For movienite */
+
+#id_attendees li{
+    width: 25%;
+    float: left;
+    display: inline;
 }

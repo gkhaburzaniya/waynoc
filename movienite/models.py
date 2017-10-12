@@ -23,5 +23,8 @@ class Movie(models.Model):
                                related_name='movies_picked')
     attendees = models.ManyToManyField(Person, related_name='movies_attended')
 
+    class Meta:
+        ordering = ['-date']
+
     def __str__(self):
         return f'{self.title}: {self.date}'
