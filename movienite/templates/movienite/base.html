@@ -1,17 +1,17 @@
 {% extends 'base.html' %}
 
 {% block navbar %}
-    {% if user.is_authenticated %}
-        {% if request.resolver_match.url_name == 'movie_list' %}
-            <li><a href="{% url 'movienite:movie_add' %}">Add</a></li>
-        {% elif request.resolver_match.url_name == 'person_list' %}
-            <li><a href="{% url 'movienite:person_add' %}">Add</a></li>
-        {% endif %}
+  {% if user.is_authenticated %}
+    {% if request.resolver_match.url_name == 'movie_list' %}
+      <li><a href="{% url 'movienite:movie_add' %}">Add</a></li>
+    {% elif request.resolver_match.url_name == 'person_list' %}
+      <li><a href="{% url 'movienite:person_add' %}">Add</a></li>
     {% endif %}
-    <li {% if 'person' in request.resolver_match.url_name %} class="active" {% endif %}>
-        <a href="{% url 'movienite:person_list' %}">People</a>
-    </li>
-    <li {% if 'movie' in request.resolver_match.url_name %} class="active" {% endif %}>
-        <a href="{% url 'movienite:movie_list' %}">Movies</a>
-    </li>
+  {% endif %}
+  <li {% if 'person' in request.resolver_match.url_name %} class="active" {% endif %}>
+    <a href="{% url 'movienite:person_list' %}">People</a>
+  </li>
+  <li {% if 'movie' in request.resolver_match.url_name %} class="active" {% endif %}>
+    <a href="{% url 'movienite:movie_list' %}">Movies</a>
+  </li>
 {% endblock %}

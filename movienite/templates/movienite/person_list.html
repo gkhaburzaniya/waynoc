@@ -1,7 +1,7 @@
 {% extends 'movienite/base.html' %}
 
 {% block content %}
-    {% for person in person_list %}
-        <li><a href="{% url 'movienite:person_detail' person.id %}">{{ person.name }}</a>: {{ person.score }}</li>
-    {% endfor %}
+  {% for person in person_list %}
+    <li><a href="{% url 'movienite:person_detail' person.id %}">{{ person.name }}</a>: {{ person.score }}</li>
+  {% endfor %}
 {% endblock %}
