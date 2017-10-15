@@ -1,10 +1,12 @@
-from django.forms import ModelForm
+from django import forms
 from django.forms.widgets import CheckboxSelectMultiple
 
 from .models import Movie
 
 
-class MovieForm(ModelForm):
+class MovieForm(forms.ModelForm):
+    other_attendees = forms.CharField(required=False)
+
     class Meta:
         model = Movie
         fields = ['title', 'picker', 'attendees']

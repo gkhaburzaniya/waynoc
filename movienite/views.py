@@ -12,8 +12,14 @@ class CreateMovieView(CreateView):
     form_class = MovieForm
     success_url = reverse_lazy('movienite:movie_list')
 
-    def form_valid(self, *args, **kwargs):
-        response = super().form_valid(*args, **kwargs)
+    def form_valid(self, form, *args, **kwargs):
+        form_data = form.cleaned_data
+        if form_data['other_attendees']:
+            for name in form_data['other_attendees'].split(','):
+                attendee = Person(name=name.strip())
+                attendee.save()
+                form_data['attendees'] |= Person.objects.filter(id=attendee.id)
+        response = super().form_valid(form, *args, **kwargs)
         _recalculate_scores()
         return response
 
