@@ -2,16 +2,13 @@
 
 {% block navbar %}
   {% if user.is_authenticated %}
-    <li {% if 'movie' in request.resolver_match.url_name %} class="active" {% endif %}>
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Movies</a>
-      <ul class="dropdown-menu">
-        <li><a href="{% url 'movienite:movie_list' %}">View</a></li>
-        <li><a href="{% url 'movienite:movie_add' %}">Add</a></li>
-      </ul>
-    </li>
-  {% else %}
-    <li {% if 'movie' in request.resolver_match.url_name %} class="active" {% endif %}>
-      <a href="{% url 'movienite:movie_list' %}">Movies</a>
+    <li>
+      <a href="{% url 'movienite:movie_add' %}">
+        <span class="glyphicon glyphicon-plus"></span>
+      </a>
     </li>
   {% endif %}
+  <li {% if 'movie_list' == request.resolver_match.url_name %} class="active" {% endif %}>
+    <a href="{% url 'movienite:movie_list' %}">Movies</a>
+  </li>
 {% endblock %}

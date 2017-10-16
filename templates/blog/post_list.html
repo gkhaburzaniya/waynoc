@@ -2,7 +2,11 @@
 
 {% block navbar %}
   {% if user.is_authenticated %}
-    <li><a href="{% url 'blog:post_add' %}">New</a></li>
+    <li>
+      <a href="{% url 'blog:post_add' %}">
+        <span class="glyphicon glyphicon-plus"></span>
+      </a>
+    </li>
   {% endif %}
 {% endblock %}
 
