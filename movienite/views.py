@@ -12,10 +12,9 @@ class CreateMovieView(CreateView):
 
     def form_valid(self, form, *args, **kwargs):
         form_data = form.cleaned_data
-        if form_data['other_attendees']:
-            for name in form_data['other_attendees'].split(','):
-                attendee = Person.objects.create(name=name.strip())
-                form_data['attendees'] |= Person.objects.filter(id=attendee.id)
+        for name in (x for x in form_data['other_attendees'].split(',') if x):
+            attendee = Person.objects.create(name=name.strip())
+            form_data['attendees'] |= Person.objects.filter(id=attendee.id)
         response = super().form_valid(form, *args, **kwargs)
         for person in form_data['attendees']:
             _update_score(person)
