@@ -23,13 +23,9 @@ class CreateMovieView(CreateView):
 
 
 def _recalculate_scores():
-    all_movies = Movie.objects.order_by('-date')
     for person in Person.objects.all():
         movies_attended = person.movies_attended.order_by('-date')
-        for i, movie in enumerate(all_movies):
-            if movies_attended[0] == movie:
-                person.score = -10 * i
-                break
+        person.score = movies_attended[0].id
         person.score += movies_attended.count()
         person.score -= 100 * person.movies_picked.count()
 
