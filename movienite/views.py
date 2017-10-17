@@ -14,22 +14,21 @@ class CreateMovieView(CreateView):
         form_data = form.cleaned_data
         if form_data['other_attendees']:
             for name in form_data['other_attendees'].split(','):
-                attendee = Person(name=name.strip())
-                attendee.save()
+                attendee = Person.objects.create(name=name.strip())
                 form_data['attendees'] |= Person.objects.filter(id=attendee.id)
         response = super().form_valid(form, *args, **kwargs)
-        _recalculate_scores()
+        for person in form_data['attendees']:
+            _update_score(person)
         return response
 
 
-def _recalculate_scores():
-    for person in Person.objects.all():
-        movies_attended = person.movies_attended.order_by('-date')
-        person.score = movies_attended[0].id
-        person.score += movies_attended.count()
-        person.score -= 100 * person.movies_picked.count()
+def _update_score(person):
+    movies_attended = person.movies_attended.order_by('-id')
+    person.score = movies_attended[0].id
+    person.score += movies_attended.count()
+    person.score -= 100 * person.movies_picked.count()
 
-        for movie in movies_attended:
-            person.score += 100//movie.attendees.count()
+    for movie in movies_attended:
+        person.score += 100//movie.attendees.count()
 
-        person.save()
+    person.save()
