@@ -1,5 +1,11 @@
 {% extends 'movienite/base.html' %}
+{% load static %}
 
 {% block content %}
   {% include 'partials/form.html' %}
+{% endblock %}
+
+{% block footer %}
+  <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+  {{ form.media }}
 {% endblock %}
