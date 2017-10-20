@@ -1,10 +1,17 @@
 <table class="table">
   <thead>
-    <tr><th>Title</th><th>Date</th><th>Picker</th><th>Attendees</th></tr>
+    <tr><th></th><th>Title</th><th>Date</th><th>Picker</th><th>Attendees</th></tr>
   </thead>
   <tbody>
     {% for movie in movie_list %}
       <tr>
+        <td>
+          {% if user.is_authenticated %}
+            <a href="{% url 'movienite:movie_edit' movie.pk %}">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </a>
+          {% endif %}
+        </td>
         <td>{{ movie.title }}</td>
         <td>{{ movie.date }}</td>
         <td>

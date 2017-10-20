@@ -4,7 +4,7 @@ from django.views.generic import ListView, DetailView
 from django.contrib.auth.decorators import login_required
 
 from .models import Person, Movie
-from .views import MovieCreateView
+from .views import MovieCreateView, MovieUpdateView
 
 app_name = 'movienite'
 urlpatterns = [
@@ -35,4 +35,9 @@ urlpatterns = [
         login_required(MovieCreateView.as_view()),
         name='movie_add'
     ),
+    url(
+        r'^movie_edit/(?P<pk>[0-9]+)/$',
+        login_required(MovieUpdateView.as_view()),
+        name='movie_edit'
+    )
 ]

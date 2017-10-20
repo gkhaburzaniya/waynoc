@@ -1,4 +1,10 @@
+{% load static %}
 <form class="col-md-4 col-md-offset-4" method="POST"> {% csrf_token %}
     {{ form.as_p }}
     <button class="btn btn-primary">Save</button>
 </form>
+
+{% block footer %}
+  <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+  {{ form.media }}
+{% endblock %}
