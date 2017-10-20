@@ -3,6 +3,6 @@
 {% block content %}
   <form class="text-center col-md-4 col-md-offset-4" method="POST"> {% csrf_token %}
     {{ form.as_p }}
-    <button class="btn btn-primary center-block">Log In</button>
+    <button type="submit" class="btn btn-primary center-block">Log In</button>
   </form>
 {% endblock %}
