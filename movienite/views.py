@@ -23,12 +23,12 @@ class MovieUpdateView(UpdateView):
     success_url = reverse_lazy('movienite:movie_list')
 
     def form_valid(self, form, *args, **kwargs):
-        # original_attendees = Movie.objects.get(id=self.kwargs.get('pk')).attendees.all()
+        original_attendees = list(Movie.objects.get(id=self.kwargs['pk']).attendees.all())
         response = super().form_valid(form, *args, **kwargs)
         for person in form.cleaned_data['attendees']:
             _update_score(person)
-        # for person in original_attendees:
-        #     _update_score(person)
+        for person in original_attendees:
+            _update_score(person)
         return response
 
 

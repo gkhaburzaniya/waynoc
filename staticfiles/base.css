@@ -24,11 +24,3 @@ li {
     height: 500px;
     width: 100%;
 }
-
-/* For movienite */
-
-#id_attendees li{
-    width: 25%;
-    float: left;
-    display: inline;
-}
