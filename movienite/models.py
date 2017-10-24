@@ -1,6 +1,7 @@
 from datetime import date
 
 from django.db import models
+from django.urls import reverse_lazy
 
 
 class Person(models.Model):
@@ -22,6 +23,10 @@ class Movie(models.Model):
                                null=True,
                                related_name='movies_picked')
     attendees = models.ManyToManyField(Person, related_name='movies_attended')
+
+    @staticmethod
+    def get_absoulte_url():
+        return reverse_lazy('movienite:movie_list')
 
     class Meta:
         ordering = ['-date']
