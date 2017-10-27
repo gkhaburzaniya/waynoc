@@ -4,13 +4,27 @@ from .models import Movie, Person
 
 
 class MovieForm(forms.ModelForm):
-    picker = forms.models.ModelChoiceField(Person.objects.all(), empty_label=None)
+    picker = forms.ModelChoiceField(Person.objects.all(), empty_label=None)
 
-    def clean(self, *args, **kwargs):
-        import pdb; pdb.set_trace()
-        super().clean(*args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        self.new_attendees = set()
+        return super().__init__(*args, **kwargs)
+
+    def full_clean(self, *args, **kwargs):
+        if self.is_bound:
+            attendees = self.data.getlist('attendees')
+            for attendee in attendees:
+                if not attendee.isdigit():
+                    self.new_attendees.add(attendee)
+                    attendees.remove(attendee)
+            self.data = self.data.copy()
+            self.data.setlist('attendees', attendees)
+        return super().full_clean(*args, **kwargs)
 
     def save(self, *args, **kwargs):
+        for attendee in self.new_attendees:
+            Person(name=attendee).save()
+            self.cleaned_data['attendees'] |= Person.objects.filter(name=attendee)
         response = super().save(*args, **kwargs)
         for person in self.cleaned_data['attendees']:
             _update_score(person)

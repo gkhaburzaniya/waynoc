@@ -25,7 +25,7 @@ class Movie(models.Model):
     attendees = models.ManyToManyField(Person, related_name='movies_attended')
 
     @staticmethod
-    def get_absoulte_url():
+    def get_absolute_url():
         return reverse_lazy('movienite:movie_list')
 
     class Meta:
