@@ -4,17 +4,17 @@ from .models import Movie, Person
 
 
 class MovieForm(forms.ModelForm):
-    picker = forms.ModelChoiceField(Person.objects.all(), empty_label=None)
-
-    def __init__(self, *args, **kwargs):
-        self.new_attendees = set()
-        return super().__init__(*args, **kwargs)
+    picker = forms.ModelChoiceField(Person.objects.all(), empty_label=None, to_field_name='name')
+    attendees = forms.ModelMultipleChoiceField(Person.objects.all(), to_field_name='name')
 
     def full_clean(self, *args, **kwargs):
         if self.is_bound:
+            self.new_attendees = set()
             attendees = self.data.getlist('attendees')
             for attendee in attendees:
-                if not attendee.isdigit():
+                try:
+                    Person.objects.get(name=attendee)
+                except Person.DoesNotExist:
                     self.new_attendees.add(attendee)
                     attendees.remove(attendee)
             self.data = self.data.copy()
