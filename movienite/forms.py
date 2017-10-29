@@ -7,18 +7,22 @@ class MovieForm(forms.ModelForm):
     picker = forms.ModelChoiceField(Person.objects.all(), empty_label=None, to_field_name='name')
     attendees = forms.ModelMultipleChoiceField(Person.objects.all(), to_field_name='name')
 
+    def __init__(self, *args, **kwargs):
+        self.new_attendees = set()
+        return super().__init__(*args, **kwargs)
+
+    def pre_clean_attendees(self):
+        attendees = self.data.getlist('attendees')
+        for attendee in attendees:
+            if not Person.objects.filter(name=attendee):
+                self.new_attendees.add(attendee)
+                attendees.remove(attendee)
+        self.data = self.data.copy()
+        self.data.setlist('attendees', attendees)
+
     def full_clean(self, *args, **kwargs):
         if self.is_bound:
-            self.new_attendees = set()
-            attendees = self.data.getlist('attendees')
-            for attendee in attendees:
-                try:
-                    Person.objects.get(name=attendee)
-                except Person.DoesNotExist:
-                    self.new_attendees.add(attendee)
-                    attendees.remove(attendee)
-            self.data = self.data.copy()
-            self.data.setlist('attendees', attendees)
+            self.pre_clean_attendees()
         return super().full_clean(*args, **kwargs)
 
     def save(self, *args, **kwargs):
