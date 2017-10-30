@@ -29,11 +29,12 @@ class MovieForm(forms.ModelForm):
         for attendee in self.new_attendees:
             Person(name=attendee).save()
             self.cleaned_data['attendees'] |= Person.objects.filter(name=attendee)
-        original_attendees = self.instance.attendees.all()
+        original_attendees = list(self.instance.attendees.all())
         response = super().save(*args, **kwargs)
         for person in self.cleaned_data['attendees']:
             _update_score(person)
-
+        for person in original_attendees:
+            _update_score(person)
         return response
 
     class Meta:

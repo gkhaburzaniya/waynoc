@@ -8,10 +8,10 @@ class SeleniumTestCase(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         super(StaticLiveServerTestCase, cls).setUpClass()
-        User.objects.create_user(username='bar', password='foo')
         cls.browser = WebDriver()
 
     def setUp(self):
+        User.objects.create_user(username='bar', password='foo')
         self.browser.get(self.live_server_url + '/accounts/login/')
         self.browser.find_element_by_name('username').send_keys('bar')
         self.browser.find_element_by_name('password').send_keys('foo')
