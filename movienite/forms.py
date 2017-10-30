@@ -14,7 +14,7 @@ class MovieForm(forms.ModelForm):
     def pre_clean_attendees(self):
         attendees = self.data.getlist('attendees')
         for attendee in attendees:
-            if not Person.objects.filter(name=attendee):
+            if not Person.objects.filter(name=attendee).exists():
                 self.new_attendees.add(attendee)
                 attendees.remove(attendee)
         self.data = self.data.copy()
@@ -29,9 +29,11 @@ class MovieForm(forms.ModelForm):
         for attendee in self.new_attendees:
             Person(name=attendee).save()
             self.cleaned_data['attendees'] |= Person.objects.filter(name=attendee)
+        original_attendees = self.instance.attendees.all()
         response = super().save(*args, **kwargs)
         for person in self.cleaned_data['attendees']:
             _update_score(person)
+
         return response
 
     class Meta:
