@@ -29,24 +29,16 @@ class MovieForm(forms.ModelForm):
         for attendee in self.new_attendees:
             Person(name=attendee).save()
             self.cleaned_data['attendees'] |= Person.objects.filter(name=attendee)
-        original_attendees = list(self.instance.attendees.all())
-        response = super().save(*args, **kwargs)
-        for person in self.cleaned_data['attendees']:
-            _update_score(person)
-        for person in original_attendees:
-            _update_score(person)
-        return response
+        original_attendees = [attendee
+                              for attendee in self.instance.attendees.all()
+                              if self.instance.id]
+        retval = super().save(*args, **kwargs)
+        for attendee in self.cleaned_data['attendees']:
+            attendee.update_score()
+        for attendee in original_attendees:
+            attendee.update_score()
+        return retval
 
     class Meta:
         model = Movie
         fields = ['title', 'date', 'picker', 'attendees']
-
-
-def _update_score(person):
-    movies_attended = person.movies_attended.order_by('-id')
-    person.score = movies_attended[0].id
-    person.score += movies_attended.count()
-    person.score -= 100 * person.movies_picked.count()
-    for movie in movies_attended:
-        person.score += 100//movie.attendees.count()
-    person.save()

@@ -1,5 +1,6 @@
+from django.urls import reverse_lazy
 from django.conf.urls import url
-from django.views.generic import CreateView, DetailView, ListView, UpdateView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
 
 from .forms import MovieForm
@@ -33,5 +34,11 @@ urlpatterns = [
         r'^movie_edit/(?P<pk>[0-9]+)/$',
         login_required(UpdateView.as_view(model=Movie, form_class=MovieForm)),
         name='movie_edit'
+    ),
+    url(
+        r'^movie_delete/(?P<pk>[0-9]+)/$',
+        login_required(DeleteView.as_view(model=Movie,
+                                          success_url=reverse_lazy('movienite:movie_list'))),
+        name='movie_delete'
     )
 ]

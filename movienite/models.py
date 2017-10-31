@@ -8,6 +8,15 @@ class Person(models.Model):
     name = models.CharField(max_length=255, unique=True)
     score = models.IntegerField(null=True, editable=False)
 
+    def update_score(self):
+        movies_attended = self.movies_attended.order_by('-id')
+        self.score = movies_attended[0].id
+        self.score += movies_attended.count()
+        self.score -= 100 * self.movies_picked.count()
+        for movie in movies_attended:
+            self.score += 100//movie.attendees.count()
+        self.save()
+
     class Meta:
         ordering = ['-score', 'name']
 
@@ -27,6 +36,13 @@ class Movie(models.Model):
     @staticmethod
     def get_absolute_url():
         return reverse_lazy('movienite:movie_list')
+
+    def delete(self, *args, **kwargs):
+        attendees = list(self.attendees.all())
+        retval = super().delete(*args, **kwargs)
+        for attendee in attendees:
+            attendee.update_score()
+        return retval
 
     class Meta:
         ordering = ['-date']

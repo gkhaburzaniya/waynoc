@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table table-striped">
   <thead>
     <tr><th></th><th>Title</th><th>Date</th><th>Picker</th><th>Attendees</th></tr>
   </thead>
@@ -7,6 +7,9 @@
       <tr>
         <td>
           {% if user.is_authenticated %}
+            <a href="{% url 'movienite:movie_delete' movie.pk %}">
+              <span class="glyphicon glyphicon-remove"></span>
+            </a>
             <a href="{% url 'movienite:movie_edit' movie.pk %}">
               <span class="glyphicon glyphicon-pencil"></span>
             </a>
