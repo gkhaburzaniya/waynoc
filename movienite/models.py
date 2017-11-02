@@ -17,6 +17,9 @@ class Person(models.Model):
             self.score += 100//movie.attendees.count()
         self.save()
 
+    def get_absolute_url(self):
+        return reverse_lazy('movienite:person_detail', args=[self.id])
+
     class Meta:
         ordering = ['-score', 'name']
 
@@ -32,10 +35,6 @@ class Movie(models.Model):
                                null=True,
                                related_name='movies_picked')
     attendees = models.ManyToManyField(Person, related_name='movies_attended')
-
-    @staticmethod
-    def get_absolute_url():
-        return reverse_lazy('movienite:movie_list')
 
     def delete(self, *args, **kwargs):
         attendees = list(self.attendees.all())

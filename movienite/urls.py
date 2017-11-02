@@ -19,6 +19,11 @@ urlpatterns = [
         name='person_detail'
     ),
     url(
+        r'^person_edit/(?P<pk>[0-9]+)/$',
+        login_required(UpdateView.as_view(model=Person, fields=['name'])),
+        name='person_edit'
+    ),
+    url(
         r'^movie_list/$',
         ListView.as_view(
             model=Movie,
@@ -27,12 +32,16 @@ urlpatterns = [
     ),
     url(
         r'^movie_add/$',
-        login_required(CreateView.as_view(model=Movie, form_class=MovieForm)),
+        login_required(CreateView.as_view(model=Movie,
+                                          form_class=MovieForm,
+                                          success_url=reverse_lazy('movienite:movie_list'))),
         name='movie_add'
     ),
     url(
         r'^movie_edit/(?P<pk>[0-9]+)/$',
-        login_required(UpdateView.as_view(model=Movie, form_class=MovieForm)),
+        login_required(UpdateView.as_view(model=Movie,
+                                          form_class=MovieForm,
+                                          success_url=reverse_lazy('movienite:movie_list'))),
         name='movie_edit'
     ),
     url(
