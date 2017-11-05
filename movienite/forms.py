@@ -4,7 +4,7 @@ from .models import Movie, Person
 
 
 class MovieForm(forms.ModelForm):
-    picker = forms.ModelChoiceField(Person.objects.all(), empty_label=None, to_field_name='name')
+    picker = forms.ModelChoiceField(Person.objects.all(), empty_label=None)
     attendees = forms.ModelMultipleChoiceField(Person.objects.all(), to_field_name='name')
 
     def __init__(self, *args, **kwargs):
@@ -29,15 +29,7 @@ class MovieForm(forms.ModelForm):
         for attendee in self.new_attendees:
             Person(name=attendee).save()
             self.cleaned_data['attendees'] |= Person.objects.filter(name=attendee)
-        original_attendees = [attendee
-                              for attendee in self.instance.attendees.all()
-                              if self.instance.id]
-        retval = super().save(*args, **kwargs)
-        for attendee in self.cleaned_data['attendees']:
-            attendee.update_score()
-        for attendee in original_attendees:
-            attendee.update_score()
-        return retval
+        return super().save(*args, **kwargs)
 
     class Meta:
         model = Movie

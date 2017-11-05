@@ -1,6 +1,7 @@
 from datetime import date
 
 from django.db import models
+from django.dispatch import receiver
 from django.urls import reverse_lazy
 
 
@@ -10,7 +11,10 @@ class Person(models.Model):
 
     def update_score(self):
         movies_attended = self.movies_attended.order_by('-id')
-        self.score = movies_attended[0].id
+        try:
+            self.score = movies_attended[0].id
+        except IndexError:
+            return
         self.score += movies_attended.count()
         self.score -= 100 * self.movies_picked.count()
         for movie in movies_attended:
@@ -48,3 +52,13 @@ class Movie(models.Model):
 
     def __str__(self):
         return f'{self.title}: {self.date}'
+
+
+@receiver(models.signals.m2m_changed, sender=Movie.attendees.through)
+def movie_save(sender, instance, action, pk_set, **kwargs):
+    if action in ['post_add', 'post_remove']:
+        for attendee in instance.attendees.all():
+            attendee.update_score()
+    if action == 'post_remove':
+        for pk in pk_set:
+            Person.objects.get(pk=pk).update_score()
