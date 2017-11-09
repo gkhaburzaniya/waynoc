@@ -12,7 +12,7 @@
 
 {% block content %}
   {% for post in post_list %}
-    <span class="h2">{{ post.title }}</span>
+    <br><span class="h2">{{ post.title }}</span>
     {% if perms.blog.change_post %}
     <a href="{% url 'blog:post_delete' post.pk %}">
       <span class="glyphicon glyphicon-remove pull-right"></span>
