@@ -20,6 +20,12 @@ li {
     color: #777;
 }
 
+.posts {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 99ch;
+}
+
 #id_text {
     height: 500px;
     width: 100%;

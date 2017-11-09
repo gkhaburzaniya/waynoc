@@ -11,6 +11,7 @@
 {% endblock %}
 
 {% block content %}
+  <div class="posts">
   {% for post in post_list %}
     <br><span class="h2">{{ post.title }}</span>
     {% if perms.blog.change_post %}
@@ -24,4 +25,5 @@
     <div class="date">{{ post.date }}</div>
     {{ post.text|linebreaks }}
   {% endfor %}
+  </div>
 {% endblock %}
