@@ -1,11 +1,11 @@
 {% extends 'movienite/base.html' %}
 
 {% block content %}
-  <h3>{{ person.name }}
+  <span class="h3">{{ person.name }}</span>
   {% if user.is_authenticated %}
-    <a href="{% url 'movienite:person_edit' person.pk %}">
-      <small class="glyphicon glyphicon-pencil"></small>
-    </a></h3>
+  <a href="{% url 'movienite:person_edit' person.pk %}">
+    <span class="glyphicon glyphicon-pencil"></span>
+  </a>
   {% endif %}
   <h4>Score: {{ person.score }}</h4>
   {% include 'movienite/partials/movie_table.html' with movie_list=person.movies_attended.all %}

@@ -1,20 +1,10 @@
 <table class="table table-striped">
   <thead>
-    <tr><th></th><th>Title</th><th>Date</th><th>Picker</th><th>Attendees</th></tr>
+    <tr><th>Title</th><th>Date</th><th>Picker</th><th>Attendees</th><th></th></tr>
   </thead>
   <tbody>
     {% for movie in movie_list %}
       <tr>
-        <td>
-          {% if user.is_authenticated %}
-            <a href="{% url 'movienite:movie_delete' movie.pk %}">
-              <span class="glyphicon glyphicon-remove"></span>
-            </a>
-            <a href="{% url 'movienite:movie_edit' movie.pk %}">
-              <span class="glyphicon glyphicon-pencil"></span>
-            </a>
-          {% endif %}
-        </td>
         <td>{{ movie.title }}</td>
         <td>{{ movie.date }}</td>
         <td>
@@ -24,6 +14,16 @@
           {% for attendee in movie.attendees.all %}
             <a href="{% url 'movienite:person_detail' attendee.id %}">{{ attendee.name }}</a>{% if not forloop.last %},{% endif %}
           {% endfor %}
+        </td>
+        <td>
+          {% if user.is_authenticated %}
+            <a href="{% url 'movienite:movie_edit' movie.pk %}">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </a>
+            <a href="{% url 'movienite:movie_delete' movie.pk %}">
+              <span class="glyphicon glyphicon-remove"></span>
+            </a>
+          {% endif %}
         </td>
       </tr>
     {% endfor %}
