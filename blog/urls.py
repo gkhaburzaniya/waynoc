@@ -25,7 +25,8 @@ urlpatterns = [
         r'^post_edit/(?P<pk>[0-9]+)/$',
         permission_required('blog.change_post')(UpdateView.as_view(
             model=Post,
-            fields=['title', 'date', 'text'])
+            fields=['title', 'date', 'text'],
+            success_url=reverse_lazy('blog:post_list'))
         ),
         name='post_edit'
     ),
