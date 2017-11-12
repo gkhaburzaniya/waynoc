@@ -3,9 +3,7 @@
 {% block navbar %}
   {% if user.is_authenticated %}
     <li>
-      <a href="{% url 'movienite:movie_add' %}">
-        <span class="glyphicon glyphicon-plus"></span>
-      </a>
+      <a href="{% url 'movienite:movie_add' %}"><span class="glyphicon glyphicon-plus"></span></a>
     </li>
   {% endif %}
   <li {% if 'movie_list' == request.resolver_match.url_name %} class="active" {% endif %}>

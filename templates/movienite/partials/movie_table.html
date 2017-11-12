@@ -17,12 +17,8 @@
         </td>
         <td>
           {% if user.is_authenticated %}
-            <a href="{% url 'movienite:movie_edit' movie.pk %}">
-              <span class="glyphicon glyphicon-pencil"></span>
-            </a>
-            <a href="{% url 'movienite:movie_delete' movie.pk %}">
-              <span class="glyphicon glyphicon-remove"></span>
-            </a>
+            <a href="{% url 'movienite:movie_edit' movie.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+            <a href="{% url 'movienite:movie_delete' movie.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
           {% endif %}
         </td>
       </tr>
