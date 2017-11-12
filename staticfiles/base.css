@@ -4,28 +4,14 @@ body {
 }
 
 li {
-    display: block
-}
-
-.navbar-right {
-    padding-right: 10px;
+    display: block;
 }
 
 .navbar-brand.active {
-    font-weight: bold
+    font-weight: bold;
 }
 
 /* For blog */
-.date {
-    color: #777;
-}
-
-.posts {
-  margin-right: auto;
-  margin-left: auto;
-  max-width: 99ch;
-}
-
 #id_text {
     height: 500px;
     width: 100%;
