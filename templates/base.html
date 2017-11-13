@@ -8,20 +8,23 @@
 
   <title>Waynoc</title>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="{% static 'base.css' %}">
   <link rel="shortcut icon" href="{%  static 'favicon.ico' %}">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css"
+    rel="stylesheet">
 </head>
 <body>
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
         <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
-          <span class="glyphicon glyphicon-menu-hamburger"></span>
-        </button>
-        <a class="navbar-brand {% if request.resolver_match.app_name == 'movienite' %} active {% endif %}" href="{% url 'movienite:person_list' %}">Movienite</a>
-        <a class="navbar-brand {% if request.resolver_match.app_name == 'blog' %} active {% endif %}" href="{% url 'blog:post_list' %}">Blog</a>
+          <span class="glyphicon glyphicon-menu-hamburger"></span></button>
+        <a class="navbar-brand {% if request.resolver_match.app_name == 'movienite' %} active
+          {% endif %}" href="{% url 'movienite:person_list' %}">Movienite</a>
+        <a class="navbar-brand {% if request.resolver_match.app_name == 'blog' %} active
+          {% endif %}" href="{% url 'blog:post_list' %}">Blog</a>
         {% if user.is_superuser %}
           <a class="navbar-brand" href="{% url 'admin:index' %}">Admin</a>
         {% endif %}

@@ -12,13 +12,16 @@
         </td>
         <td>
           {% for attendee in movie.attendees.all %}
-            <a href="{% url 'movienite:person_detail' attendee.id %}">{{ attendee.name }}</a>{% if not forloop.last %},{% endif %}
+            <a href="{% url 'movienite:person_detail' attendee.id %}">{{ attendee.name }}</a>
+              {% if not forloop.last %},{% endif %}
           {% endfor %}
         </td>
         <td>
           {% if user.is_authenticated %}
-            <a href="{% url 'movienite:movie_edit' movie.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
-            <a href="{% url 'movienite:movie_delete' movie.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+            <a href="{% url 'movienite:movie_edit' movie.pk %}">
+              <span class="glyphicon glyphicon-pencil"></span></a>
+            <a href="{% url 'movienite:movie_delete' movie.pk %}">
+              <span class="glyphicon glyphicon-remove"></span></a>
           {% endif %}
         </td>
       </tr>
