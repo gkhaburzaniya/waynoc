@@ -5,10 +5,7 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 
 class SeleniumTestCase(StaticLiveServerTestCase):
 
-    @classmethod
-    def setUpClass(cls):
-        super(StaticLiveServerTestCase, cls).setUpClass()
-        cls.browser = WebDriver()
+    browser = WebDriver()
 
     def setUp(self):
         User.objects.create_user(username='bar', password='foo')

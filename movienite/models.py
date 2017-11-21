@@ -55,7 +55,7 @@ class Movie(models.Model):
 
 
 @receiver(models.signals.m2m_changed, sender=Movie.attendees.through)
-def movie_save(sender, instance, action, pk_set, **kwargs):
+def movie_save(instance, action, pk_set, **_):
     if action in ['post_add', 'post_remove']:
         for attendee in instance.attendees.all():
             attendee.update_score()

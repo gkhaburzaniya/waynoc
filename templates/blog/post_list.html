@@ -2,9 +2,7 @@
 
 {% block navbar %}
   {% if perms.blog.add_post %}
-    <li>
-      <a href="{% url 'blog:post_add' %}"><span class="glyphicon glyphicon-plus"></span></a>
-    </li>
+    <li><a href="{% url 'blog:post_add' %}"><span class="glyphicon glyphicon-plus"></span></a></li>
   {% endif %}
 {% endblock %}
 

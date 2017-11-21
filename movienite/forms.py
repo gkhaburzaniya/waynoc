@@ -9,7 +9,7 @@ class MovieForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.new_attendees = set()
-        return super().__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def pre_clean_attendees(self):
         attendees = self.data.getlist('attendees')
@@ -20,10 +20,10 @@ class MovieForm(forms.ModelForm):
         self.data = self.data.copy()
         self.data.setlist('attendees', attendees)
 
-    def full_clean(self, *args, **kwargs):
+    def full_clean(self):
         if self.is_bound:
             self.pre_clean_attendees()
-        return super().full_clean(*args, **kwargs)
+        super().full_clean()
 
     def save(self, *args, **kwargs):
         for attendee in self.new_attendees:
