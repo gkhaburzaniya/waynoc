@@ -1,5 +1,4 @@
-from django.urls import reverse_lazy
-from django.conf.urls import url
+from django.urls import reverse_lazy, path
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.decorators import permission_required
 
@@ -7,13 +6,13 @@ from .models import Post
 
 app_name = 'blog'
 urlpatterns = [
-    url(
-        r'^$',
+    path(
+        '',
         ListView.as_view(model=Post, ordering='-date'),
         name='post_list'
     ),
-    url(
-        r'^add/$',
+    path(
+        'add/',
         permission_required('blog.add_post')(CreateView.as_view(
             model=Post,
             fields=['title', 'date', 'text'],
@@ -21,8 +20,8 @@ urlpatterns = [
         )),
         name='post_add'
     ),
-    url(
-        r'^post_edit/(?P<pk>[0-9]+)/$',
+    path(
+        'post_edit/<int:pk>/',
         permission_required('blog.change_post')(UpdateView.as_view(
             model=Post,
             fields=['title', 'date', 'text'],
@@ -30,8 +29,8 @@ urlpatterns = [
         ),
         name='post_edit'
     ),
-    url(
-        r'^movie_delete/(?P<pk>[0-9]+)/$',
+    path(
+        'movie_delete/<int:pk>/',
         permission_required('blog.delete_post')(DeleteView.as_view(
             model=Post,
             success_url=reverse_lazy('blog:post_list')

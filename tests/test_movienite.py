@@ -20,12 +20,10 @@ class MovieniteTest(SeleniumTestCase):
     def test_remove_attendee(self):
         trey = Person.objects.create(name='Trey')
         george = Person.objects.create(name='George')
-        Movie(
-            id=1, title='Hackers', picker=trey, attendees=[trey, george], date=date.today()
-        ).save()
-        Movie(
-            id=2, title='Tremors', picker=george, attendees=[trey, george], date=date.today()
-        ).save()
+        m1 = Movie.objects.create(id=1, title='Hackers', picker=trey, date=date.today())
+        m1.attendees.set([trey, george])
+        m2 = Movie.objects.create(id=2, title='Tremors', picker=george, date=date.today())
+        m2.attendees.set([trey, george])
         self.browser.get(self.live_server_url + '/movie_edit/1/')
         self.browser.find_element_by_css_selector('*[title=George]>span').click()
         self.browser.find_element_by_name('title').click()

@@ -1,4 +1,4 @@
-django==1.11.7
+django==2.0
 
 # For Testing
 selenium==3.7.0
