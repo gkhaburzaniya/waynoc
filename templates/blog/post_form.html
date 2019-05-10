@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'blog/base.css' %}">
+{% endblock %}
 
 {% block content %}
   {% include 'partials/add_form.html' %}
