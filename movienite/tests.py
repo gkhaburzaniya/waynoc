@@ -3,7 +3,7 @@ from datetime import date
 from selenium.webdriver.common.keys import Keys
 
 from movienite.models import Person, Movie
-from .base import SeleniumTestCase
+from tests.base import SeleniumTestCase
 
 
 class MovieniteTest(SeleniumTestCase):
