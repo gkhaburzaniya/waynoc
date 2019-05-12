@@ -2,7 +2,7 @@
 
 {% block content %}
   <span class="h3">{{ person.name }}</span>
-  {% if user.is_authenticated %}
+  {% if perms.movienite.change_person %}
     <a href="{% url 'movienite:person_edit' person.pk %}">
       <span class="glyphicon glyphicon-pencil"></span></a>
   {% endif %}

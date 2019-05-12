@@ -13,7 +13,7 @@
       {% for person in person_list %}
         <tr>
           <td>
-            {% if user.is_authenticated %}
+            {% if perms.movienite.change_person %}
               <a href="{% url 'movienite:person_edit' person.pk %}">
                 <span class="glyphicon glyphicon-pencil"></span></a>
             {% endif %}

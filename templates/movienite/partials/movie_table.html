@@ -18,7 +18,7 @@
         {% endfor %}
       </td>
       <td>
-        {% if user.is_authenticated %}
+        {% if perms.movienite.change_movie %}
           <a href="{% url 'movienite:movie_edit' movie.pk %}">
             <span class="glyphicon glyphicon-pencil"></span></a>
           <a href="{% url 'movienite:movie_delete' movie.pk %}">

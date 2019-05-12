@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block navbar %}
-  {% if user.is_authenticated %}
+  {% if perms.movienite.add_movie %}
     <li>
       <a href="{% url 'movienite:movie_add' %}"><span class="glyphicon glyphicon-plus"></span></a>
     </li>

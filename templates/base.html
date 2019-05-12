@@ -30,7 +30,7 @@
       <a class="
       navbar-brand {% if request.resolver_match.app_name == 'blog' %} active {% endif %}"
          href="{% url 'blog:post_list' %}">Blog</a>
-      {% if user.is_superuser %}
+      {% if user.is_staff %}
         <a class="navbar-brand" href="{% url 'admin:index' %}">Admin</a>
       {% endif %}
     </div>
