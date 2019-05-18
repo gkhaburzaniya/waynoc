@@ -5,7 +5,3 @@ With python3.6
 2. `./manage.py migrate`
 3. `./manage.py createsuperuser`
 5. Create the first person through the admin interface
-
-# Testing Instructions
-1. Get chromedriver and put it in your path
-2. `./manage.py test`

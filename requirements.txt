@@ -1,4 +1,1 @@
 Django~=2.2.1
-
-# For Testing
-selenium==3.7.0
