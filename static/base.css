@@ -6,9 +6,3 @@ body {
 li {
     display: block;
 }
-
-.navbar-brand.active {
-    font-weight: bold;
-}
-
-

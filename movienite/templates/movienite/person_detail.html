@@ -3,8 +3,8 @@
 {% block content %}
   <span class="h3">{{ person.name }}</span>
   {% if perms.movienite.change_person %}
-    <a href="{% url 'movienite:person_edit' person.pk %}">
-      <span class="glyphicon glyphicon-pencil"></span></a>
+    <a class="close"
+       href="{% url 'movienite:person_edit' person.pk %}">&#9998;</a>
   {% endif %}
   <h4>Score: {{ person.score }}</h4>
   {% include 'movienite/partials/movie_table.html' with movie_list=person.movies_attended.all %}

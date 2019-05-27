@@ -1,31 +1,34 @@
-<table class="table table-striped">
+<table class="table table-striped table-hover">
   <thead>
-  <tr><th>Title</th><th>Date</th><th>Picker</th><th>Attendees</th><th></th></tr>
+  <tr>
+    <th>Title</th><th>Date</th><th>Picker</th><th>Attendees</th><th></th>
+  </tr>
   </thead>
 
   <tbody>
   {% for movie in movie_list %}
-    <tr>
-      <td>{{ movie.title }}</td>
-      <td>{{ movie.date }}</td>
+  <tr>
+    <td>{{ movie.title }}</td>
+    <td>{{ movie.date }}</td>
+    <td>
+      <a href="{% url 'movienite:person_detail' movie.picker.id %}">
+        {{ movie.picker.name }}</a>
+    </td>
+    <td>
+      {% for attendee in movie.attendees.all %}
+        <a href="{% url 'movienite:person_detail' attendee.id %}">
+          {{ attendee.name }}</a>{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    </td>
+    {% if perms.movienite.change_movie %}
       <td>
-        <a href="{% url 'movienite:person_detail' movie.picker.id %}">{{ movie.picker.name }}</a>
+        <a class="close" href="{% url 'movienite:movie_delete' movie.pk %}">
+          &#10005;</a>
+        <a class="close" href="{% url 'movienite:movie_edit' movie.pk %}">
+          &#9998;</a>
       </td>
-      <td>
-        {% for attendee in movie.attendees.all %}
-          <a href="{% url 'movienite:person_detail' attendee.id %}">
-              {{ attendee.name }}</a>{% if not forloop.last %},{% endif %}
-        {% endfor %}
-      </td>
-      <td>
-        {% if perms.movienite.change_movie %}
-          <a href="{% url 'movienite:movie_edit' movie.pk %}">
-            <span class="glyphicon glyphicon-pencil"></span></a>
-          <a href="{% url 'movienite:movie_delete' movie.pk %}">
-            <span class="glyphicon glyphicon-remove"></span></a>
-        {% endif %}
-      </td>
-    </tr>
+    {% endif %}
+  </tr>
   {% endfor %}
   </tbody>
 </table>

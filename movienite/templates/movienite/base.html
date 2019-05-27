@@ -2,11 +2,9 @@
 
 {% block navbar %}
   {% if perms.movienite.add_movie %}
-    <li>
-      <a href="{% url 'movienite:movie_add' %}"><span class="glyphicon glyphicon-plus"></span></a>
-    </li>
+    <a class="navbar-brand" href="{% url 'movienite:movie_add' %}">+</a>
   {% endif %}
-  <li {% if 'movie_list' == request.resolver_match.url_name %} class="active" {% endif %}>
-    <a href="{% url 'movienite:movie_list' %}">Movies</a>
-  </li>
+  <a class=
+         "nav-link {% if request.resolver_match.url_name == 'movie_list' %}active{% endif %}"
+     href="{% url 'movienite:movie_list' %}">Movies</a>
 {% endblock %}

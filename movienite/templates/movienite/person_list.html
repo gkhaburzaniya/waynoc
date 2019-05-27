@@ -1,28 +1,29 @@
 {% extends 'movienite/base.html' %}
 
 {% block content %}
-  <div class="col-md-4 col-md-offset-4">
-    <table class="table table-striped">
-      <thead>
-      <tr>
-        <th></th><th>Name</th><th>Score</th>
-      </tr>
-      </thead>
+  <table class="table table-striped table-hover">
+    <thead>
+    <tr>
+      <th></th><th>Name</th><th>Score</th>
+    </tr>
+    </thead>
 
-      <tbody>
-      {% for person in person_list %}
-        <tr>
-          <td>
-            {% if perms.movienite.change_person %}
-              <a href="{% url 'movienite:person_edit' person.pk %}">
-                <span class="glyphicon glyphicon-pencil"></span></a>
-            {% endif %}
-          </td>
-          <td><a href="{% url 'movienite:person_detail' person.id %}">{{ person.name }}</a></td>
-          <td>{{ person.score }}</td>
-        </tr>
-      {% endfor %}
-      </tbody>
-    </table>
-  </div>
+    <tbody>
+    {% for person in person_list %}
+      <tr>
+        <td>
+          {% if perms.movienite.change_person %}
+            <a class="close"
+               href="{% url 'movienite:person_edit' person.pk %}">&#9998;</a>
+          {% endif %}
+        </td>
+        <td>
+          <a href="{% url 'movienite:person_detail' person.id %}"
+          >{{ person.name }}</a>
+        </td>
+        <td>{{ person.score }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}
