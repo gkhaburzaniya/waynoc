@@ -11,8 +11,10 @@
     <td>{{ movie.title }}</td>
     <td>{{ movie.date }}</td>
     <td>
-      <a href="{% url 'movienite:person_detail' movie.picker.id %}">
-        {{ movie.picker.name }}</a>
+      {% if movie.picker %}
+        <a href="{% url 'movienite:person_detail' movie.picker.id %}">
+          {{ movie.picker.name }}</a>
+      {% endif %}
     </td>
     <td>
       {% for attendee in movie.attendees.all %}

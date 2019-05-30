@@ -12,7 +12,8 @@ PersonEdit = permission_required('movienite.change_person')(
     UpdateView.as_view(model=Person, fields=['name']))
 PersonDelete = permission_required('movienite.delete_person')(
     DeleteView.as_view(model=Person,
-                       success_url=reverse_lazy('movienite:person_list')))
+                       success_url=reverse_lazy('movienite:person_list'),
+                       template_name='movienite/confirm_delete.html'))
 
 MovieList = ListView.as_view(
     model=Movie,
@@ -26,4 +27,5 @@ MovieEdit = permission_required('movienite.change_movie')(
                        success_url=reverse_lazy('movienite:movie_list')))
 MovieDelete = permission_required('movienite.delete_movie')(
     DeleteView.as_view(model=Movie,
-                       success_url=reverse_lazy('movienite:movie_list')))
+                       success_url=reverse_lazy('movienite:movie_list'),
+                       template_name='movienite/confirm_delete.html'))
