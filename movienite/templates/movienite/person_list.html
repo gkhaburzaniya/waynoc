@@ -15,6 +15,9 @@
           <td>
             {% if perms.movienite.change_person %}
               <a class="close"
+                 href="{% url 'movienite:person_delete' person.pk %}"
+              >&#10005;</a>
+              <a class="close"
                  href="{% url 'movienite:person_edit' person.pk %}">&#9998;</a>
             {% endif %}
           </td>

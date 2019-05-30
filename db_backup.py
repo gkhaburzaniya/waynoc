@@ -1,7 +1,6 @@
 import os
-
-from shutil import copyfile
 from datetime import date, timedelta
+from shutil import copyfile
 
 from waynoc.settings import BASE_DIR, DATABASES
 

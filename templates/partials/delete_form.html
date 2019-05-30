@@ -1,4 +1,6 @@
-<form class="col-md-4 col-md-offset-4" method="POST">{% csrf_token %}
-    <p>Are you sure you want to delete "{{ object }}"?</p>
+<form class="col-md-4 offset-md-4" method="POST">{% csrf_token %}
+    <p>
+      Are you sure you want to delete "{{ object }}"?
+    </p>
     <button type="submit" class="btn btn-primary">Confirm</button>
 </form>

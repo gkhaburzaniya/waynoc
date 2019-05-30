@@ -1,8 +1,8 @@
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
-from .models import Post
 from django.contrib.auth.decorators import permission_required
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
+from .models import Post
 
 PostList = ListView.as_view(model=Post, ordering='-date')
 

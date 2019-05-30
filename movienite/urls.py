@@ -1,13 +1,14 @@
 from django.urls import path
 
 from .views import (PersonList, PersonDetail, PersonEdit, MovieList, MovieAdd,
-                    MovieEdit, MovieDelete)
+                    MovieEdit, MovieDelete, PersonDelete)
 
 app_name = 'movienite'
 urlpatterns = [
     path('', PersonList, name='person_list'),
     path('person_detail/<int:pk>/', PersonDetail, name='person_detail'),
     path('person_edit/<int:pk>/', PersonEdit, name='person_edit'),
+    path('person_delete/<int:pk>', PersonDelete, name='person_delete'),
     path('movie_list/', MovieList, name='movie_list'),
     path('movie_add/', MovieAdd, name='movie_add'),
     path('movie_edit/<int:pk>/', MovieEdit, name='movie_edit'),

@@ -3,8 +3,8 @@ from datetime import date
 from django.http.request import QueryDict
 from django.test import TestCase
 
-from movienite.forms import MovieForm
-from movienite.models import Person, Movie
+from .forms import MovieForm
+from .models import Person, Movie
 
 
 class MovieniteTest(TestCase):
