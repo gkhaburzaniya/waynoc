@@ -3,7 +3,7 @@ from datetime import date
 from django.db.models import (Model, CharField, IntegerField, DateField,
                               ForeignKey, SET_NULL, ManyToManyField, signals)
 from django.dispatch import receiver
-from django.urls import reverse_lazy
+from django.urls import reverse
 
 
 class Person(Model):
@@ -14,7 +14,7 @@ class Person(Model):
         movies_attended = self.movies_attended.all()
         try:
             self.score = movies_attended.latest().id
-        except IndexError:
+        except Movie.DoesNotExist:
             self.delete()
             return
         self.score += movies_attended.count()
@@ -24,7 +24,7 @@ class Person(Model):
         self.save()
 
     def get_absolute_url(self):
-        return reverse_lazy('movienite:person_detail', args=[self.id])
+        return reverse('movienite:person_detail', args=[self.id])
 
     class Meta:
         ordering = ['-score', 'name']
