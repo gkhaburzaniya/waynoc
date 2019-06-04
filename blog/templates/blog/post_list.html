@@ -2,7 +2,7 @@
 
 {% block navbar %}
   {% if perms.blog.add_post %}
-    <a class="navbar-brand" href="{% url 'blog:post_add' %}">+</a>
+    <a class="nav-link navbar-brand" href="{% url 'blog:post_add' %}">+</a>
   {% endif %}
 {% endblock %}
 
