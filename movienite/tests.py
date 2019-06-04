@@ -9,6 +9,18 @@ from .models import Person, Movie
 
 class MovieniteTest(TestCase):
 
+    def test_person_str(self):
+        george = Person.objects.create(name='George')
+        self.assertEqual(str(george), 'George')
+
+    def test_movie_str(self):
+        hackers = Movie.objects.create(title='Hackers', date=date(2019, 6, 3))
+        self.assertEqual(str(hackers), 'Hackers: 2019-06-03')
+
+    def test_person_url(self):
+        george = Person.objects.create(name='George')
+        self.assertEqual(george.get_absolute_url(), '/person_detail/1/')
+
     def test_delete_persons_last_movie(self):
         trey = Person.objects.create(name='Trey')
         george = Person.objects.create(name='George')
