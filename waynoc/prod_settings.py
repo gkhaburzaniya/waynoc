@@ -23,7 +23,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': '/var/log/debug.log',
+            'filename': os.path.join(BASE_DIR, 'log', 'debug.log'),
         },
     },
     'loggers': {
