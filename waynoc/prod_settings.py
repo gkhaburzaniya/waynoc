@@ -9,25 +9,6 @@ FILE_UPLOAD_PERMISSIONS = 0o644
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'log', 'debug.log'),
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    },
-}
-
 # Database
 
 DATABASES = {
