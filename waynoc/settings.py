@@ -4,17 +4,10 @@ Django settings for waynoc project.
 
 import os
 
+LOGIN_REDIRECT_URL = '/'
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'jq=%ay()%2scm18hahu^@6!l^y3^e2!xy4s&=f-9qrq*9rkh+l'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['127.0.0.1']
-
 
 # Application definition
 
@@ -59,17 +52,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'waynoc.wsgi.application'
 
-
-# Database
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-
 # Password validation
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -113,5 +95,3 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
-
-LOGIN_REDIRECT_URL = '/'
