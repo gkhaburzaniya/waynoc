@@ -2,7 +2,7 @@ import os
 from datetime import date, timedelta
 from shutil import copyfile
 
-from waynoc.prod_settings import BASE_DIR, DATABASES
+from waynoc.local_settings import BASE_DIR, DATABASES
 
 BACKUP_DIR = os.path.join(BASE_DIR, '..', '.waynoc_db_backup')
 if not os.path.exists(BACKUP_DIR):
