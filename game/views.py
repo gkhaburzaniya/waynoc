@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import View
 
-from .game import player, advance_year
+import game
 
 
 class Game(View):
@@ -9,11 +9,16 @@ class Game(View):
 
     @classmethod
     def get(cls, request):
-        context = {'age': player.age,
-                   'text': player.text}
+        context = {'age': game.player.age,
+                   'text': game.player.text}
         return render(request, cls.template_name, context=context)
 
     @classmethod
     def post(cls, request):
-        advance_year()
+        action = request.POST['action']
+        actions[action]()
         return cls.get(request)
+
+
+actions = {'advance': game.advance,
+           'restart': game.restart}

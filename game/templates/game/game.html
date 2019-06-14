@@ -5,7 +5,10 @@
     <span class="h3">Age: {{ age }}</span>
     {{ text|linebreaks }}
     <form method="POST"> {% csrf_token %}
-      <input type="submit" name="next_year" value="Next Year" class="btn btn-secondary">
+      <button type="submit" name="action" value="advance"
+              class="btn btn-secondary">Next Season</button>
+      <button type="submit" name="action" value="restart"
+              class="btn btn-secondary">Restart</button>
     </form>
   </div>
 {% endblock %}
