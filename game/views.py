@@ -9,8 +9,7 @@ class Game(View):
 
     @classmethod
     def get(cls, request):
-        context = {'age': game.player.age,
-                   'text': game.player.text}
+        context = {'player': game.player}
         return render(request, cls.template_name, context=context)
 
     @classmethod

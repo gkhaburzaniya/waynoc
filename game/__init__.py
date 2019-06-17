@@ -20,7 +20,7 @@ class Player:
 
     @property
     def text(self):
-        return flavor_text.get(self.age)
+        return '\n'.join(flavor_text.get(self.age, []))
 
 
 player = Player()
@@ -36,10 +36,10 @@ def restart():
 
 
 flavor_text = {
-    0: "You are born\n",
-    0.25: "You learned to smile.\n"
-          "To bring your hands to your mouth and suck on your hand.\n"
-          "To look around.\n"
-          "To coo.\n"
-          "To move your head.\n"
-          "To recognize faces.\n"}
+    0: ["You are born"],
+    1/4: ["You learned to smile. <b>+1 Presence</b>",
+          "To suck on your hand. <b>+1 Dexterity</b>",
+          "To look around. <b>+1 Perception</b>",
+          "To coo. <b>+1 Communication</b>",
+          "To move your head. <b>+1 Strength</b>",
+          "To recognize faces. <b>+1 Intelligence</b>"]}

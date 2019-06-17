@@ -1,14 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="col-md-6 offset-md-3">
-    <span class="h3">Age: {{ age }}</span>
-    {{ text|linebreaks }}
-    <form method="POST"> {% csrf_token %}
-      <button type="submit" name="action" value="advance"
-              class="btn btn-secondary">Next Season</button>
-      <button type="submit" name="action" value="restart"
-              class="btn btn-secondary">Restart</button>
-    </form>
+  <div class="row col-md-8 offset-md-2">
+    <div class="col-4 col-md-2">
+      Int: {{ player.intelligence }}<br>
+      Per: {{ player.perception }}<br>
+      Str: {{ player.strength }}<br>
+      Sta: {{ player.stamina }}<br>
+      Prs: {{ player.presence }}<br>
+      Com: {{ player.communication }}<br>
+      Dex: {{ player.dexterity }}<br>
+      Qik: {{ player.quickness }}<br>
+    </div>
+    <div class="col">
+      <span class="h3">Age: {{ player.age }}</span>
+      {{ player.text|safe|linebreaks }}
+      <form method="POST"> {% csrf_token %}
+        <button type="submit" name="action" value="advance"
+                class="btn btn-secondary">Next Season</button>
+        <button type="submit" name="action" value="restart"
+                class="btn btn-secondary">Restart</button>
+      </form>
+    </div>
   </div>
 {% endblock %}
