@@ -1,6 +1,8 @@
 """ Game logic goes here """
 
 from dataclasses import dataclass
+from collections import namedtuple
+from functools import partial
 
 
 @dataclass(eq=False)
@@ -20,7 +22,48 @@ class Player:
 
     @property
     def text(self):
-        return '\n'.join(flavor_text.get(self.age, []))
+        return childhood.get(self.age, [])
+
+    def change_intelligence(self, change):
+        self.intelligence += change
+        self._change_characteristic("Intelligence", change)
+
+    def change_perception(self, change):
+        self.perception += change
+        self._change_characteristic("Perception", change)
+
+    def change_strength(self, change):
+        self.strength += change
+        self._change_characteristic("Strength", change)
+
+    def change_stamina(self, change):
+        self.stamina += change
+        self._change_characteristic("Stamina", change)
+
+    def change_presence(self, change):
+        self.presence += change
+        self._change_characteristic("Presence", change)
+
+    def change_communication(self, change):
+        self.communication += change
+        self._change_characteristic("Communication", change)
+
+    def change_dexterity(self, change):
+        self.dexterity += change
+        self._change_characteristic("Dexterity", change)
+
+    def change_quickness(self, change):
+        self.quickness += change
+        self._change_characteristic("Quickness", change)
+
+    @staticmethod
+    def _change_characteristic(characteristic, change):
+        if change > 0:
+            return f"+{change} {characteristic}"
+        elif change < 0:
+            return f"{change} {characteristic}"
+        else:
+            raise ValueError
 
 
 player = Player()
@@ -28,6 +71,8 @@ player = Player()
 
 def advance():
     player.age += 0.25
+    for event in childhood[player.age]:
+        event.effect()
 
 
 def restart():
@@ -35,11 +80,15 @@ def restart():
     player = Player()
 
 
-flavor_text = {
-    0: ["You are born"],
-    1/4: ["You learned to smile. <b>+1 Presence</b>",
-          "To suck on your hand. <b>+1 Dexterity</b>",
-          "To look around. <b>+1 Perception</b>",
-          "To coo. <b>+1 Communication</b>",
-          "To move your head. <b>+1 Strength</b>",
-          "To recognize faces. <b>+1 Intelligence</b>"]}
+Event = namedtuple('Event', ['flavor', 'effect'])
+childhood = {
+    0: [Event("You are born", str)],
+    1/4: [
+        Event("You learned to recognize faces.",
+              partial(player.change_intelligence, 1)),
+        Event("To look around.", partial(player.change_perception, 1)),
+        Event("To move your head.", partial(player.change_strength, 1)),
+        Event("To smile.", partial(player.change_presence, 1)),
+        Event("To coo.", partial(player.change_communication, 1)),
+        Event("To suck on your hand.", partial(player.change_dexterity, 1)),
+    ]}

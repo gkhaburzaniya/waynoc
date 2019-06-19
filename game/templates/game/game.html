@@ -14,7 +14,11 @@
     </div>
     <div class="col">
       <span class="h3">Age: {{ player.age }}</span>
-      {{ player.text|safe|linebreaks }}
+      {% for line in player.text %}
+        <br>
+        {{ line.flavor }}<br>
+        <b>{{ line.effect }}</b>
+      {% endfor %}
       <form method="POST"> {% csrf_token %}
         <button type="submit" name="action" value="advance"
                 class="btn btn-secondary">Next Season</button>
