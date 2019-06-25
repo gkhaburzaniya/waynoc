@@ -1,5 +1,14 @@
-from collections import namedtuple
+from dataclasses import dataclass
+from functools import partial
 
 
-EventText = namedtuple('EventText', ['flavor_text', 'effect_text'])
-Event = namedtuple('Event', ['flavor', 'effect'])
+@dataclass(frozen=True)
+class Event:
+    flavor: str
+    effect: partial
+
+
+@dataclass(frozen=True)
+class EventText:
+    flavor_text: str
+    effect_text: str
