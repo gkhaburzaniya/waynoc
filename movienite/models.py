@@ -13,7 +13,7 @@ class Person(Model):
     def update_score(self):
         movies_attended = self.movies_attended.all()
         try:
-            self.score = movies_attended.latest().id
+            self.score = movies_attended.latest().id * 2
         except Movie.DoesNotExist:
             self.delete()
             return
