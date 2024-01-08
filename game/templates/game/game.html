@@ -1,40 +1,74 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+  <!-- PyScript CSS -->
+  <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
+  <!-- CSS for examples -->
+  <link rel="stylesheet" href="./assets/css/examples.css" />
+
+  <!-- This script tag bootstraps PyScript -->
+  <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+    <!-- for splashscreen -->
+  <style>
+      #loading { outline: none; border: none; background: transparent }
+  </style>
+  <script type="module">
+    const loading = document.getElementById('loading');
+    addEventListener('py:ready', () => loading.close());
+    loading.showModal();
+  </script>
+
+  <title>Todo App</title>
+  <link rel="icon" type="image/png" href="./assets/favicon.png" />
+
+  <style>
+    .line-through {
+        text-decoration: line-through;
+    }
+  </style>
+{% endblock %}
 
 {% block content %}
-  <div class="row col-md-8 offset-md-2">
-    <div class="col-4 col-md-2">
-      <table class="table table-striped table-borderless table-hover table-sm">
-        <tbody>
-        <tr><td>Int: {{ player.intelligence }}</td></tr>
-        <tr><td>Per: {{ player.perception }}</td></tr>
-        <tr><td>Str: {{ player.strength }}</td></tr>
-        <tr><td>Sta: {{ player.stamina }}</td></tr>
-        <tr><td>Prs: {{ player.presence }}</td></tr>
-        <tr><td>Com: {{ player.communication }}</td></tr>
-        <tr><td>Dex: {{ player.dexterity }}</td></tr>
-        <tr><td>Qik: {{ player.quickness }}</td></tr>
-        </tbody>
-      </table>
+  <dialog id="loading">
+    <h1>Loading...</h1>
+  </dialog>
+
+  <nav class="navbar" style="background-color: #000000">
+    <div class="app-header">
+      <a href="/">
+        <img src="./assets/logo.png" class="logo" />
+      </a>
+      <a class="title" href="" style="color: #f0ab3c">Todo App</a>
     </div>
-    <div class="col">
-      {% for event in player.text %}
-        {{ event.flavor_text }}<br>
-        <b>{{ event.effect_text }}</b><br>
-      {% endfor %}
-      <form method="POST"> {% csrf_token %}
-        <button type="submit" name="action" value="advance"
-                class="btn btn-secondary">Next Season</button>
-        <button type="submit" name="action" value="restart"
-                class="btn btn-secondary">Restart</button>
-      </form>
-      <table class="table table-borderless table-sm">
-        <tbody>
-        <tr>
-          <td><h5>Name: {{ player.name }}</h5></td>
-          <td><h5>Age: {{ player.age }}</h5></td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  </nav>
+
+  <section class="pyscript">
+    <main>
+      <section>
+        <div>
+          <h1>To Do List</h1>
+        </div>
+        <div>
+          <input id="new-task-content" type="text" />
+          <button id="new-task-btn" type="submit" py-click="add_task">
+              Add task
+          </button>
+        </div>
+
+        <div id="list-tasks-container"></div>
+
+        <template id="task-template">
+          <section class="task {py-li-element">
+            <label class="flex items-center p-2">
+              <input style="vertical-align: middle;" type="checkbox"/>
+              <p style="display: inline;"></p>
+            </label>
+          </section>
+        </template>
+      </section>
+    </main>
+
+    <script type="py" src="{% static 'game/main.py' %}"></script>
+  </section
 {% endblock %}
