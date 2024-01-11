@@ -26,7 +26,7 @@ def add_task(e):
     task_id = f"task-{len(tasks)}"
     task = {
         "id": task_id,
-        "content": new_task_content.value,
+        "content": "Test2",
         "done": False,
         "created_at": dt.now(),
     }
