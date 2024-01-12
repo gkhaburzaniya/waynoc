@@ -12,12 +12,6 @@ class Game(View):
         context = {'player': game.player}
         return render(request, cls.template_name, context=context)
 
-    @classmethod
-    def post(cls, request):
-        action = request.POST['action']
-        actions[action]()
-        return cls.get(request)
-
 
 actions = {'advance': game.advance,
            'restart': game.restart}
