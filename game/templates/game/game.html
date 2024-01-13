@@ -22,26 +22,19 @@
         </tbody>
       </table>
     </div>
+    <div class="col">
+      <button type="submit" py-click="advance"
+              class="btn btn-secondary">Next Season</button>
+      <button type="submit" py-click="restart"
+              class="btn btn-secondary">Restart</button>
+      <table class="table table-borderless table-sm">
+        <tbody>
+        <tr>
+          <td><h5>Name: </h5></td>
+          <td><h5>Age: </h5></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-  <section class="pyscript">
-    <main>
-      <section>
-        <div>
-          <input id="new-task-content" type="text" />
-          <button id="new-task-btn" type="submit" py-click="add_task">
-              Add task
-          </button>
-        </div>
-
-        <div id="list-tasks-container"></div>
-
-        <template id="task-template">
-          <section class="task {py-li-element">
-              <p style="display: inline;"></p>
-          </section>
-        </template>
-      </section>
-    </main>
-
-  </section>
 {% endblock %}
