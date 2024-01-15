@@ -138,21 +138,37 @@ class Player:
 
 
 Int = pydom["#Int"][0]._js
+Per = pydom["#Per"][0]._js
+Str = pydom["#Str"][0]._js
+Sta = pydom["#Sta"][0]._js
+Prs = pydom["#Prs"][0]._js
+Com = pydom["#Com"][0]._js
+Dex = pydom["#Dex"][0]._js
+Qik = pydom["#Qik"][0]._js
 
 player = Player()
 
 
-# def advance():
-#     player.age += 0.25
-#     player.text = [EventText(event.flavor, event.effect())
-#                    for event in player.childhood[player.age]]
-#
-
-def restart():
-    global player
-    player = Player()
+def update_state():
+    Int.textContent = player.intelligence
+    Per.textContent = player.perception
+    Str.textContent = player.strength
+    Sta.textContent = player.stamina
+    Prs.textContent = player.presence
+    Com.textContent = player.communication
+    Dex.textContent = player.dexterity
+    Qik.textContent = player.quickness
 
 
 def advance(e):
-    # create task
-    Int.textContent = "Test5"
+    player.age += 0.25
+    player.text = [EventText(event.flavor, event.effect())
+                   for event in player.childhood[player.age]]
+    update_state()
+
+
+def restart(e):
+    global player
+    player = Player()
+    update_state()
+
