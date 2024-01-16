@@ -145,6 +145,8 @@ Prs = pydom["#Prs"][0]._js
 Com = pydom["#Com"][0]._js
 Dex = pydom["#Dex"][0]._js
 Qik = pydom["#Qik"][0]._js
+Name = pydom["#Name"][0]._js
+Age = pydom["#Age"][0]._js
 
 player = Player()
 
@@ -158,6 +160,8 @@ def update_state():
     Com.textContent = player.communication
     Dex.textContent = player.dexterity
     Qik.textContent = player.quickness
+    Name.textContent = player.name
+    Age.textContent = player.age
 
 
 def advance(e):
