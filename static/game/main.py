@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from functools import partial
 
+from pyscript import document
 from pyweb import pydom
 
 
@@ -137,6 +138,15 @@ class Player:
             raise ValueError
 
 
+def q(selector, root=document):
+    return root.querySelector(selector)
+
+
+# Note: We use JS element here because pydom doesn't fully support template
+#       elements now
+event_template = pydom.Element(q("#Event-template"
+                                 ).content.querySelector(".event_text"))
+
 Int = pydom["#Int"][0]._js
 Per = pydom["#Per"][0]._js
 Str = pydom["#Str"][0]._js
@@ -147,6 +157,7 @@ Dex = pydom["#Dex"][0]._js
 Qik = pydom["#Qik"][0]._js
 Name = pydom["#Name"][0]._js
 Age = pydom["#Age"][0]._js
+Events = pydom["#Events"][0]
 
 player = Player()
 
@@ -162,6 +173,11 @@ def update_state():
     Qik.textContent = player.quickness
     Name.textContent = player.name
     Age.textContent = player.age
+
+    event_html = event_template.clone()
+    event_html_content = event_html.find("span")[0]
+    event_html_content._js.textContent = "foo"
+    Events.append(event_html)
 
 
 def advance(e):
