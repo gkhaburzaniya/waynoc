@@ -173,11 +173,13 @@ def update_state():
     Qik.textContent = player.quickness
     Name.textContent = player.name
     Age.textContent = player.age
-
-    event_html = event_template.clone()
-    event_html_content = event_html.find("span")[0]
-    event_html_content._js.textContent = "foo"
-    Events.append(event_html)
+    for event in player.text:
+        event_html = event_template.clone()
+        flavor = event_html.find("span")[0]
+        flavor._js.textContent = event.flavor_text
+        effect = event_html.find("span")[1]
+        effect._js.textContent = event.effect_text
+        Events.append(event_html)
 
 
 def advance(e):
