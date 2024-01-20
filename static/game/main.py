@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from functools import partial
 
-from pyscript import document
 from pyweb import pydom
 
 
@@ -27,7 +26,7 @@ class Childhood:
                 Event("To swing at dangling toys.",
                       partial(player.change_quickness, 1)),
             ],
-            1/2: [
+            2/4: [
                 Event("You learned your name.",
                       partial(player.change_name, "George")),
                 Event("You learned to put things in your mouth.",
@@ -138,48 +137,25 @@ class Player:
             raise ValueError
 
 
-def q(selector, root=document):
-    return root.querySelector(selector)
-
-
-# Note: We use JS element here because pydom doesn't fully support template
-#       elements now
-event_template = pydom.Element(q("#Event-template"
-                                 ).content.querySelector(".event_text"))
-
-Int = pydom["#Int"][0]._js
-Per = pydom["#Per"][0]._js
-Str = pydom["#Str"][0]._js
-Sta = pydom["#Sta"][0]._js
-Prs = pydom["#Prs"][0]._js
-Com = pydom["#Com"][0]._js
-Dex = pydom["#Dex"][0]._js
-Qik = pydom["#Qik"][0]._js
-Name = pydom["#Name"][0]._js
-Age = pydom["#Age"][0]._js
 Events = pydom["#Events"][0]
-
 player = Player()
 
 
 def update_state():
-    Int.textContent = player.intelligence
-    Per.textContent = player.perception
-    Str.textContent = player.strength
-    Sta.textContent = player.stamina
-    Prs.textContent = player.presence
-    Com.textContent = player.communication
-    Dex.textContent = player.dexterity
-    Qik.textContent = player.quickness
-    Name.textContent = player.name
-    Age.textContent = player.age
+    pydom["#Int"][0].text = player.intelligence
+    pydom["#Per"][0].text = player.perception
+    pydom["#Str"][0].text = player.strength
+    pydom["#Sta"][0].text = player.stamina
+    pydom["#Prs"][0].text = player.presence
+    pydom["#Com"][0].text = player.communication
+    pydom["#Dex"][0].text = player.dexterity
+    pydom["#Qik"][0].text = player.quickness
+    pydom["#Name"][0].text = player.name
+    pydom["#Age"][0].text = player.age
+    Events.html = ""
     for event in player.text:
-        event_html = event_template.clone()
-        flavor = event_html.find("span")[0]
-        flavor._js.textContent = event.flavor_text
-        effect = event_html.find("span")[1]
-        effect._js.textContent = event.effect_text
-        Events.append(event_html)
+        Events.html += event.flavor_text + "<br>"
+        Events.html += "<b>" + event.effect_text + "</b><br>"
 
 
 def advance(e):
