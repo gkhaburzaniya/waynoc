@@ -85,8 +85,9 @@ class Characteristic:
         self._value = value
         pydom[f'#{self.name}'][0].text = value
 
-    def __iadd__(self, change):
-        self.value += change
+    def __add__(self, other):
+        self.value += other
+        return self
 
 
 @dataclass(eq=False)
@@ -160,7 +161,7 @@ player = Player()
 
 
 def update_state():
-    pydom["#Name"][0].text = "hohoho"
+    pydom["#Name"][0].text = player.name
     pydom["#Age"][0].text = player.age
     Events.html = ""
     for event in player.text:
