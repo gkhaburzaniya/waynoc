@@ -71,6 +71,24 @@ class EventText:
     effect_text: str
 
 
+class Characteristic:
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        self._value = value
+        pydom[f'#{self.name}'][0].text = value
+
+    def __iadd__(self, change):
+        self.value += change
+
+
 @dataclass(eq=False)
 class Player:
 
@@ -79,14 +97,14 @@ class Player:
     text: list = (EventText("You are born", ""),)
 
     # characteristics
-    intelligence: int = -10
-    perception: int = -10
-    strength: int = -10
-    stamina: int = -10
-    presence: int = -10
-    communication: int = -10
-    dexterity: int = -10
-    quickness: int = -10
+    intelligence: Characteristic = Characteristic("Int", -10)
+    perception: Characteristic = Characteristic("Per", -10)
+    strength: Characteristic = Characteristic("Str", -10)
+    stamina: Characteristic = Characteristic("Sta", -10)
+    presence: Characteristic = Characteristic("Prs", -10)
+    communication: Characteristic = Characteristic("Com", -10)
+    dexterity: Characteristic = Characteristic("Dex", -10)
+    quickness: Characteristic = Characteristic("Qik", -10)
 
     def __post_init__(self):
         self.childhood = Childhood(self)
@@ -142,15 +160,7 @@ player = Player()
 
 
 def update_state():
-    pydom["#Int"][0].text = player.intelligence
-    pydom["#Per"][0].text = player.perception
-    pydom["#Str"][0].text = player.strength
-    pydom["#Sta"][0].text = player.stamina
-    pydom["#Prs"][0].text = player.presence
-    pydom["#Com"][0].text = player.communication
-    pydom["#Dex"][0].text = player.dexterity
-    pydom["#Qik"][0].text = player.quickness
-    pydom["#Name"][0].text = player.name
+    pydom["#Name"][0].text = "hohoho"
     pydom["#Age"][0].text = player.age
     Events.html = ""
     for event in player.text:
