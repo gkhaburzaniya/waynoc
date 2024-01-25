@@ -97,17 +97,15 @@ class Player:
     age: float = 0
     text: list = (EventText("You are born", ""),)
 
-    # characteristics
-    intelligence: Characteristic = Characteristic("Int", -10)
-    perception: Characteristic = Characteristic("Per", -10)
-    strength: Characteristic = Characteristic("Str", -10)
-    stamina: Characteristic = Characteristic("Sta", -10)
-    presence: Characteristic = Characteristic("Prs", -10)
-    communication: Characteristic = Characteristic("Com", -10)
-    dexterity: Characteristic = Characteristic("Dex", -10)
-    quickness: Characteristic = Characteristic("Qik", -10)
-
-    def __post_init__(self):
+    def __init__(self):
+        self.intelligence = Characteristic("Int", -10)
+        self.perception = Characteristic("Per", -10)
+        self.strength = Characteristic("Str", -10)
+        self.stamina = Characteristic("Sta", -10)
+        self.presence = Characteristic("Prs", -10)
+        self.communication = Characteristic("Com", -10)
+        self.dexterity = Characteristic("Dex", -10)
+        self.quickness = Characteristic("Qik", -10)
         self.childhood = Childhood(self)
 
     def change_intelligence(self, change):
