@@ -10,48 +10,48 @@ class Childhood:
         self.events = {
             1/4: [
                 Event("You learned to recognize faces.",
-                      partial(player.change_intelligence, 1)),
+                      partial(player.intelligence.__add__, 1)),
                 Event("To look around.",
-                      partial(player.change_perception, 1)),
+                      partial(player.perception.__add__, 1)),
                 Event("To lift your head.",
-                      partial(player.change_strength, 1)),
+                      partial(player.strength.__add__, 1)),
                 Event("To hold your head steady.",
-                      partial(player.change_stamina, 1)),
+                      partial(player.stamina.__add__, 1)),
                 Event("To smile at people.",
-                      partial(player.change_presence, 1)),
+                      partial(player.presence.__add__, 1)),
                 Event("To coo and babble.",
-                      partial(player.change_communication, 1)),
+                      partial(player.communication.__add__, 1)),
                 Event("To suck on your hand.",
-                      partial(player.change_dexterity, 1)),
+                      partial(player.dexterity.__add__, 1)),
                 Event("To swing at dangling toys.",
-                      partial(player.change_quickness, 1)),
+                      partial(player.quickness.__add__, 1)),
             ],
             2/4: [
                 Event("You learned your name.",
                       partial(player.change_name, "George")),
                 Event("You learned to put things in your mouth.",
-                      partial(player.change_perception, 1)),
+                      partial(player.perception.__add__, 1)),
                 Event("To sit and roll over.",
-                      partial(player.change_strength, 1)),
+                      partial(player.strength.__add__, 1)),
                 Event("To cry in different ways.",
-                      partial(player.change_communication, 1)),
+                      partial(player.communication.__add__, 1)),
                 Event("To reach for things.",
-                      partial(player.change_dexterity, 1)),
+                      partial(player.dexterity.__add__, 1)),
                 Event("To crawl.",
-                      partial(player.change_quickness, 1)),
+                      partial(player.quickness.__add__, 1)),
             ],
             3/4: [
                 Event("You learned to fear strangers.",
-                      partial(player.change_intelligence, 1)),
+                      partial(player.intelligence.__add__, 1)),
                 Event("To look for hidden things",
-                      partial(player.change_perception, 1)),
+                      partial(player.perception.__add__, 1)),
                 Event("To stand while holding on to something",
-                      partial(player.change_strength, 1)),
+                      partial(player.strength.__add__, 1)),
                 Event("To understand simple sentences, make many sounds and "
                       "simple gestures",
-                      partial(player.change_communication, 1)),
+                      partial(player.communication.__add__, 1)),
                 Event("To pick things up and move them between your hands",
-                      partial(player.change_dexterity, 1)),
+                      partial(player.dexterity.__add__, 1)),
             ],
         }
 
@@ -87,6 +87,7 @@ class Characteristic:
 
     def __add__(self, other):
         self.value += other
+        self.effect_text = player._change_characteristic(self.name, other)
         return self
 
 
@@ -108,41 +109,10 @@ class Player:
         self.quickness = Characteristic("Qik", -10)
         self.childhood = Childhood(self)
 
-    def change_intelligence(self, change):
-        self.intelligence += change
-        return self._change_characteristic("Intelligence", change)
-
-    def change_perception(self, change):
-        self.perception += change
-        return self._change_characteristic("Perception", change)
-
-    def change_strength(self, change):
-        self.strength += change
-        return self._change_characteristic("Strength", change)
-
-    def change_stamina(self, change):
-        self.stamina += change
-        return self._change_characteristic("Stamina", change)
-
-    def change_presence(self, change):
-        self.presence += change
-        return self._change_characteristic("Presence", change)
-
-    def change_communication(self, change):
-        self.communication += change
-        return self._change_characteristic("Communication", change)
-
-    def change_dexterity(self, change):
-        self.dexterity += change
-        return self._change_characteristic("Dexterity", change)
-
-    def change_quickness(self, change):
-        self.quickness += change
-        return self._change_characteristic("Quickness", change)
-
     def change_name(self, new_name):
         self.name = new_name
-        return f"Your name is {new_name}"
+        self.effect_text = f"Your name is {new_name}"
+        return self
 
     @staticmethod
     def _change_characteristic(characteristic, change):
@@ -169,7 +139,7 @@ def update_state():
 
 def advance(e):
     player.age += 0.25
-    player.text = [EventText(event.flavor, event.effect())
+    player.text = [EventText(event.flavor, event.effect().effect_text)
                    for event in player.childhood[player.age]]
     update_state()
 
