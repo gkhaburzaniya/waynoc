@@ -83,11 +83,19 @@ class Characteristic:
     @value.setter
     def value(self, value):
         self._value = value
-        pydom[f'#{self.name}'][0].text = value
+        pydom[f'#{self.name}'][0].text = f'{self.name}: {value}'
+
+    def _change_characteristic(self, change):
+        if change > 0:
+            return f"+{change} {self.name}"
+        elif change < 0:
+            return f"{change} {self.name}"
+        else:
+            raise ValueError
 
     def __add__(self, other):
         self.value += other
-        self.effect_text = player._change_characteristic(self.name, other)
+        self.effect_text = self._change_characteristic(other)
         return self
 
 
@@ -113,15 +121,6 @@ class Player:
         self.name = new_name
         self.effect_text = f"Your name is {new_name}"
         return self
-
-    @staticmethod
-    def _change_characteristic(characteristic, change):
-        if change > 0:
-            return f"+{change} {characteristic}"
-        elif change < 0:
-            return f"{change} {characteristic}"
-        else:
-            raise ValueError
 
 
 Events = pydom["#Events"][0]
