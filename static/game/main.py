@@ -125,7 +125,7 @@ class Player:
 
 def start(_):
     global Events, player
-    pydom["#Main"][0].text = pydom["#Main"][0].html = start_dom
+    pydom["#Board"][0].style.display = "none"
     Events = pydom["#Events"][0]
     player = Player()
 
@@ -150,38 +150,3 @@ def restart(e):
     global player
     player = Player()
     update_state()
-
-
-start_dom = """
-  <div class="row col-md-8 offset-md-2">
-    <div class="col-4 col-md-2">
-      <table class="table table-striped table-borderless table-hover table-sm">
-        <tbody>
-        <tr><td><span id="Int"></span></td></tr>
-        <tr><td><span id="Per"></span></td></tr>
-        <tr><td><span id="Str"></span></td></tr>
-        <tr><td><span id="Sta"></span></td></tr>
-        <tr><td><span id="Prs"></span></td></tr>
-        <tr><td><span id="Com"></span></td></tr>
-        <tr><td><span id="Dex"></span></td></tr>
-        <tr><td><span id="Qik"></span></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="col">
-      <button type="submit" py-click="advance"
-              class="btn btn-secondary">Next Season</button>
-      <button type="submit" py-click="restart"
-              class="btn btn-secondary">Restart</button>
-      <table class="table table-borderless table-sm">
-        <tbody>
-        <tr>
-          <td><h5>Name: <span id="Name"></span></h5></td>
-          <td><h5>Age: <span id="Age">0</span></h5></td>
-        </tr>
-        </tbody>
-      </table>
-      <div id="Events"></div>
-    </div>
-  </div>
-"""
