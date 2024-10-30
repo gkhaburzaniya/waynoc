@@ -125,7 +125,7 @@ class Player:
 
 def start(_):
     global Events, player
-    pydom["#Board"][0].style.display = "none"
+    pydom["#Board"][0].style["display"] = "flex"
     Events = pydom["#Events"][0]
     player = Player()
 
