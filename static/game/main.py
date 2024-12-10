@@ -8,7 +8,7 @@ class Childhood:
 
     def __init__(self, player):
         self.events = {
-            1/4: [
+            1 / 4: [
                 Event("You learned to recognize faces.",
                       partial(player.intelligence.__add__, 1)),
                 Event("To look around.",
@@ -26,7 +26,7 @@ class Childhood:
                 Event("To swing at dangling toys.",
                       partial(player.quickness.__add__, 1)),
             ],
-            2/4: [
+            2 / 4: [
                 Event("You learned your name.",
                       partial(player.change_name, "George")),
                 Event("You learned to put things in your mouth.",
@@ -40,7 +40,7 @@ class Childhood:
                 Event("To crawl.",
                       partial(player.quickness.__add__, 1)),
             ],
-            3/4: [
+            3 / 4: [
                 Event("You learned to fear strangers.",
                       partial(player.intelligence.__add__, 1)),
                 Event("To look for hidden things",
@@ -83,7 +83,7 @@ class Characteristic:
     @value.setter
     def value(self, value):
         self._value = value
-        page[f'#{self.name}'][0].text = f'{self.name}: {value}'
+        page[f'#{self.name}'][0].innerText = f'{self.name}: {value}'
 
     def _change_characteristic(self, change):
         if change > 0:
@@ -101,7 +101,6 @@ class Characteristic:
 
 @dataclass(eq=False)
 class Player:
-
     name: str = ""
     age: float = 0
     text: list = (EventText("You are born", ""),)
@@ -123,7 +122,7 @@ class Player:
         return self
 
 
-def start(_):
+def start(e):
     global Events, player
     page["#Board"][0].style["display"] = "flex"
     Events = page["#Events"][0]
@@ -131,18 +130,18 @@ def start(_):
 
 
 def update_state():
-    page["#Name"][0].text = player.name
-    page["#Age"][0].text = player.age
+    page["#Name"][0].innerText = player.name
+    page["#Age"][0].innerText = player.age
     Events.html = ""
-    for event in player.text:
+    for event in player.innerText:
         Events.html += event.flavor_text + "<br>"
         Events.html += "<b>" + event.effect_text + "</b><br>"
 
 
 def advance(e):
     player.age += 0.25
-    player.text = [EventText(event.flavor, event.effect().effect_text)
-                   for event in player.childhood[player.age]]
+    player.innerText = [EventText(event.flavor, event.effect().effect_text)
+                        for event in player.childhood[player.age]]
     update_state()
 
 
