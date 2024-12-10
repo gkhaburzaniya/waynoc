@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from functools import partial
 
-from pyweb import pydom
+from pyscript.web import page
 
 
 class Childhood:
@@ -83,7 +83,7 @@ class Characteristic:
     @value.setter
     def value(self, value):
         self._value = value
-        pydom[f'#{self.name}'][0].text = f'{self.name}: {value}'
+        page[f'#{self.name}'][0].text = f'{self.name}: {value}'
 
     def _change_characteristic(self, change):
         if change > 0:
@@ -125,14 +125,14 @@ class Player:
 
 def start(_):
     global Events, player
-    pydom["#Board"][0].style["display"] = "flex"
-    Events = pydom["#Events"][0]
+    page["#Board"][0].style["display"] = "flex"
+    Events = page["#Events"][0]
     player = Player()
 
 
 def update_state():
-    pydom["#Name"][0].text = player.name
-    pydom["#Age"][0].text = player.age
+    page["#Name"][0].text = player.name
+    page["#Age"][0].text = player.age
     Events.html = ""
     for event in player.text:
         Events.html += event.flavor_text + "<br>"
