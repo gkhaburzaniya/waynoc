@@ -103,6 +103,7 @@ class Characteristic:
 class Player:
     name: str = ""
     age: float = 0
+    house: str = ""
     text: list = (EventText("You are born", ""),)
 
     def __init__(self):
@@ -122,30 +123,44 @@ class Player:
         return self
 
 
-def start(e):
-    global Events, player
+player = Player()
+
+
+def start(_=None):
+    global Events
     page["#Board"][0].style["display"] = "flex"
     Events = page["#Events"][0]
-    player = Player()
+
+
+def custom_character(_):
+    page["#House_Selection"][0].style["display"] = "flex"
+    page["#Controls"][0].style["display"] = "none"
+
+
+def bjornaer_house_choice(_):
+    player.house = "Bjornaer"
+    page["#House_Selection"][0].style["display"] = "none"
+    start()
 
 
 def update_state():
     page["#Name"][0].innerText = player.name
     page["#Age"][0].innerText = player.age
+    page["#House"][0].innerText = player.house
     Events.html = ""
-    for event in player.innerText:
+    for event in player.text:
         Events.html += event.flavor_text + "<br>"
         Events.html += "<b>" + event.effect_text + "</b><br>"
 
 
-def advance(e):
+def advance(_):
     player.age += 0.25
     player.innerText = [EventText(event.flavor, event.effect().effect_text)
                         for event in player.childhood[player.age]]
     update_state()
 
 
-def restart(e):
+def restart(_):
     global player
     player = Player()
     update_state()
