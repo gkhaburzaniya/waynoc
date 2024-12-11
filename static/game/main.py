@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from functools import partial
 
-from pyscript.web import page
+from pyscript.web import page, div, button
 
 
 class Childhood:
@@ -130,6 +130,12 @@ def start(_=None):
     global Events
     page["#Board"][0].style["display"] = "flex"
     Events = page["#Events"][0]
+
+
+controls = page["#Controls"][0]
+start_button = button("Start", type="submit", classes=["btn", "btn-secondary"],
+                      on_click=start)
+controls.append(start_button)
 
 
 def custom_character(_):
