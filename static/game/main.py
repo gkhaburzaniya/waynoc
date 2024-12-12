@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from functools import partial
 
-from pyscript.web import page, div, button
+from pyscript.web import page, div, button, p
 
 
 class Childhood:
@@ -126,27 +126,47 @@ class Player:
 player = Player()
 
 
-def start(_=None):
+def start(_):
     global Events
     page["#Board"][0].style["display"] = "flex"
     Events = page["#Events"][0]
 
 
-controls = page["#Controls"][0]
-start_button = button("Start", type="submit", classes=["btn", "btn-secondary"],
-                      on_click=start)
-controls.append(start_button)
-
-
 def custom_character(_):
-    page["#House_Selection"][0].style["display"] = "flex"
-    page["#Controls"][0].style["display"] = "none"
+    house_selection.style["display"] = "flex"
+    start_button.style["display"] = "none"
+    custom_character_button["display"].style["display"] = "none"
 
 
 def bjornaer_house_choice(_):
     player.house = "Bjornaer"
-    page["#House_Selection"][0].style["display"] = "none"
-    start()
+    house_selection.style["display"] = "none"
+    start(_)
+
+
+main = page["main"][0]
+start_button = button("Start",
+                      type="submit",
+                      classes=["btn", "btn-secondary"],
+                      on_click=start)
+custom_character_button = button("Custom Character",
+                                 type="submit",
+                                 classes=["btn", "btn-secondary"],
+                                 on_click=custom_character)
+house_selection = div(
+    p("Which Hermetic House do you hail from?"),
+    p(
+        button("Bjornaer",
+               type="submit",
+               classes=["btn", "btn-secondary"],
+               on_click=bjornaer_house_choice),
+        page["#bjornaer_description"][0].textContent
+    ),
+    classes=["col"], style={"display": "none"})
+house_selection.append()
+main.append(start_button)
+main.append(custom_character_button)
+main.append(house_selection)
 
 
 def update_state():

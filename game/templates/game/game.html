@@ -8,14 +8,7 @@
 {% endblock %}
 
 {% block content %}
-  <div id="Controls">
-    <button type="submit" py-click="custom_character"
-            class="btn btn-secondary">Custom Character</button>
-  </div>
-  <div class="col" id="House_Selection" style="display:none">
-    <p> Which Hermetic House do you hail from? </p>
-    <p><button type="submit" py-click="bjornaer_house_choice"
-        class="btn btn-secondary">Bjornaer</button>
+    <p id="bjornaer_description" style="display:none">
       Magi of Bjornaer (BYORE-nayr) concern themselves primarily with beasts
       and the animalistic side of human nature. Because of this emphasis in
       their training, each Bjornaer magus can take the form of an animal,
@@ -23,7 +16,6 @@
       animals in general is considered more important than Hermetic magic by
       many in this House.
     </p>
-  </div>
   <div class="row col-md-8 offset-md-2" id="Board" style="display:none">
     <div class="col-4 col-md-2">
       <table class="table table-striped table-borderless table-hover table-sm">
