@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from functools import partial
 
-from pyscript.web import page, div, button, p
+from pyscript.web import page, div, button, p, span, table, tbody, tr, td, h5
 
 
 class Childhood:
@@ -83,7 +83,23 @@ class Characteristic:
     @value.setter
     def value(self, value):
         self._value = value
-        page[f'#{self.name}'][0].innerText = f'{self.name}: {value}'
+        if self.name == "Int":
+            char = intelligence
+        elif self.name == "Per":
+            char = perception
+        elif self.name == "Str":
+            char = strength
+        elif self.name == "Sta":
+            char = stamina
+        elif self.name == "Prs":
+            char = presence
+        elif self.name == "Com":
+            char = communication
+        elif self.name == "Dex":
+            char = dexterity
+        elif self.name == "Qik":
+            char = quickness
+        char.textContent = f'{self.name}: {value}'
 
     def _change_characteristic(self, change):
         if change > 0:
@@ -123,23 +139,34 @@ class Player:
         return self
 
 
-player = Player()
-
-
 def start(_):
     global Events
-    page["#Board"][0].style["display"] = "flex"
-    Events = page["#Events"][0]
+    main.append(board)
+    Events = events
 
 
 def custom_character(_):
-    house_selection.style["display"] = "flex"
+    main.append(house_selection)
     start_button.style["display"] = "none"
-    custom_character_button["display"].style["display"] = "none"
+    custom_character_button.style["display"] = "none"
+
+
+def advance(_):
+    player.age += 0.25
+    player.text = [EventText(event.flavor, event.effect().effect_text)
+                   for event in player.childhood[player.age]]
+    update_state()
+
+
+def restart(_):
+    global player
+    player = Player()
+    update_state()
 
 
 def bjornaer_house_choice(_):
     player.house = "Bjornaer"
+    house.textContent = player.house
     house_selection.style["display"] = "none"
     start(_)
 
@@ -153,6 +180,64 @@ custom_character_button = button("Custom Character",
                                  type="submit",
                                  classes=["btn", "btn-secondary"],
                                  on_click=custom_character)
+intelligence = span()
+perception = span()
+strength = span()
+stamina = span()
+presence = span()
+communication = span()
+dexterity = span()
+quickness = span()
+
+name = span()
+age = span()
+house = span()
+
+events = div()
+
+board = div(
+    div(
+        table(
+            tbody(
+                tr(td(intelligence)),
+                tr(td(perception)),
+                tr(td(strength)),
+                tr(td(stamina)),
+                tr(td(presence)),
+                tr(td(communication)),
+                tr(td(dexterity)),
+                tr(td(quickness)),
+            ),
+            classes=["table", "table-striped", "table-borderless",
+                     "table-hover", "table-sm"]
+        ),
+        classes=["col-4", "col-md-2"]
+    ),
+    div(
+        button("Next Season",
+               type="submit",
+               classes=["btn", "btn-secondary"],
+               on_click=advance),
+        button("Restart",
+               type="submit",
+               classes=["btn", "btn-secondary"],
+               on_click=restart),
+        table(
+            tbody(
+                tr(
+                    td(h5("Name: ", name)),
+                    td(h5("Age: ", age)),
+                    td(h5("House: ", house)),
+                )
+            ),
+            classes=["table", "table-borderless", "table-sm"]
+        ),
+        classes=["col"]
+    ),
+    events,
+    classes=["row", "col-md-8", "offset-md-2"]
+)
+
 house_selection = div(
     p("Which Hermetic House do you hail from?"),
     p(
@@ -162,31 +247,18 @@ house_selection = div(
                on_click=bjornaer_house_choice),
         page["#bjornaer_description"][0].textContent
     ),
-    classes=["col"], style={"display": "none"})
-house_selection.append()
-main.append(start_button)
-main.append(custom_character_button)
-main.append(house_selection)
+    classes=["col"])
+
+main.append(start_button, custom_character_button)
 
 
 def update_state():
-    page["#Name"][0].innerText = player.name
-    page["#Age"][0].innerText = player.age
-    page["#House"][0].innerText = player.house
-    Events.html = ""
+    name.textContent = player.name
+    age.textContent = player.age
+    events.innerHTML = ""
     for event in player.text:
-        Events.html += event.flavor_text + "<br>"
-        Events.html += "<b>" + event.effect_text + "</b><br>"
+        events.innerHTML += event.flavor_text + "<br>"
+        events.innerHTML += "<b>" + event.effect_text + "</b><br>"
 
 
-def advance(_):
-    player.age += 0.25
-    player.innerText = [EventText(event.flavor, event.effect().effect_text)
-                        for event in player.childhood[player.age]]
-    update_state()
-
-
-def restart(_):
-    global player
-    player = Player()
-    update_state()
+player = Player()
