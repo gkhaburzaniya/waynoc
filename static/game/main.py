@@ -147,8 +147,8 @@ def start(_):
 
 def custom_character(_):
     main.append(house_selection)
-    start_button.style["display"] = "none"
-    custom_character_button.style["display"] = "none"
+    start_button.remove()
+    custom_character_button.remove()
 
 
 def advance(_):
@@ -167,7 +167,7 @@ def restart(_):
 def bjornaer_house_choice(_):
     player.house = "Bjornaer"
     house.textContent = player.house
-    house_selection.style["display"] = "none"
+    house_selection.remove()
     start(_)
 
 
