@@ -149,7 +149,7 @@ def restart(_):
     update_state()
 
 
-def bjornaer_house_choice(e):
+def house_choice(e):
     player.house = house.textContent = e.target.textContent
     house_selection.remove()
     start(e)
@@ -223,8 +223,22 @@ house_selection = div(
         button("Bjornaer",
                type="submit",
                classes=["btn", "btn-secondary"],
-               on_click=bjornaer_house_choice),
+               on_click=house_choice),
         page["#bjornaer_description"][0].textContent
+    ),
+    p(
+        button("Bonisagus",
+               type="submit",
+               classes=["btn", "btn-secondary"],
+               on_click=house_choice),
+        page["#bonisagus_description"][0].textContent
+    ),
+    p(
+        button("Criamon",
+               type="submit",
+               classes=["btn", "btn-secondary"],
+               on_click=house_choice),
+        page["#criamon_description"][0].textContent
     ),
     classes=["col"])
 
@@ -238,4 +252,3 @@ def update_state():
     for event in player.text:
         events.innerHTML += event.flavor_text + "<br>"
         events.innerHTML += "<b>" + event.effect_text + "</b><br>"
-
