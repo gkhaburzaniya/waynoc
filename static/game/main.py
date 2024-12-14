@@ -164,11 +164,10 @@ def restart(_):
     update_state()
 
 
-def bjornaer_house_choice(_):
-    player.house = "Bjornaer"
-    house.textContent = player.house
+def bjornaer_house_choice(e):
+    player.house = house.textContent = e.target.textContent
     house_selection.remove()
-    start(_)
+    start(e)
 
 
 main = page["main"][0]
