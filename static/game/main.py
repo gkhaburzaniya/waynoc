@@ -72,40 +72,24 @@ class EventText:
 
 
 class Characteristic:
-    def __init__(self, name, value):
-        self.name = name
-        self.value = value
+    def __init__(self, short_name, value):
+        self.short_name = short_name
+        self._value = span(value)
+        self.element = span(self.short_name, self._value)
 
     @property
     def value(self):
-        return self._value
+        return int(self._value.textContent)
 
     @value.setter
     def value(self, value):
-        self._value = value
-        if self.name == "Int":
-            char = intelligence
-        elif self.name == "Per":
-            char = perception
-        elif self.name == "Str":
-            char = strength
-        elif self.name == "Sta":
-            char = stamina
-        elif self.name == "Prs":
-            char = presence
-        elif self.name == "Com":
-            char = communication
-        elif self.name == "Dex":
-            char = dexterity
-        elif self.name == "Qik":
-            char = quickness
-        char.textContent = f'{self.name}: {value}'
+        self._value.textContent = value
 
     def _change_characteristic(self, change):
         if change > 0:
-            return f"+{change} {self.name}"
+            return f"+{change} {self.short_name}"
         elif change < 0:
-            return f"{change} {self.name}"
+            return f"{change} {self.short_name}"
         else:
             raise ValueError
 
@@ -124,7 +108,7 @@ class Player:
 
     def __init__(self):
         self.intelligence = Characteristic("Int", -10)
-        self.perception = Characteristic("Per", -10)
+        self.perception = Characteristic("Per ", -10)
         self.strength = Characteristic("Str", -10)
         self.stamina = Characteristic("Sta", -10)
         self.presence = Characteristic("Prs", -10)
@@ -158,6 +142,7 @@ def advance(_):
     update_state()
 
 
+# TODO: fix restart
 def restart(_):
     global player
     player = Player()
@@ -179,33 +164,28 @@ custom_character_button = button("Custom Character",
                                  type="submit",
                                  classes=["btn", "btn-secondary"],
                                  on_click=custom_character)
-intelligence = span()
-perception = span()
-strength = span()
-stamina = span()
-presence = span()
-communication = span()
-dexterity = span()
-quickness = span()
 
 name = span()
 age = span()
 house = span()
 
+# TODO: get events to display right
 events = div()
+
+player = Player()
 
 board = div(
     div(
         table(
             tbody(
-                tr(td(intelligence)),
-                tr(td(perception)),
-                tr(td(strength)),
-                tr(td(stamina)),
-                tr(td(presence)),
-                tr(td(communication)),
-                tr(td(dexterity)),
-                tr(td(quickness)),
+                tr(td(player.intelligence.element)),
+                tr(td(player.perception.element)),
+                tr(td(player.strength.element)),
+                tr(td(player.stamina.element)),
+                tr(td(player.presence.element)),
+                tr(td(player.communication.element)),
+                tr(td(player.dexterity.element)),
+                tr(td(player.quickness.element)),
             ),
             classes=["table", "table-striped", "table-borderless",
                      "table-hover", "table-sm"]
@@ -259,5 +239,3 @@ def update_state():
         events.innerHTML += event.flavor_text + "<br>"
         events.innerHTML += "<b>" + event.effect_text + "</b><br>"
 
-
-player = Player()
