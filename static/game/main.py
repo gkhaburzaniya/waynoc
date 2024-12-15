@@ -127,12 +127,7 @@ class Characteristic(Attribute):
         return self
 
 
-@dataclass(eq=False)
 class Player:
-    name: Attribute = Attribute("Name", "")
-    age: Age = Age("Age", 0)
-    house: Attribute = Attribute("House", "")
-    text: list = (EventText("You are born", ""),)
 
     def __init__(self):
         self.intelligence = Characteristic("Int", -10)
@@ -143,6 +138,10 @@ class Player:
         self.communication = Characteristic("Com", -10)
         self.dexterity = Characteristic("Dex", -10)
         self.quickness = Characteristic("Qik", -10)
+        self.name = Attribute("Name", "")
+        self.age = Age("Age", 0)
+        self.house = Attribute("House", "")
+        self.text = [EventText("You are born", "")]
         self.childhood = Childhood(self)
 
     # def __getattribute__(self, name):
@@ -180,11 +179,12 @@ def advance(_):
     update_state()
 
 
-# TODO: fix restart
 def restart(_):
-    global player
+    global player, board
     player = Player()
-    update_state()
+    board.remove()
+    board = new_board()
+    start(_)
 
 
 def house_choice(e):
@@ -204,54 +204,58 @@ custom_character_button = button("Custom Character",
                                  classes=["btn", "btn-secondary"],
                                  on_click=custom_character)
 
-
 # TODO: get events to display right
 events = div()
 
 player = Player()
 
-board = div(
-    div(
-        table(
-            tbody(
-                tr(td(player.intelligence.element)),
-                tr(td(player.perception.element)),
-                tr(td(player.strength.element)),
-                tr(td(player.stamina.element)),
-                tr(td(player.presence.element)),
-                tr(td(player.communication.element)),
-                tr(td(player.dexterity.element)),
-                tr(td(player.quickness.element)),
+
+def new_board():
+    return div(
+        div(
+            table(
+                tbody(
+                    tr(td(player.intelligence.element)),
+                    tr(td(player.perception.element)),
+                    tr(td(player.strength.element)),
+                    tr(td(player.stamina.element)),
+                    tr(td(player.presence.element)),
+                    tr(td(player.communication.element)),
+                    tr(td(player.dexterity.element)),
+                    tr(td(player.quickness.element)),
+                ),
+                classes=["table", "table-striped", "table-borderless",
+                         "table-hover", "table-sm"]
             ),
-            classes=["table", "table-striped", "table-borderless",
-                     "table-hover", "table-sm"]
+            classes=["col-4", "col-md-2"]
         ),
-        classes=["col-4", "col-md-2"]
-    ),
-    div(
-        button("Next Season",
-               type="submit",
-               classes=["btn", "btn-secondary"],
-               on_click=advance),
-        button("Restart",
-               type="submit",
-               classes=["btn", "btn-secondary"],
-               on_click=restart),
-        table(
-            tbody(
-                tr(
-                    td(h5(player.name.element)),
-                    td(h5(player.age.element)),
-                    td(h5(player.house.element)),
-                )
+        div(
+            button("Next Season",
+                   type="submit",
+                   classes=["btn", "btn-secondary"],
+                   on_click=advance),
+            button("Restart",
+                   type="submit",
+                   classes=["btn", "btn-secondary"],
+                   on_click=restart),
+            table(
+                tbody(
+                    tr(
+                        td(h5(player.name.element)),
+                        td(h5(player.age.element)),
+                        td(h5(player.house.element)),
+                    )
+                ),
+                classes=["table", "table-borderless", "table-sm"]
             ),
-            classes=["table", "table-borderless", "table-sm"]
+            classes=["col"]
         ),
-        classes=["col"]
-    ),
-    events,
-    classes=["row", "col-md-8", "offset-md-2"]
-)
+        events,
+        classes=["row", "col-md-8", "offset-md-2"]
+    )
+
+
+board = new_board()
 
 house_selection = div(
     p("Which Hermetic House do you hail from?"),
