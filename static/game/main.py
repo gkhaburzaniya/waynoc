@@ -53,6 +53,9 @@ class Childhood:
                 Event("To pick things up and move them between your hands",
                       partial(player.dexterity.__add__, 1)),
             ],
+            1: [
+
+            ]
         }
 
     def __getitem__(self, item):
@@ -71,11 +74,35 @@ class EventText:
     effect_text: str
 
 
-class Characteristic:
+class Attribute:
     def __init__(self, short_name, value):
         self.short_name = short_name
         self._value = span(value)
-        self.element = span(self.short_name, self._value)
+        self.element = span(f"{self.short_name}:", self._value)
+
+    @property
+    def value(self):
+        return self._value.textContent
+
+    @value.setter
+    def value(self, value):
+        self._value.textContent = value
+
+
+class Age(Attribute):
+    @property
+    def value(self):
+        return float(self._value.textContent)
+
+    @value.setter
+    def value(self, value):
+        self._value.textContent = value
+
+    def __add__(self, other):
+        return self.value + other
+
+
+class Characteristic(Attribute):
 
     @property
     def value(self):
@@ -93,6 +120,7 @@ class Characteristic:
         else:
             raise ValueError
 
+    # TODO: add shouldn't be updating..., could at least change it to iadd
     def __add__(self, other):
         self.value += other
         self.effect_text = self._change_characteristic(other)
@@ -101,14 +129,14 @@ class Characteristic:
 
 @dataclass(eq=False)
 class Player:
-    name: str = ""
-    age: float = 0
-    house: str = ""
+    name: Attribute = Attribute("Name", "")
+    age: Age = Age("Age", 0)
+    house: Attribute = Attribute("House", "")
     text: list = (EventText("You are born", ""),)
 
     def __init__(self):
         self.intelligence = Characteristic("Int", -10)
-        self.perception = Characteristic("Per ", -10)
+        self.perception = Characteristic("Per", -10)
         self.strength = Characteristic("Str", -10)
         self.stamina = Characteristic("Sta", -10)
         self.presence = Characteristic("Prs", -10)
@@ -117,8 +145,18 @@ class Player:
         self.quickness = Characteristic("Qik", -10)
         self.childhood = Childhood(self)
 
+    # def __getattribute__(self, name):
+    #     attribute = super().__getattribute__(name)
+    #     if not issubclass(type(attribute), Attribute):
+    #         return attribute
+    #     elif name not in self.placed:
+    #         self.placed.add(name)
+    #         return attribute
+    #     else:
+    #         return attribute.value
+
     def change_name(self, new_name):
-        self.name = new_name
+        self.name.value = new_name
         self.effect_text = f"Your name is {new_name}"
         return self
 
@@ -136,9 +174,9 @@ def custom_character(_):
 
 
 def advance(_):
-    player.age += 0.25
+    player.age.value += .25
     player.text = [EventText(event.flavor, event.effect().effect_text)
-                   for event in player.childhood[player.age]]
+                   for event in player.childhood[player.age.value]]
     update_state()
 
 
@@ -150,11 +188,12 @@ def restart(_):
 
 
 def house_choice(e):
-    player.house = house.textContent = e.target.textContent
+    player.house.value = e.target.textContent
     house_selection.remove()
     start(e)
 
 
+page["#loading"][0].remove()
 main = page["main"][0]
 start_button = button("Start",
                       type="submit",
@@ -165,9 +204,6 @@ custom_character_button = button("Custom Character",
                                  classes=["btn", "btn-secondary"],
                                  on_click=custom_character)
 
-name = span()
-age = span()
-house = span()
 
 # TODO: get events to display right
 events = div()
@@ -204,9 +240,9 @@ board = div(
         table(
             tbody(
                 tr(
-                    td(h5("Name: ", name)),
-                    td(h5("Age: ", age)),
-                    td(h5("House: ", house)),
+                    td(h5(player.name.element)),
+                    td(h5(player.age.element)),
+                    td(h5(player.house.element)),
                 )
             ),
             classes=["table", "table-borderless", "table-sm"]
@@ -246,8 +282,6 @@ main.append(start_button, custom_character_button)
 
 
 def update_state():
-    name.textContent = player.name
-    age.textContent = player.age
     events.innerHTML = ""
     for event in player.text:
         events.innerHTML += event.flavor_text + "<br>"
