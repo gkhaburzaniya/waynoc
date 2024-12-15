@@ -127,6 +127,20 @@ class Characteristic(Attribute):
         return self
 
 
+@dataclass(frozen=True)
+class Virtue:
+    name: str
+    description: str
+    type: str
+    cost: int
+
+
+hermetic_magus = Virtue(name="Hermetic_Magus",
+                        description=page["#hermetic_magus_description"][0].textContent,
+                        type="Social Status",
+                        cost=0)
+
+
 class Player:
 
     def __init__(self):
@@ -138,9 +152,13 @@ class Player:
         self.communication = Characteristic("Com", -10)
         self.dexterity = Characteristic("Dex", -10)
         self.quickness = Characteristic("Qik", -10)
+
         self.name = Attribute("Name", "")
         self.age = Age("Age", 0)
         self.house = Attribute("House", "")
+        self.virtues = ["Hermetic Magus"]
+        self.flaws = []
+
         self.text = [EventText("You are born", "")]
         self.childhood = Childhood(self)
 
@@ -167,9 +185,9 @@ def start(_):
 
 
 def custom_character(_):
-    main.append(house_selection)
     start_button.remove()
     custom_character_button.remove()
+    CharacterCreation().start()
 
 
 def advance(_):
@@ -187,10 +205,57 @@ def restart(_):
     start(_)
 
 
-def house_choice(e):
-    player.house.value = e.target.textContent
-    house_selection.remove()
-    start(e)
+class CharacterCreation:
+
+    def __init__(self):
+        self.house_selection = div(
+            p("Which Hermetic House do you hail from?"),
+            p(
+                button("Bjornaer",
+                       type="submit",
+                       classes=["btn", "btn-secondary"],
+                       on_click=self.house_choice),
+                page["#bjornaer_description"][0].textContent
+            ),
+            p(
+                button("Bonisagus",
+                       type="submit",
+                       classes=["btn", "btn-secondary"],
+                       on_click=self.house_choice),
+                page["#bonisagus_description"][0].textContent
+            ),
+            p(
+                button("Criamon",
+                       type="submit",
+                       classes=["btn", "btn-secondary"],
+                       on_click=self.house_choice),
+                page["#criamon_description"][0].textContent
+            ),
+            classes=["col"])
+        self.virtues_and_flaws_selection = div(
+            "What are your virtues and flaws?",
+            p(
+                button(hermetic_magus,
+                       type="submit",
+                       classes=["btn", "btn-secondary"],
+                       on_click=self.virtues_and_flaws_choice),
+                hermetic_magus.description,
+                hermetic_magus.type,
+                hermetic_magus.cost
+            ),
+        )
+
+    def start(self):
+        main.append(self.house_selection)
+
+    def house_choice(self, e):
+        player.house.value = e.target.textContent
+        self.house_selection.remove()
+        main.append(self.virtues_and_flaws_selection)
+
+    def virtues_and_flaws_choice(self, e):
+        self.virtues_and_flaws_selection.remove()
+        start(e)
 
 
 page["#loading"][0].remove()
@@ -256,31 +321,6 @@ def new_board():
 
 
 board = new_board()
-
-house_selection = div(
-    p("Which Hermetic House do you hail from?"),
-    p(
-        button("Bjornaer",
-               type="submit",
-               classes=["btn", "btn-secondary"],
-               on_click=house_choice),
-        page["#bjornaer_description"][0].textContent
-    ),
-    p(
-        button("Bonisagus",
-               type="submit",
-               classes=["btn", "btn-secondary"],
-               on_click=house_choice),
-        page["#bonisagus_description"][0].textContent
-    ),
-    p(
-        button("Criamon",
-               type="submit",
-               classes=["btn", "btn-secondary"],
-               on_click=house_choice),
-        page["#criamon_description"][0].textContent
-    ),
-    classes=["col"])
 
 main.append(start_button, custom_character_button)
 
