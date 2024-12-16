@@ -10,51 +10,51 @@ class Childhood:
         self.events = {
             1 / 4: [
                 Event("You learned to recognize faces.",
-                      partial(player.intelligence.__add__, 1)),
+                      partial(player.intelligence.__iadd__, 1)),
                 Event("To look around.",
-                      partial(player.perception.__add__, 1)),
+                      partial(player.perception.__iadd__, 1)),
                 Event("To lift your head.",
-                      partial(player.strength.__add__, 1)),
+                      partial(player.strength.__iadd__, 1)),
                 Event("To hold your head steady.",
-                      partial(player.stamina.__add__, 1)),
+                      partial(player.stamina.__iadd__, 1)),
                 Event("To smile at people.",
-                      partial(player.presence.__add__, 1)),
+                      partial(player.presence.__iadd__, 1)),
                 Event("To coo and babble.",
-                      partial(player.communication.__add__, 1)),
+                      partial(player.communication.__iadd__, 1)),
                 Event("To suck on your hand.",
-                      partial(player.dexterity.__add__, 1)),
+                      partial(player.dexterity.__iadd__, 1)),
                 Event("To swing at dangling toys.",
-                      partial(player.quickness.__add__, 1)),
+                      partial(player.quickness.__iadd__, 1)),
             ],
             2 / 4: [
                 Event("You learned your name.",
                       partial(player.change_name, "George")),
                 Event("You learned to put things in your mouth.",
-                      partial(player.perception.__add__, 1)),
+                      partial(player.perception.__iadd__, 1)),
                 Event("To sit and roll over.",
-                      partial(player.strength.__add__, 1)),
+                      partial(player.strength.__iadd__, 1)),
                 Event("To cry in different ways.",
-                      partial(player.communication.__add__, 1)),
+                      partial(player.communication.__iadd__, 1)),
                 Event("To reach for things.",
-                      partial(player.dexterity.__add__, 1)),
+                      partial(player.dexterity.__iadd__, 1)),
                 Event("To crawl.",
-                      partial(player.quickness.__add__, 1)),
+                      partial(player.quickness.__iadd__, 1)),
             ],
             3 / 4: [
                 Event("You learned to fear strangers.",
-                      partial(player.intelligence.__add__, 1)),
+                      partial(player.intelligence.__iadd__, 1)),
                 Event("To look for hidden things",
-                      partial(player.perception.__add__, 1)),
+                      partial(player.perception.__iadd__, 1)),
                 Event("To stand while holding on to something",
-                      partial(player.strength.__add__, 1)),
+                      partial(player.strength.__iadd__, 1)),
                 Event("To understand simple sentences, make many sounds and "
                       "simple gestures",
-                      partial(player.communication.__add__, 1)),
+                      partial(player.communication.__iadd__, 1)),
                 Event("To pick things up and move them between your hands",
-                      partial(player.dexterity.__add__, 1)),
+                      partial(player.dexterity.__iadd__, 1)),
             ],
             1: [
-
+                Event("You turn 1! Not that you can count")
             ]
         }
 
@@ -65,7 +65,7 @@ class Childhood:
 @dataclass(frozen=True)
 class Event:
     flavor: str
-    effect: partial
+    effect: partial = lambda: EventText("", "")
 
 
 @dataclass(frozen=True)
@@ -120,8 +120,7 @@ class Characteristic(Attribute):
         else:
             raise ValueError
 
-    # TODO: add shouldn't be updating..., could at least change it to iadd
-    def __add__(self, other):
+    def __iadd__(self, other):
         self.value += other
         self.effect_text = self._change_characteristic(other)
         return self
@@ -161,16 +160,6 @@ class Player:
 
         self.text = [EventText("You are born", "")]
         self.childhood = Childhood(self)
-
-    # def __getattribute__(self, name):
-    #     attribute = super().__getattribute__(name)
-    #     if not issubclass(type(attribute), Attribute):
-    #         return attribute
-    #     elif name not in self.placed:
-    #         self.placed.add(name)
-    #         return attribute
-    #     else:
-    #         return attribute.value
 
     def change_name(self, new_name):
         self.name.value = new_name
