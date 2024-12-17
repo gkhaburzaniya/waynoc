@@ -168,9 +168,9 @@ class Player:
 
 
 def start(_):
-    global Events
+    start_button.remove()
+    custom_character_button.remove()
     main.append(board)
-    Events = events
 
 
 def custom_character(_):
