@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 from functools import partial
 
-from pyscript.web import page, div, button, p, span, table, tbody, tr, td, h5
+from pyscript.web import (page, input_, div, button, p, span, table, tbody, tr,
+                          td, h5, label, strong, form, em)
 
 
 class Childhood:
@@ -134,10 +135,17 @@ class Virtue:
     cost: int
 
 
-hermetic_magus = Virtue(name="Hermetic_Magus",
-                        description=page["#hermetic_magus_description"][0].textContent,
-                        type="Social Status",
-                        cost=0)
+hermetic_magus = Virtue(
+    name="Hermetic Magus",
+    description=page["#hermetic_magus_description"][0].textContent,
+    type="Social Status",
+    cost=0)
+the_gift = Virtue(
+    name="The Gift",
+    description=page["#the_gift_description"][0].textContent,
+    type="Special",
+    cost=0
+)
 
 
 class Player:
@@ -155,7 +163,7 @@ class Player:
         self.name = Attribute("Name", "")
         self.age = Age("Age", 0)
         self.house = Attribute("House", "")
-        self.virtues = ["Hermetic Magus"]
+        self.virtues = [hermetic_magus, the_gift]
         self.flaws = []
 
         self.text = [EventText("You are born", "")]
@@ -221,18 +229,27 @@ class CharacterCreation:
                 page["#criamon_description"][0].textContent
             ),
             classes=["col"])
-        self.virtues_and_flaws_selection = div(
+        self.virtues_and_flaws_selection = form(
             "What are your virtues and flaws?",
-            p(
-                button(hermetic_magus,
-                       type="submit",
-                       classes=["btn", "btn-secondary"],
-                       on_click=self.virtues_and_flaws_choice),
-                hermetic_magus.description,
-                hermetic_magus.type,
-                hermetic_magus.cost
+            div(
+                input_(type="radio", classes=["form-check-input"],
+                       checked=True, disabled=True),
+                label(f"{hermetic_magus.name}:",
+                      hermetic_magus.description,
+                      em(f"{hermetic_magus.type}. "),
+                      strong(f"Cost: {hermetic_magus.cost}"),
+                      classes=["form-check-radio"]),
+                classes=["form-check"]),
+            div(
+                input_(type="radio", classes=["form-check-input"],
+                       checked=True, disabled=True),
+                label(f"{the_gift.name}:",
+                      the_gift.description,
+                      em(f"{the_gift.type}. "),
+                      strong(f"Cost: {the_gift.cost}"),
+                      classes=["form-check-radio"]),
+                classes=["form-check"])
             ),
-        )
 
     def start(self):
         main.append(self.house_selection)
