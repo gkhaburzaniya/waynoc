@@ -167,6 +167,13 @@ the_gift = Virtue(
     cost=0,
 )
 
+heartbeast = Virtue(
+    name="Heartbeast",
+    description=page["#heartbeast_description"][0].textContent,
+    type="Hermetic",
+    cost=0,
+)
+
 
 class Player:
 
@@ -224,6 +231,25 @@ def restart(_):
     start(_)
 
 
+heartbeast_selection = div(
+    input_(
+        type="radio",
+        classes=["form-check-input"],
+        checked=True,
+        disabled=True,
+    ),
+    label(
+        f"{heartbeast.name}:",
+        heartbeast.description,
+        em(f"{heartbeast.type}. "),
+        strong(f"Cost: {heartbeast.cost}"),
+        classes=["form-check-radio"],
+    ),
+    classes=["form-check"],
+    hidden=True
+)
+
+
 class CharacterCreation:
     virtue_points_available = OnScreenValue("Virtue Points Available", 0)
     virtue_points_from_flaws = OnScreenValue("Points From Flaws (Max 10)", 0)
@@ -260,52 +286,51 @@ class CharacterCreation:
             ),
             classes=["col"],
         )
-        self.virtues_and_flaws_selection = (
-            div(
-                "What are your virtues and flaws?",
-                table(
-                    tbody(
-                        tr(
-                            td(h5(CharacterCreation.virtue_points_available.element)),
-                            td(h5(CharacterCreation.virtue_points_from_flaws.element)),
-                        )
-                    ),
-                    classes=["table", "table-borderless", "table-sm"],
+        self.virtues_and_flaws_selection = div(
+            "What are your virtues and flaws?",
+            table(
+                tbody(
+                    tr(
+                        td(h5(CharacterCreation.virtue_points_available.element)),
+                        td(h5(CharacterCreation.virtue_points_from_flaws.element)),
+                    )
                 ),
-                form(
-                    div(
-                        input_(
-                            type="radio",
-                            classes=["form-check-input"],
-                            checked=True,
-                            disabled=True,
-                        ),
-                        label(
-                            f"{hermetic_magus.name}:",
-                            hermetic_magus.description,
-                            em(f"{hermetic_magus.type}. "),
-                            strong(f"Cost: {hermetic_magus.cost}"),
-                            classes=["form-check-radio"],
-                        ),
-                        classes=["form-check"],
+                classes=["table", "table-borderless", "table-sm"],
+            ),
+            form(
+                div(
+                    input_(
+                        type="radio",
+                        classes=["form-check-input"],
+                        checked=True,
+                        disabled=True,
                     ),
-                    div(
-                        input_(
-                            type="radio",
-                            classes=["form-check-input"],
-                            checked=True,
-                            disabled=True,
-                        ),
-                        label(
-                            f"{the_gift.name}:",
-                            the_gift.description,
-                            em(f"{the_gift.type}. "),
-                            strong(f"Cost: {the_gift.cost}"),
-                            classes=["form-check-radio"],
-                        ),
-                        classes=["form-check"],
+                    label(
+                        f"{hermetic_magus.name}:",
+                        hermetic_magus.description,
+                        em(f"{hermetic_magus.type}. "),
+                        strong(f"Cost: {hermetic_magus.cost}"),
+                        classes=["form-check-radio"],
                     ),
+                    classes=["form-check"],
                 ),
+                div(
+                    input_(
+                        type="radio",
+                        classes=["form-check-input"],
+                        checked=True,
+                        disabled=True,
+                    ),
+                    label(
+                        f"{the_gift.name}:",
+                        the_gift.description,
+                        em(f"{the_gift.type}. "),
+                        strong(f"Cost: {the_gift.cost}"),
+                        classes=["form-check-radio"],
+                    ),
+                    classes=["form-check"],
+                ),
+                heartbeast_selection,
             ),
         )
 
@@ -315,6 +340,8 @@ class CharacterCreation:
     def house_choice(self, e):
         player.house.value = e.target.textContent
         self.house_selection.remove()
+        if player.house.value == "Bjornaer":
+            heartbeast_selection.hidden = False
         main.append(self.virtues_and_flaws_selection)
 
     def virtues_and_flaws_choice(self, e):
