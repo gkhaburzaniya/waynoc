@@ -24,8 +24,7 @@ class Childhood:
 
     def __init__(self, player):
         self.events = {
-            1
-            / 4: [
+            0.25: [
                 Event(
                     "You learned to recognize faces.",
                     partial(player.intelligence.__iadd__, 1),
@@ -40,8 +39,7 @@ class Childhood:
                     "To swing at dangling toys.", partial(player.quickness.__iadd__, 1)
                 ),
             ],
-            2
-            / 4: [
+            0.5: [
                 Event("You learned your name.", partial(player.change_name, "George")),
                 Event(
                     "You learned to put things in your mouth.",
@@ -55,8 +53,7 @@ class Childhood:
                 Event("To reach for things.", partial(player.dexterity.__iadd__, 1)),
                 Event("To crawl.", partial(player.quickness.__iadd__, 1)),
             ],
-            3
-            / 4: [
+            0.75: [
                 Event(
                     "You learned to fear strangers.",
                     partial(player.intelligence.__iadd__, 1),
@@ -97,7 +94,7 @@ class EventText:
     effect_text: str
 
 
-class Attribute:
+class OnScreenValue:
     def __init__(self, short_name, value):
         self.short_name = short_name
         self._value = span(value)
@@ -112,7 +109,7 @@ class Attribute:
         self._value.textContent = value
 
 
-class Age(Attribute):
+class Age(OnScreenValue):
     @property
     def value(self):
         return float(self._value.textContent)
@@ -125,7 +122,7 @@ class Age(Attribute):
         return self.value + other
 
 
-class Characteristic(Attribute):
+class Characteristic(OnScreenValue):
 
     @property
     def value(self):
@@ -183,9 +180,9 @@ class Player:
         self.dexterity = Characteristic("Dex", -10)
         self.quickness = Characteristic("Qik", -10)
 
-        self.name = Attribute("Name", "")
+        self.name = OnScreenValue("Name", "")
         self.age = Age("Age", 0)
-        self.house = Attribute("House", "")
+        self.house = OnScreenValue("House", "")
         self.virtues = [hermetic_magus, the_gift]
         self.flaws = []
 
@@ -228,6 +225,8 @@ def restart(_):
 
 
 class CharacterCreation:
+    virtue_points_available = OnScreenValue("Virtue Points Available", 0)
+    virtue_points_from_flaws = OnScreenValue("Points From Flaws (Max 10)", 0)
 
     def __init__(self):
         self.house_selection = div(
@@ -262,39 +261,50 @@ class CharacterCreation:
             classes=["col"],
         )
         self.virtues_and_flaws_selection = (
-            form(
+            div(
                 "What are your virtues and flaws?",
-                div(
-                    input_(
-                        type="radio",
-                        classes=["form-check-input"],
-                        checked=True,
-                        disabled=True,
+                table(
+                    tbody(
+                        tr(
+                            td(h5(CharacterCreation.virtue_points_available.element)),
+                            td(h5(CharacterCreation.virtue_points_from_flaws.element)),
+                        )
                     ),
-                    label(
-                        f"{hermetic_magus.name}:",
-                        hermetic_magus.description,
-                        em(f"{hermetic_magus.type}. "),
-                        strong(f"Cost: {hermetic_magus.cost}"),
-                        classes=["form-check-radio"],
-                    ),
-                    classes=["form-check"],
+                    classes=["table", "table-borderless", "table-sm"],
                 ),
-                div(
-                    input_(
-                        type="radio",
-                        classes=["form-check-input"],
-                        checked=True,
-                        disabled=True,
+                form(
+                    div(
+                        input_(
+                            type="radio",
+                            classes=["form-check-input"],
+                            checked=True,
+                            disabled=True,
+                        ),
+                        label(
+                            f"{hermetic_magus.name}:",
+                            hermetic_magus.description,
+                            em(f"{hermetic_magus.type}. "),
+                            strong(f"Cost: {hermetic_magus.cost}"),
+                            classes=["form-check-radio"],
+                        ),
+                        classes=["form-check"],
                     ),
-                    label(
-                        f"{the_gift.name}:",
-                        the_gift.description,
-                        em(f"{the_gift.type}. "),
-                        strong(f"Cost: {the_gift.cost}"),
-                        classes=["form-check-radio"],
+                    div(
+                        input_(
+                            type="radio",
+                            classes=["form-check-input"],
+                            checked=True,
+                            disabled=True,
+                        ),
+                        label(
+                            f"{the_gift.name}:",
+                            the_gift.description,
+                            em(f"{the_gift.type}. "),
+                            strong(f"Cost: {the_gift.cost}"),
+                            classes=["form-check-radio"],
+                        ),
+                        classes=["form-check"],
                     ),
-                    classes=["form-check"],
                 ),
             ),
         )
