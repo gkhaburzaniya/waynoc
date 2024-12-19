@@ -275,7 +275,6 @@ custom_character_button = button("Custom Character",
                                  classes=["btn", "btn-secondary"],
                                  on_click=custom_character)
 
-# TODO: get events to display right
 events = div()
 
 player = Player()
@@ -319,9 +318,9 @@ def new_board():
                 ),
                 classes=["table", "table-borderless", "table-sm"]
             ),
+            events,
             classes=["col"]
         ),
-        events,
         classes=["row", "col-md-8", "offset-md-2"]
     )
 
