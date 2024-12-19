@@ -3,7 +3,7 @@ from django.views import View
 
 
 class Game(View):
-    template_name = 'game/game.html'
+    template_name = "game/game.html"
 
     @classmethod
     def get(cls, request):

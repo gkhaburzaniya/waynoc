@@ -10,45 +10,62 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Movie',
+            name="Movie",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True,
-                                        serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255)),
-                ('date', models.DateField(default=datetime.date.today)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255)),
+                ("date", models.DateField(default=datetime.date.today)),
             ],
             options={
-                'ordering': ['-date'],
+                "ordering": ["-date"],
             },
         ),
         migrations.CreateModel(
-            name='Person',
+            name="Person",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True,
-                                        serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, unique=True)),
-                ('score', models.IntegerField(editable=False, null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255, unique=True)),
+                ("score", models.IntegerField(editable=False, null=True)),
             ],
             options={
-                'ordering': ['-score', 'name'],
+                "ordering": ["-score", "name"],
             },
         ),
         migrations.AddField(
-            model_name='movie',
-            name='attendees',
-            field=models.ManyToManyField(related_name='movies_attended',
-                                         to='movienite.Person'),
+            model_name="movie",
+            name="attendees",
+            field=models.ManyToManyField(
+                related_name="movies_attended", to="movienite.Person"
+            ),
         ),
         migrations.AddField(
-            model_name='movie',
-            name='picker',
+            model_name="movie",
+            name="picker",
             field=models.ForeignKey(
-                null=True, on_delete=django.db.models.deletion.SET_NULL,
-                related_name='movies_picked', to='movienite.Person'),
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="movies_picked",
+                to="movienite.Person",
+            ),
         ),
     ]

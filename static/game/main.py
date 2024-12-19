@@ -1,62 +1,84 @@
 from dataclasses import dataclass
 from functools import partial
 
-from pyscript.web import (page, input_, div, button, p, span, table, tbody, tr,
-                          td, h5, label, strong, form, em)
+from pyscript.web import (
+    page,
+    input_,
+    div,
+    button,
+    p,
+    span,
+    table,
+    tbody,
+    tr,
+    td,
+    h5,
+    label,
+    strong,
+    form,
+    em,
+)
 
 
 class Childhood:
 
     def __init__(self, player):
         self.events = {
-            1 / 4: [
-                Event("You learned to recognize faces.",
-                      partial(player.intelligence.__iadd__, 1)),
-                Event("To look around.",
-                      partial(player.perception.__iadd__, 1)),
-                Event("To lift your head.",
-                      partial(player.strength.__iadd__, 1)),
-                Event("To hold your head steady.",
-                      partial(player.stamina.__iadd__, 1)),
-                Event("To smile at people.",
-                      partial(player.presence.__iadd__, 1)),
-                Event("To coo and babble.",
-                      partial(player.communication.__iadd__, 1)),
-                Event("To suck on your hand.",
-                      partial(player.dexterity.__iadd__, 1)),
-                Event("To swing at dangling toys.",
-                      partial(player.quickness.__iadd__, 1)),
+            1
+            / 4: [
+                Event(
+                    "You learned to recognize faces.",
+                    partial(player.intelligence.__iadd__, 1),
+                ),
+                Event("To look around.", partial(player.perception.__iadd__, 1)),
+                Event("To lift your head.", partial(player.strength.__iadd__, 1)),
+                Event("To hold your head steady.", partial(player.stamina.__iadd__, 1)),
+                Event("To smile at people.", partial(player.presence.__iadd__, 1)),
+                Event("To coo and babble.", partial(player.communication.__iadd__, 1)),
+                Event("To suck on your hand.", partial(player.dexterity.__iadd__, 1)),
+                Event(
+                    "To swing at dangling toys.", partial(player.quickness.__iadd__, 1)
+                ),
             ],
-            2 / 4: [
-                Event("You learned your name.",
-                      partial(player.change_name, "George")),
-                Event("You learned to put things in your mouth.",
-                      partial(player.perception.__iadd__, 1)),
-                Event("To sit and roll over.",
-                      partial(player.strength.__iadd__, 1)),
-                Event("To cry in different ways.",
-                      partial(player.communication.__iadd__, 1)),
-                Event("To reach for things.",
-                      partial(player.dexterity.__iadd__, 1)),
-                Event("To crawl.",
-                      partial(player.quickness.__iadd__, 1)),
+            2
+            / 4: [
+                Event("You learned your name.", partial(player.change_name, "George")),
+                Event(
+                    "You learned to put things in your mouth.",
+                    partial(player.perception.__iadd__, 1),
+                ),
+                Event("To sit and roll over.", partial(player.strength.__iadd__, 1)),
+                Event(
+                    "To cry in different ways.",
+                    partial(player.communication.__iadd__, 1),
+                ),
+                Event("To reach for things.", partial(player.dexterity.__iadd__, 1)),
+                Event("To crawl.", partial(player.quickness.__iadd__, 1)),
             ],
-            3 / 4: [
-                Event("You learned to fear strangers.",
-                      partial(player.intelligence.__iadd__, 1)),
-                Event("To look for hidden things",
-                      partial(player.perception.__iadd__, 1)),
-                Event("To stand while holding on to something",
-                      partial(player.strength.__iadd__, 1)),
-                Event("To understand simple sentences, make many sounds and "
-                      "simple gestures",
-                      partial(player.communication.__iadd__, 1)),
-                Event("To pick things up and move them between your hands",
-                      partial(player.dexterity.__iadd__, 1)),
+            3
+            / 4: [
+                Event(
+                    "You learned to fear strangers.",
+                    partial(player.intelligence.__iadd__, 1),
+                ),
+                Event(
+                    "To look for hidden things", partial(player.perception.__iadd__, 1)
+                ),
+                Event(
+                    "To stand while holding on to something",
+                    partial(player.strength.__iadd__, 1),
+                ),
+                Event(
+                    "To understand simple sentences, make many sounds and "
+                    "simple gestures",
+                    partial(player.communication.__iadd__, 1),
+                ),
+                Event(
+                    "To pick things up and move them between your hands",
+                    partial(player.dexterity.__iadd__, 1),
+                ),
             ],
-            1: [
-                Event("You turn 1! Not that you can count")
-            ]
+            1: [Event("You turn 1! Not that you can count")],
         }
 
     def __getitem__(self, item):
@@ -139,12 +161,13 @@ hermetic_magus = Virtue(
     name="Hermetic Magus",
     description=page["#hermetic_magus_description"][0].textContent,
     type="Social Status",
-    cost=0)
+    cost=0,
+)
 the_gift = Virtue(
     name="The Gift",
     description=page["#the_gift_description"][0].textContent,
     type="Special",
-    cost=0
+    cost=0,
 )
 
 
@@ -188,9 +211,11 @@ def custom_character(_):
 
 
 def advance(_):
-    player.age.value += .25
-    player.text = [EventText(event.flavor, event.effect().effect_text)
-                   for event in player.childhood[player.age.value]]
+    player.age.value += 0.25
+    player.text = [
+        EventText(event.flavor, event.effect().effect_text)
+        for event in player.childhood[player.age.value]
+    ]
     update_state()
 
 
@@ -208,48 +233,71 @@ class CharacterCreation:
         self.house_selection = div(
             p("Which Hermetic House do you hail from?"),
             p(
-                button("Bjornaer",
-                       type="submit",
-                       classes=["btn", "btn-secondary"],
-                       on_click=self.house_choice),
-                page["#bjornaer_description"][0].textContent
+                button(
+                    "Bjornaer",
+                    type="submit",
+                    classes=["btn", "btn-secondary"],
+                    on_click=self.house_choice,
+                ),
+                page["#bjornaer_description"][0].textContent,
             ),
             p(
-                button("Bonisagus",
-                       type="submit",
-                       classes=["btn", "btn-secondary"],
-                       on_click=self.house_choice),
-                page["#bonisagus_description"][0].textContent
+                button(
+                    "Bonisagus",
+                    type="submit",
+                    classes=["btn", "btn-secondary"],
+                    on_click=self.house_choice,
+                ),
+                page["#bonisagus_description"][0].textContent,
             ),
             p(
-                button("Criamon",
-                       type="submit",
-                       classes=["btn", "btn-secondary"],
-                       on_click=self.house_choice),
-                page["#criamon_description"][0].textContent
+                button(
+                    "Criamon",
+                    type="submit",
+                    classes=["btn", "btn-secondary"],
+                    on_click=self.house_choice,
+                ),
+                page["#criamon_description"][0].textContent,
             ),
-            classes=["col"])
-        self.virtues_and_flaws_selection = form(
-            "What are your virtues and flaws?",
-            div(
-                input_(type="radio", classes=["form-check-input"],
-                       checked=True, disabled=True),
-                label(f"{hermetic_magus.name}:",
-                      hermetic_magus.description,
-                      em(f"{hermetic_magus.type}. "),
-                      strong(f"Cost: {hermetic_magus.cost}"),
-                      classes=["form-check-radio"]),
-                classes=["form-check"]),
-            div(
-                input_(type="radio", classes=["form-check-input"],
-                       checked=True, disabled=True),
-                label(f"{the_gift.name}:",
-                      the_gift.description,
-                      em(f"{the_gift.type}. "),
-                      strong(f"Cost: {the_gift.cost}"),
-                      classes=["form-check-radio"]),
-                classes=["form-check"])
+            classes=["col"],
+        )
+        self.virtues_and_flaws_selection = (
+            form(
+                "What are your virtues and flaws?",
+                div(
+                    input_(
+                        type="radio",
+                        classes=["form-check-input"],
+                        checked=True,
+                        disabled=True,
+                    ),
+                    label(
+                        f"{hermetic_magus.name}:",
+                        hermetic_magus.description,
+                        em(f"{hermetic_magus.type}. "),
+                        strong(f"Cost: {hermetic_magus.cost}"),
+                        classes=["form-check-radio"],
+                    ),
+                    classes=["form-check"],
+                ),
+                div(
+                    input_(
+                        type="radio",
+                        classes=["form-check-input"],
+                        checked=True,
+                        disabled=True,
+                    ),
+                    label(
+                        f"{the_gift.name}:",
+                        the_gift.description,
+                        em(f"{the_gift.type}. "),
+                        strong(f"Cost: {the_gift.cost}"),
+                        classes=["form-check-radio"],
+                    ),
+                    classes=["form-check"],
+                ),
             ),
+        )
 
     def start(self):
         main.append(self.house_selection)
@@ -266,14 +314,15 @@ class CharacterCreation:
 
 page["#loading"][0].remove()
 main = page["main"][0]
-start_button = button("Start",
-                      type="submit",
-                      classes=["btn", "btn-secondary"],
-                      on_click=start)
-custom_character_button = button("Custom Character",
-                                 type="submit",
-                                 classes=["btn", "btn-secondary"],
-                                 on_click=custom_character)
+start_button = button(
+    "Start", type="submit", classes=["btn", "btn-secondary"], on_click=start
+)
+custom_character_button = button(
+    "Custom Character",
+    type="submit",
+    classes=["btn", "btn-secondary"],
+    on_click=custom_character,
+)
 
 events = div()
 
@@ -294,20 +343,29 @@ def new_board():
                     tr(td(player.dexterity.element)),
                     tr(td(player.quickness.element)),
                 ),
-                classes=["table", "table-striped", "table-borderless",
-                         "table-hover", "table-sm"]
+                classes=[
+                    "table",
+                    "table-striped",
+                    "table-borderless",
+                    "table-hover",
+                    "table-sm",
+                ],
             ),
-            classes=["col-4", "col-md-2"]
+            classes=["col-4", "col-md-2"],
         ),
         div(
-            button("Next Season",
-                   type="submit",
-                   classes=["btn", "btn-secondary"],
-                   on_click=advance),
-            button("Restart",
-                   type="submit",
-                   classes=["btn", "btn-secondary"],
-                   on_click=restart),
+            button(
+                "Next Season",
+                type="submit",
+                classes=["btn", "btn-secondary"],
+                on_click=advance,
+            ),
+            button(
+                "Restart",
+                type="submit",
+                classes=["btn", "btn-secondary"],
+                on_click=restart,
+            ),
             table(
                 tbody(
                     tr(
@@ -316,12 +374,12 @@ def new_board():
                         td(h5(player.house.element)),
                     )
                 ),
-                classes=["table", "table-borderless", "table-sm"]
+                classes=["table", "table-borderless", "table-sm"],
             ),
             events,
-            classes=["col"]
+            classes=["col"],
         ),
-        classes=["row", "col-md-8", "offset-md-2"]
+        classes=["row", "col-md-8", "offset-md-2"],
     )
 
 

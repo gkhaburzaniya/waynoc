@@ -10,51 +10,51 @@ from .models import Person, Movie
 class MovieniteTest(TestCase):
 
     def test_person_str(self):
-        george = Person.objects.create(name='George')
-        self.assertEqual(str(george), 'George')
+        george = Person.objects.create(name="George")
+        self.assertEqual(str(george), "George")
 
     def test_movie_str(self):
-        hackers = Movie.objects.create(title='Hackers', date=date(2019, 6, 3))
-        self.assertEqual(str(hackers), 'Hackers: 2019-06-03')
+        hackers = Movie.objects.create(title="Hackers", date=date(2019, 6, 3))
+        self.assertEqual(str(hackers), "Hackers: 2019-06-03")
 
     def test_person_url(self):
-        george = Person.objects.create(name='George')
-        self.assertEqual(george.get_absolute_url(), '/person_detail/1/')
+        george = Person.objects.create(name="George")
+        self.assertEqual(george.get_absolute_url(), "/person_detail/1/")
 
     def test_delete_persons_last_movie(self):
-        trey = Person.objects.create(name='Trey')
-        george = Person.objects.create(name='George')
-        movie = Movie.objects.create(title='Hackers', picker=trey)
+        trey = Person.objects.create(name="Trey")
+        george = Person.objects.create(name="George")
+        movie = Movie.objects.create(title="Hackers", picker=trey)
         movie.attendees.set([trey, george])
         movie.delete()
         self.assertEqual(len(Person.objects.all()), 0)
 
     def test_add_person(self):
-        trey = Person.objects.create(name='Trey')
+        trey = Person.objects.create(name="Trey")
         data = QueryDict(mutable=True)
-        data.update({
-            'title': 'Hackers',
-            'date': '2019-05-16',
-            'picker': str(trey.id)})
-        data.setlist('attendees', [trey.name, 'George'])
+        data.update({"title": "Hackers", "date": "2019-05-16", "picker": str(trey.id)})
+        data.setlist("attendees", [trey.name, "George"])
         movie = MovieForm(data=data)
         if movie.is_valid():
             movie.save()
-        self.assertTrue(Person.objects.get(name='George'))
+        self.assertTrue(Person.objects.get(name="George"))
 
     def test_remove_attendee(self):
-        trey = Person.objects.create(name='Trey')
-        george = Person.objects.create(name='George')
-        hackers = Movie.objects.create(title='Hackers', picker=trey)
+        trey = Person.objects.create(name="Trey")
+        george = Person.objects.create(name="George")
+        hackers = Movie.objects.create(title="Hackers", picker=trey)
         hackers.attendees.set([trey, george])
-        tremors = Movie.objects.create(title='Tremors', picker=george)
+        tremors = Movie.objects.create(title="Tremors", picker=george)
         tremors.attendees.set([trey, george])
         data = QueryDict(mutable=True)
-        data.update({
-            'title': hackers.title,
-            'date': str(hackers.date),
-            'picker': str(hackers.picker_id)})
-        data['attendees'] = trey.name
+        data.update(
+            {
+                "title": hackers.title,
+                "date": str(hackers.date),
+                "picker": str(hackers.picker_id),
+            }
+        )
+        data["attendees"] = trey.name
         trey_score = Person.objects.get(id=trey.id).score
         george_score = Person.objects.get(id=george.id).score
         self.assertEqual(trey_score, george_score)
