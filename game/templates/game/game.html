@@ -2,43 +2,48 @@
 {% load static %}
 
 {% block head %}
-  <script
-      type="module"
-      src="{% static '.pyscript/node_modules/@pyscript/core/dist/core.js' %}">
-  </script>
-  <script type="py" src="{% static 'game/main.py' %}"></script>
+    <script
+            type="module"
+            src="{% static '.pyscript/node_modules/@pyscript/core/dist/core.js' %}">
+    </script>
+    <script type="py" src="{% static 'game/main.py' %}"></script>
 {% endblock %}
 
 {% block content %}
-  <h1 id="loading">LOADING ...</h1>
-  <p id="bjornaer_description" hidden>
-    Magi of Bjornaer (BYORE-nayr) concern themselves primarily with beasts
-    and the animalistic side of human nature. Because of this emphasis in
-    their training, each Bjornaer magus can take the form of an animal,
-    known as his "heartbeast." Understanding the heartbeast in particular and
-    animals in general is considered more important than Hermetic magic by
-    many in this House.
-  </p>
-  <p id="bonisagus_description" hidden>
-    Bonisagus (BOH-nee-SAH-goos) invented the Hermetic theory of magic, and his
-    student, the maga Trianoma, masterminded the formation of the Order. House
-    Bonisagus is a true lineage; all of its members can trace their heritage
-    back to Bonisagus himself.
-  </p>
-  <p id="criamon_description" hidden>
-    The very secretive House is known for its obscure philosophy, its disdain
-    for simple power, and its members' habit of marking their faces and bodies
-    with arcane symbols. Followers of Criamon(KREE-ah-mone) are an enigmatic
-    and otherorldly group of magi, generally having little interest in the
-    politics of the Order.
-  </p>
-  <p id="hermetic_magus_description" hidden>
-    You are a member of the Order of Hermes.
-  </p>
-  <p id="the_gift_description" hidden>
-    You have the ability to work magic.
-  </p>
-  <p id="heartbeast_description" hidden>
-    You have been initiated into the Outer Mystery of the Heartbeast, and thus are a member of House Bjornaer.
-  </p>
+    <h1 id="loading">LOADING ...</h1>
+    <p id="bjornaer_description" hidden>
+        Magi of Bjornaer (BYORE-nayr) concern themselves primarily with beasts and the
+        animalistic side of human nature. Because of this emphasis in their training,
+        each Bjornaer magus can take the form of an animal, known as his "heartbeast."
+        Understanding the heartbeast in particular and animals in general is considered
+        more important than Hermetic magic by many in this House.
+    </p>
+    <p id="bonisagus_description" hidden>
+        Bonisagus (BOH-nee-SAH-goos) invented the Hermetic theory of magic, and his 
+        student, the maga Trianoma, masterminded the formation of the Order. House
+        Bonisagus is a true lineage; all of its members can trace their heritage back to
+        Bonisagus himself.
+    </p>
+    <p id="criamon_description" hidden>
+        The very secretive House is known for its obscure philosophy, its disdain for
+        simple power, and its members' habit of marking their faces and bodies with
+        arcane symbols. Followers of Criamon(KREE-ah-mone) are an enigmatic and
+        otherworldly group of magi, generally having little interest in the politics of
+        the Order.
+    </p>
+    <p id="hermetic_magus_description" hidden>
+        You are a member of the Order of Hermes.
+    </p>
+    <p id="the_gift_description" hidden>
+        You have the ability to work magic.
+    </p>
+    <p id="heartbeast_description" hidden>
+        You have been initiated into the Outer Mystery of the Heartbeast, and thus are a
+        member of House Bjornaer.
+    </p>
+    <p id="puissant_magic_theory_description" hidden>
+        You are particularly adept with one Ability, and add 2 to its value whenever you
+        use it. Note that you do not, in general, use an Ability when learning it,
+        teaching it, or writing about it.
+    </p>
 {% endblock %}

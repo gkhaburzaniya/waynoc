@@ -152,14 +152,17 @@ class Virtue:
     description: str
     type: str
     cost: int
+    checked: bool = False
+    disabled: bool = False
+    hidden: bool = False
 
     def __post_init__(self):
         self.label = div(
             input_(
                 type="radio",
                 classes=["form-check-input"],
-                checked=True,
-                disabled=True,
+                checked=self.checked,
+                disabled=self.disabled,
             ),
             label(
                 f"{self.name}:",
@@ -168,6 +171,7 @@ class Virtue:
                 strong(f"Cost: {self.cost}"),
                 classes=["form-check-radio"],
             ),
+            hidden=self.hidden,
             classes=["form-check"])
 
 
@@ -176,19 +180,31 @@ hermetic_magus = Virtue(
     description=page["#hermetic_magus_description"][0].textContent,
     type="Social Status",
     cost=0,
+    checked=True,
+    disabled=True,
 )
 the_gift = Virtue(
     name="The Gift",
     description=page["#the_gift_description"][0].textContent,
     type="Special",
     cost=0,
+    checked=True,
+    disabled=True,
 )
-
 heartbeast = Virtue(
     name="Heartbeast",
     description=page["#heartbeast_description"][0].textContent,
     type="Hermetic",
-    cost=0,
+    cost=1,
+    checked=True,
+    disabled=True,
+    hidden=True
+)
+puissant_magic_theory = Virtue(
+    name="Puissant Magic Theory",
+    description=page["#puissant_magic_theory_description"][0].textContent,
+    type="General",
+    cost=1,
 )
 
 
@@ -299,6 +315,7 @@ class CharacterCreation:
                 hermetic_magus.label,
                 the_gift.label,
                 heartbeast.label,
+                puissant_magic_theory.label,
             ),
         )
 
@@ -308,8 +325,11 @@ class CharacterCreation:
     def house_choice(self, e):
         player.house.value = e.target.textContent
         self.house_selection.remove()
-        if player.house.value != "Bjornaer":
-            heartbeast.label.hidden = True
+        if player.house.value == "Bjornaer":
+            heartbeast.label.hidden = False
+        elif player.house.value == "Bonisagus":
+            puissant_magic_theory.label["input"].checked = True
+            puissant_magic_theory.label["input"].disabled = True
         main.append(self.virtues_and_flaws_selection)
 
     def virtues_and_flaws_choice(self, e):
