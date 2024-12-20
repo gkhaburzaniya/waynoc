@@ -98,7 +98,7 @@ class OnScreenValue:
     def __init__(self, short_name, value):
         self.short_name = short_name
         self._value = span(value)
-        self.element = span(f"{self.short_name}:", self._value)
+        self.element = span(f"{self.short_name}: ", self._value)
 
     @property
     def value(self):
@@ -146,12 +146,29 @@ class Characteristic(OnScreenValue):
         return self
 
 
-@dataclass(frozen=True)
+@dataclass
 class Virtue:
     name: str
     description: str
     type: str
     cost: int
+
+    def __post_init__(self):
+        self.label = div(
+            input_(
+                type="radio",
+                classes=["form-check-input"],
+                checked=True,
+                disabled=True,
+            ),
+            label(
+                f"{self.name}:",
+                self.description,
+                em(f"{self.type}. "),
+                strong(f"Cost: {self.cost}"),
+                classes=["form-check-radio"],
+            ),
+            classes=["form-check"])
 
 
 hermetic_magus = Virtue(
@@ -231,25 +248,6 @@ def restart(_):
     start(_)
 
 
-heartbeast_selection = div(
-    input_(
-        type="radio",
-        classes=["form-check-input"],
-        checked=True,
-        disabled=True,
-    ),
-    label(
-        f"{heartbeast.name}:",
-        heartbeast.description,
-        em(f"{heartbeast.type}. "),
-        strong(f"Cost: {heartbeast.cost}"),
-        classes=["form-check-radio"],
-    ),
-    classes=["form-check"],
-    hidden=True
-)
-
-
 class CharacterCreation:
     virtue_points_available = OnScreenValue("Virtue Points Available", 0)
     virtue_points_from_flaws = OnScreenValue("Points From Flaws (Max 10)", 0)
@@ -298,39 +296,9 @@ class CharacterCreation:
                 classes=["table", "table-borderless", "table-sm"],
             ),
             form(
-                div(
-                    input_(
-                        type="radio",
-                        classes=["form-check-input"],
-                        checked=True,
-                        disabled=True,
-                    ),
-                    label(
-                        f"{hermetic_magus.name}:",
-                        hermetic_magus.description,
-                        em(f"{hermetic_magus.type}. "),
-                        strong(f"Cost: {hermetic_magus.cost}"),
-                        classes=["form-check-radio"],
-                    ),
-                    classes=["form-check"],
-                ),
-                div(
-                    input_(
-                        type="radio",
-                        classes=["form-check-input"],
-                        checked=True,
-                        disabled=True,
-                    ),
-                    label(
-                        f"{the_gift.name}:",
-                        the_gift.description,
-                        em(f"{the_gift.type}. "),
-                        strong(f"Cost: {the_gift.cost}"),
-                        classes=["form-check-radio"],
-                    ),
-                    classes=["form-check"],
-                ),
-                heartbeast_selection,
+                hermetic_magus.label,
+                the_gift.label,
+                heartbeast.label,
             ),
         )
 
@@ -340,8 +308,8 @@ class CharacterCreation:
     def house_choice(self, e):
         player.house.value = e.target.textContent
         self.house_selection.remove()
-        if player.house.value == "Bjornaer":
-            heartbeast_selection.hidden = False
+        if player.house.value != "Bjornaer":
+            heartbeast.label.hidden = True
         main.append(self.virtues_and_flaws_selection)
 
     def virtues_and_flaws_choice(self, e):
