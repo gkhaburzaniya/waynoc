@@ -149,7 +149,6 @@ class Characteristic(OnScreenValue):
 @dataclass
 class Virtue:
     name: str
-    description: str
     type: str
     cost: int
     checked: bool = False
@@ -157,6 +156,7 @@ class Virtue:
     hidden: bool = False
 
     def __post_init__(self):
+        self.description = virtue_descriptions[self.name]
         self.label = div(
             input_(
                 type="radio",
@@ -175,9 +175,13 @@ class Virtue:
             classes=["form-check"])
 
 
+house_descriptions = {description.id: description.textContent for description in
+                      page["#house_descriptions"][0]["p"]}
+virtue_descriptions = {description.id: description.textContent for description in
+                       page["#virtue_descriptions"][0]["p"]}
+
 hermetic_magus = Virtue(
     name="Hermetic Magus",
-    description=page["#hermetic_magus_description"][0].textContent,
     type="Social Status",
     cost=0,
     checked=True,
@@ -185,7 +189,6 @@ hermetic_magus = Virtue(
 )
 the_gift = Virtue(
     name="The Gift",
-    description=page["#the_gift_description"][0].textContent,
     type="Special",
     cost=0,
     checked=True,
@@ -193,7 +196,6 @@ the_gift = Virtue(
 )
 heartbeast = Virtue(
     name="Heartbeast",
-    description=page["#heartbeast_description"][0].textContent,
     type="Hermetic",
     cost=1,
     checked=True,
@@ -202,7 +204,6 @@ heartbeast = Virtue(
 )
 puissant_magic_theory = Virtue(
     name="Puissant Magic Theory",
-    description=page["#puissant_magic_theory_description"][0].textContent,
     type="General",
     cost=1,
 )
@@ -271,33 +272,15 @@ class CharacterCreation:
     def __init__(self):
         self.house_selection = div(
             p("Which Hermetic House do you hail from?"),
-            p(
+            *(p(
                 button(
-                    "Bjornaer",
+                    name,
                     type="submit",
                     classes=["btn", "btn-secondary"],
                     on_click=self.house_choice,
                 ),
-                page["#bjornaer_description"][0].textContent,
-            ),
-            p(
-                button(
-                    "Bonisagus",
-                    type="submit",
-                    classes=["btn", "btn-secondary"],
-                    on_click=self.house_choice,
-                ),
-                page["#bonisagus_description"][0].textContent,
-            ),
-            p(
-                button(
-                    "Criamon",
-                    type="submit",
-                    classes=["btn", "btn-secondary"],
-                    on_click=self.house_choice,
-                ),
-                page["#criamon_description"][0].textContent,
-            ),
+                description,
+            ) for name, description in house_descriptions.items()),
             classes=["col"],
         )
         self.virtues_and_flaws_selection = div(
