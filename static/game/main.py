@@ -294,7 +294,7 @@ class CharacterCreation:
             ) for name, description in house_descriptions.items()),
             classes=["col"],
         )
-        self.virtues_and_flaws_selection = div(
+        self.virtue_selection = div(
             "What are your virtues and flaws?",
             table(
                 tbody(
@@ -324,10 +324,10 @@ class CharacterCreation:
         elif player.house.value == "Bonisagus":
             puissant_magic_theory.label["input"].checked = True
             puissant_magic_theory.label["input"].disabled = True
-        main.append(self.virtues_and_flaws_selection)
+        main.append(self.virtue_selection)
 
-    def virtues_and_flaws_choice(self, e):
-        self.virtues_and_flaws_selection.remove()
+    def virtue_choice(self, e):
+        self.virtue_selection.remove()
         start(e)
 
 
