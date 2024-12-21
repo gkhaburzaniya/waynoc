@@ -109,6 +109,16 @@ class OnScreenValue:
         self._value.textContent = value
 
 
+class OnScreenInt(OnScreenValue):
+    @property
+    def value(self):
+        return int(self._value.textContent)
+
+    @value.setter
+    def value(self, value):
+        self._value.textContent = value
+
+
 class Age(OnScreenValue):
     @property
     def value(self):
@@ -122,15 +132,7 @@ class Age(OnScreenValue):
         return self.value + other
 
 
-class Characteristic(OnScreenValue):
-
-    @property
-    def value(self):
-        return int(self._value.textContent)
-
-    @value.setter
-    def value(self, value):
-        self._value.textContent = value
+class Characteristic(OnScreenInt):
 
     def _change_characteristic(self, change):
         if change > 0:
@@ -163,6 +165,7 @@ class Virtue:
                 classes=["form-check-input"],
                 checked=self.checked,
                 disabled=self.disabled,
+                on_click=self.click,
             ),
             label(
                 f"{self.name}:",
@@ -171,6 +174,16 @@ class Virtue:
                 strong(f"Cost: {self.cost}"),
             ),
             hidden=self.hidden)
+
+    def click(self, e):
+        if e.target.checked:
+            CharacterCreation.virtue_points_available.value -= self.cost
+            if self.cost < 0:
+                CharacterCreation.virtue_points_from_flaws.value -= self.cost
+        else:
+            CharacterCreation.virtue_points_available.value += self.cost
+            if self.cost < 0:
+                CharacterCreation.virtue_points_from_flaws.value += self.cost
 
 
 house_descriptions = {description.id: description.textContent for description in
@@ -264,8 +277,8 @@ def restart(_):
 
 
 class CharacterCreation:
-    virtue_points_available = OnScreenValue("Virtue Points Available", 0)
-    virtue_points_from_flaws = OnScreenValue("Points From Flaws (Max 10)", 0)
+    virtue_points_available = OnScreenInt("Virtue Points Available", 0)
+    virtue_points_from_flaws = OnScreenInt("Points From Flaws (Max 10)", 0)
 
     def __init__(self):
         self.house_selection = div(
