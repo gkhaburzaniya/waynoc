@@ -213,6 +213,14 @@ heartbeast = Virtue(
     disabled=True,
     hidden=True
 )
+the_enigma = Virtue(
+    name="The Enigma",
+    type="Hermetic",
+    cost=1,
+    checked=True,
+    disabled=True,
+    hidden=True
+)
 puissant_magic_theory = Virtue(
     name="Puissant Magic Theory",
     type="General",
@@ -309,6 +317,7 @@ class CharacterCreation:
                 hermetic_magus.label,
                 the_gift.label,
                 heartbeast.label,
+                the_enigma.label,
                 puissant_magic_theory.label,
             ),
         )
@@ -324,6 +333,8 @@ class CharacterCreation:
         elif player.house.value == "Bonisagus":
             puissant_magic_theory.label["input"].checked = True
             puissant_magic_theory.label["input"].disabled = True
+        elif player.house.value == "Criamon":
+            the_enigma.label.hidden = False
         main.append(self.virtue_selection)
 
     def virtue_choice(self, e):
