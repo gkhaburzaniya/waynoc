@@ -159,7 +159,7 @@ class Virtue:
         self.description = virtue_descriptions[self.name]
         self.label = div(
             input_(
-                type="radio",
+                type="checkbox",
                 classes=["form-check-input"],
                 checked=self.checked,
                 disabled=self.disabled,
@@ -169,10 +169,8 @@ class Virtue:
                 self.description,
                 em(f"{self.type}. "),
                 strong(f"Cost: {self.cost}"),
-                classes=["form-check-radio"],
             ),
-            hidden=self.hidden,
-            classes=["form-check"])
+            hidden=self.hidden)
 
 
 house_descriptions = {description.id: description.textContent for description in
