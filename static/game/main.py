@@ -17,6 +17,8 @@ from pyscript.web import (
     strong,
     form,
     em,
+    select,
+    option,
 )
 
 
@@ -156,6 +158,7 @@ class Virtue:
     checked: bool = False
     disabled: bool = False
     hidden: bool = False
+    multi: bool = False
 
     def __post_init__(self):
         self.description = virtue_descriptions[self.name]
@@ -166,6 +169,11 @@ class Virtue:
                 checked=self.checked,
                 disabled=self.disabled,
                 on_click=self.click,
+            ),
+            select(
+                option("Magic Theory"),
+                option("Intrigue"),
+                hidden=not self.multi
             ),
             label(
                 f"{self.name}:",
@@ -221,10 +229,11 @@ the_enigma = Virtue(
     disabled=True,
     hidden=True
 )
-puissant_magic_theory = Virtue(
-    name="Puissant Magic Theory",
+puissant_ability = Virtue(
+    name="Puissant (Ability)",
     type="General",
     cost=1,
+    multi=True,
 )
 
 
@@ -318,7 +327,7 @@ class CharacterCreation:
                 the_gift.label,
                 heartbeast.label,
                 the_enigma.label,
-                puissant_magic_theory.label,
+                puissant_ability.label,
             ),
         )
 
@@ -331,8 +340,9 @@ class CharacterCreation:
         if player.house.value == "Bjornaer":
             heartbeast.label.hidden = False
         elif player.house.value == "Bonisagus":
-            puissant_magic_theory.label["input"].checked = True
-            puissant_magic_theory.label["input"].disabled = True
+            puissant_ability.label["input"].checked = True
+            puissant_ability.label["input"].disabled = True
+            puissant_ability.label["select"].disabled = True
         elif player.house.value == "Criamon":
             the_enigma.label.hidden = False
         main.append(self.virtue_selection)
