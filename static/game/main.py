@@ -252,6 +252,11 @@ puissant_ability = Virtue(
     ],
 )
 
+elemental_magic = Virtue(name="Elemental Magic", type="Hermetic", cost=3)
+flawless_magic = Virtue(name="Flawless Magic", type="Hermetic", cost=3)
+flexible_formulaic_magic = Virtue(name="Flexible Formulaic Magic", type="Hermetic",
+                                  cost=3)
+
 
 class Player:
 
@@ -348,6 +353,9 @@ class CharacterCreation:
                 heartbeast.label,
                 the_enigma.label,
                 puissant_ability.label,
+                elemental_magic.label,
+                flawless_magic.label,
+                flexible_formulaic_magic.label,
             ),
         )
 
