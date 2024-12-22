@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from functools import partial
 
 from pyscript.web import (
@@ -158,9 +158,14 @@ class Virtue:
     checked: bool = False
     disabled: bool = False
     hidden: bool = False
-    multi: bool = False
+    options: list = field(default_factory=list)
 
     def __post_init__(self):
+        self.selection = select(
+            *self.options,
+            hidden=False if self.options else True,
+        )
+
         self.description = virtue_descriptions[self.name]
         self.label = div(
             input_(
@@ -170,18 +175,15 @@ class Virtue:
                 disabled=self.disabled,
                 on_click=self.click,
             ),
-            select(
-                option("Magic Theory"),
-                option("Intrigue"),
-                hidden=not self.multi
-            ),
+            self.selection,
             label(
                 f"{self.name}:",
                 self.description,
                 em(f"{self.type}. "),
                 strong(f"Cost: {self.cost}"),
             ),
-            hidden=self.hidden)
+            hidden=self.hidden,
+        )
 
     def click(self, e):
         if e.target.checked:
@@ -194,10 +196,14 @@ class Virtue:
                 CharacterCreation.virtue_points_from_flaws.value += self.cost
 
 
-house_descriptions = {description.id: description.textContent for description in
-                      page["#house_descriptions"][0]["p"]}
-virtue_descriptions = {description.id: description.textContent for description in
-                       page["#virtue_descriptions"][0]["p"]}
+house_descriptions = {
+    description.id: description.textContent
+    for description in page["#house_descriptions"][0]["p"]
+}
+virtue_descriptions = {
+    description.id: description.textContent
+    for description in page["#virtue_descriptions"][0]["p"]
+}
 
 hermetic_magus = Virtue(
     name="Hermetic Magus",
@@ -214,26 +220,24 @@ the_gift = Virtue(
     disabled=True,
 )
 heartbeast = Virtue(
-    name="Heartbeast",
-    type="Hermetic",
-    cost=1,
-    checked=True,
-    disabled=True,
-    hidden=True
+    name="Heartbeast", type="Hermetic", cost=1, checked=True, disabled=True, hidden=True
 )
 the_enigma = Virtue(
-    name="The Enigma",
-    type="Hermetic",
-    cost=1,
-    checked=True,
-    disabled=True,
-    hidden=True
+    name="The Enigma", type="Hermetic", cost=1, checked=True, disabled=True, hidden=True
 )
+
+heartbeast_option = option("Heartbeast", hidden=True)
+the_enigma_option = option("The Enigma", hidden=True)
 puissant_ability = Virtue(
-    name="Puissant (Ability)",
+    name="Puissant Ability",
     type="General",
     cost=1,
-    multi=True,
+    options=[
+        option("Magic Theory"),
+        option("Intrigue"),
+        heartbeast_option,
+        the_enigma_option,
+    ],
 )
 
 
@@ -300,15 +304,18 @@ class CharacterCreation:
     def __init__(self):
         self.house_selection = div(
             p("Which Hermetic House do you hail from?"),
-            *(p(
-                button(
-                    name,
-                    type="submit",
-                    classes=["btn", "btn-secondary"],
-                    on_click=self.house_choice,
-                ),
-                description,
-            ) for name, description in house_descriptions.items()),
+            *(
+                p(
+                    button(
+                        name,
+                        type="submit",
+                        classes=["btn", "btn-secondary"],
+                        on_click=self.house_choice,
+                    ),
+                    description,
+                )
+                for name, description in house_descriptions.items()
+            ),
             classes=["col"],
         )
         self.virtue_selection = div(
@@ -339,12 +346,14 @@ class CharacterCreation:
         self.house_selection.remove()
         if player.house.value == "Bjornaer":
             heartbeast.label.hidden = False
+            heartbeast_option.hidden = False
         elif player.house.value == "Bonisagus":
             puissant_ability.label["input"].checked = True
             puissant_ability.label["input"].disabled = True
             puissant_ability.label["select"].disabled = True
         elif player.house.value == "Criamon":
             the_enigma.label.hidden = False
+            the_enigma_option.hidden = False
         main.append(self.virtue_selection)
 
     def virtue_choice(self, e):
