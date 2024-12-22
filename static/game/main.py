@@ -151,6 +151,15 @@ class Characteristic(OnScreenInt):
 
 
 @dataclass
+class House:
+    name: str
+    description: str
+
+    def __post_init__(self):
+        self.selection = select(hidden=True)
+
+
+@dataclass
 class Virtue:
     name: str
     type: str
@@ -196,10 +205,13 @@ class Virtue:
                 CharacterCreation.virtue_points_from_flaws.value += self.cost
 
 
-house_descriptions = {
-    description.id: description.textContent
+houses = {
+    description.id: House(description.id, description.textContent)
     for description in page["#house_descriptions"][0]["p"]
 }
+
+houses["Bonisagus"].selection = select(option("Researcher"), option("Politician"))
+
 virtue_descriptions = {
     description.id: description.textContent
     for description in page["#virtue_descriptions"][0]["p"]
@@ -312,9 +324,10 @@ class CharacterCreation:
                         classes=["btn", "btn-secondary"],
                         on_click=self.house_choice,
                     ),
-                    description,
+                    house.selection,
+                    house.description,
                 )
-                for name, description in house_descriptions.items()
+                for name, house in houses.items()
             ),
             classes=["col"],
         )
@@ -349,6 +362,10 @@ class CharacterCreation:
             heartbeast_option.hidden = False
         elif player.house.value == "Bonisagus":
             puissant_ability.label["input"].checked = True
+            if houses["Bonisagus"].selection.value == "Researcher":
+                puissant_ability.label["select"].value = "Magic Theory"
+            else:
+                puissant_ability.label["select"].value = "Intrigue"
             puissant_ability.label["input"].disabled = True
             puissant_ability.label["select"].disabled = True
         elif player.house.value == "Criamon":
