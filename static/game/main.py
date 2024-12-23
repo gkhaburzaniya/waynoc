@@ -257,10 +257,27 @@ puissant_ability = Virtue(
     ],
 )
 
-elemental_magic = Virtue(name="Elemental Magic", type="Hermetic", cost=3, only_one="Major Hermetic Virtue")
-flawless_magic = Virtue(name="Flawless Magic", type="Hermetic", cost=3, only_one="Major Hermetic Virtue")
+elemental_magic = Virtue(name="Elemental Magic", type="Hermetic", cost=3,
+                         only_one="Major Hermetic Virtue")
+flawless_magic = Virtue(name="Flawless Magic", type="Hermetic", cost=3,
+                        only_one="Major Hermetic Virtue")
 flexible_formulaic_magic = Virtue(name="Flexible Formulaic Magic", type="Hermetic",
                                   cost=3, only_one="Major Hermetic Virtue")
+
+deficient_technique = Virtue(
+    name="Deficient Technique",
+    type="Hermetic",
+    cost=-3,
+    options=[
+        option("Creo"),
+        option("Intellego"),
+        option("Muto"),
+        option("Perdo"),
+        option("Rego"),
+    ]
+)
+careless_sorcerer = Virtue(name="Careless Sorcerer", type="Hermetic", cost=-1)
+clumsy_magic = Virtue(name="Clumsy Magic", type="Hermetic", cost=-1)
 
 
 class Player:
@@ -361,6 +378,9 @@ class CharacterCreation:
                 elemental_magic.label,
                 flawless_magic.label,
                 flexible_formulaic_magic.label,
+                deficient_technique.label,
+                careless_sorcerer.label,
+                clumsy_magic.label,
             ),
         )
 
