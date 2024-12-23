@@ -177,22 +177,19 @@ class Virtue:
         )
 
         self.description = virtue_descriptions[self.name]
-        self.label = div(
-            input_(
-                name=self.only_one,
-                type="checkbox",
-                classes=["form-check-input"],
-                checked=self.checked,
-                disabled=self.disabled,
-                on_click=self.click,
-            ),
+        self.label = label(input_(
+            name=self.only_one,
+            type="checkbox",
+            classes=["form-check-input"],
+            checked=self.checked,
+            disabled=self.disabled,
+            on_click=self.click,
+        ),
             self.selection,
-            label(
-                f"{self.name}:",
-                self.description,
-                em(f"{self.type}. "),
-                strong(f"Cost: {self.cost}"),
-            ),
+            f"{self.name}:",
+            self.description,
+            em(f"{self.type}. "),
+            strong(f"Cost: {self.cost}"),
             hidden=self.hidden,
         )
 
