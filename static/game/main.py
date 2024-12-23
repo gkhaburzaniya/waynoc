@@ -168,6 +168,7 @@ class Virtue:
     disabled: bool = False
     hidden: bool = False
     options: list = field(default_factory=list)
+    only_one: str = ""
 
     def __post_init__(self):
         self.selection = select(
@@ -178,6 +179,7 @@ class Virtue:
         self.description = virtue_descriptions[self.name]
         self.label = div(
             input_(
+                name=self.only_one,
                 type="checkbox",
                 classes=["form-check-input"],
                 checked=self.checked,
@@ -203,6 +205,9 @@ class Virtue:
             CharacterCreation.virtue_points_available.value += self.cost
             if self.cost < 0:
                 CharacterCreation.virtue_points_from_flaws.value += self.cost
+        if self.only_one:
+            page[f"[name='{self.only_one}']"].disabled = e.target.checked
+            e.target.disabled = False
 
 
 houses = {
@@ -252,10 +257,10 @@ puissant_ability = Virtue(
     ],
 )
 
-elemental_magic = Virtue(name="Elemental Magic", type="Hermetic", cost=3)
-flawless_magic = Virtue(name="Flawless Magic", type="Hermetic", cost=3)
+elemental_magic = Virtue(name="Elemental Magic", type="Hermetic", cost=3, only_one="Major Hermetic Virtue")
+flawless_magic = Virtue(name="Flawless Magic", type="Hermetic", cost=3, only_one="Major Hermetic Virtue")
 flexible_formulaic_magic = Virtue(name="Flexible Formulaic Magic", type="Hermetic",
-                                  cost=3)
+                                  cost=3, only_one="Major Hermetic Virtue")
 
 
 class Player:
