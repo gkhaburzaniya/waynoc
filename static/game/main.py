@@ -177,20 +177,23 @@ class Virtue:
         )
 
         self.description = virtue_descriptions[self.name]
-        self.label = label(input_(
-            name=self.only_one,
-            type="checkbox",
-            classes=["form-check-input"],
-            checked=self.checked,
-            disabled=self.disabled,
-            on_click=self.click,
-        ),
-            self.selection,
-            f"{self.name}:",
-            self.description,
-            em(f"{self.type}. "),
-            strong(f"Cost: {self.cost}"),
-            hidden=self.hidden,
+        self.label = div(
+            label(
+                input_(
+                    name=self.only_one,
+                    type="checkbox",
+                    classes=["form-check-input"],
+                    checked=self.checked,
+                    disabled=self.disabled,
+                    on_click=self.click,
+                ),
+                self.selection,
+                f"{self.name}:",
+                self.description,
+                em(f"{self.type}. "),
+                strong(f"Cost: {self.cost}"),
+            ),
+            hidden=self.hidden
         )
 
     def click(self, e):
@@ -240,26 +243,45 @@ the_enigma = Virtue(
     name="The Enigma", type="Hermetic", cost=1, checked=True, disabled=True, hidden=True
 )
 
+# TODO How about not this copypasta
 heartbeast_option = option("Heartbeast", hidden=True)
+heartbeast_option_2 = option("Heartbeast", hidden=True)
 the_enigma_option = option("The Enigma", hidden=True)
+the_enigma_option_2 = option("The Enigma", hidden=True)
+ability_options = [
+    option("Magic Theory"),
+    option("Intrigue"),
+    heartbeast_option,
+    the_enigma_option,
+]
+ability_options_2 = [
+    option("Magic Theory"),
+    option("Intrigue"),
+    heartbeast_option,
+    the_enigma_option,
+]
+affinity_with_ability = Virtue(
+    name="Affinity with Ability", type="General", cost=1, options=ability_options
+)
 puissant_ability = Virtue(
     name="Puissant Ability",
     type="General",
     cost=1,
-    options=[
-        option("Magic Theory"),
-        option("Intrigue"),
-        heartbeast_option,
-        the_enigma_option,
-    ],
+    options=ability_options_2,
 )
 
-elemental_magic = Virtue(name="Elemental Magic", type="Hermetic", cost=3,
-                         only_one="Major Hermetic Virtue")
-flawless_magic = Virtue(name="Flawless Magic", type="Hermetic", cost=3,
-                        only_one="Major Hermetic Virtue")
-flexible_formulaic_magic = Virtue(name="Flexible Formulaic Magic", type="Hermetic",
-                                  cost=3, only_one="Major Hermetic Virtue")
+elemental_magic = Virtue(
+    name="Elemental Magic", type="Hermetic", cost=3, only_one="Major Hermetic Virtue"
+)
+flawless_magic = Virtue(
+    name="Flawless Magic", type="Hermetic", cost=3, only_one="Major Hermetic Virtue"
+)
+flexible_formulaic_magic = Virtue(
+    name="Flexible Formulaic Magic",
+    type="Hermetic",
+    cost=3,
+    only_one="Major Hermetic Virtue",
+)
 
 deficient_technique = Virtue(
     name="Deficient Technique",
@@ -271,10 +293,43 @@ deficient_technique = Virtue(
         option("Muto"),
         option("Perdo"),
         option("Rego"),
-    ]
+    ],
+)
+deft_form = Virtue(
+    name="Deft Form",
+    type="Hermetic",
+    cost=1,
+    options=[
+        option("Animal"),
+        option("Aquam"),
+        option("Auram"),
+        option("Corpus"),
+        option("Herbam"),
+        option("Ignem"),
+        option("Imaginem"),
+        option("Mentem"),
+        option("Terram"),
+        option("Vim"),
+    ],
 )
 careless_sorcerer = Virtue(name="Careless Sorcerer", type="Hermetic", cost=-1)
 clumsy_magic = Virtue(name="Clumsy Magic", type="Hermetic", cost=-1)
+adept_laboratory_student = Virtue(
+    name="Adept Laboratory Student", type="Hermetic", cost=1
+)
+giant_blood = Virtue(name="Giant Blood", type="General", cost=3)
+ways_of_the_land = Virtue(
+    name="Ways of the Land",
+    type="General",
+    cost=3,
+    options=[option("Forest"), option("Mountain"), option("Steppe"), option("Town")],
+)
+martial_block = Virtue(name="Martial Block", type="General", cost=-1)
+afflicted_tongue = Virtue(name="Afflicted Tongue", type="General", cost=-1)
+arthritis = Virtue(name="Arthritis", type="General", cost=-1)
+blind = Virtue(name="Blind", type="General", cost=-3)
+crippled = Virtue(name="Crippled", type="General", cost=-3)
+deaf = Virtue(name="Deaf", type="General", cost=-3)
 
 
 class Player:
@@ -378,6 +433,17 @@ class CharacterCreation:
                 deficient_technique.label,
                 careless_sorcerer.label,
                 clumsy_magic.label,
+                adept_laboratory_student.label,
+                affinity_with_ability.label,
+                deft_form.label,
+                giant_blood.label,
+                ways_of_the_land.label,
+                martial_block.label,
+                afflicted_tongue.label,
+                arthritis.label,
+                blind.label,
+                crippled.label,
+                deaf.label,
             ),
         )
 
