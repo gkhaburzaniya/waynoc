@@ -159,6 +159,29 @@ class House:
         self.selection = select(hidden=True)
 
 
+class Ability:
+
+    def __init__(self, name, hidden=False):
+        self.option_locations = []
+        self.name = name
+        self.hidden = hidden
+
+    def option(self):
+        new_option = option(self.name, hidden=self.hidden)
+        self.option_locations.append(new_option)
+        return new_option
+
+    @property
+    def hidden(self):
+        return self._hidden
+
+    @hidden.setter
+    def hidden(self, value):
+        self._hidden = value
+        for option_loc in self.option_locations:
+            option_loc.hidden = value
+
+
 @dataclass
 class Virtue:
     name: str
@@ -236,38 +259,32 @@ the_gift = Virtue(
     checked=True,
     disabled=True,
 )
-heartbeast = Virtue(
+heartbeast_virtue = Virtue(
     name="Heartbeast", type="Hermetic", cost=1, checked=True, disabled=True, hidden=True
 )
-the_enigma = Virtue(
+the_enigma_virtue = Virtue(
     name="The Enigma", type="Hermetic", cost=1, checked=True, disabled=True, hidden=True
 )
 
-# TODO How about not this copypasta
-heartbeast_option = option("Heartbeast", hidden=True)
-heartbeast_option_2 = option("Heartbeast", hidden=True)
-the_enigma_option = option("The Enigma", hidden=True)
-the_enigma_option_2 = option("The Enigma", hidden=True)
-ability_options = [
-    option("Magic Theory"),
-    option("Intrigue"),
-    heartbeast_option,
-    the_enigma_option,
-]
-ability_options_2 = [
-    option("Magic Theory"),
-    option("Intrigue"),
-    heartbeast_option,
-    the_enigma_option,
-]
+magic_theory = Ability("Magic Theory")
+intrigue = Ability("Intrigue")
+heartbeast_ability = Ability("Heartbeast", hidden=True)
+the_enigma_ability = Ability("The Enigma", hidden=True)
+
+
+def ability_options():
+    return [magic_theory.option(), intrigue.option(), heartbeast_ability.option(),
+            the_enigma_ability.option()]
+
+
 affinity_with_ability = Virtue(
-    name="Affinity with Ability", type="General", cost=1, options=ability_options
+    name="Affinity with Ability", type="General", cost=1, options=ability_options()
 )
 puissant_ability = Virtue(
     name="Puissant Ability",
     type="General",
     cost=1,
-    options=ability_options_2,
+    options=ability_options(),
 )
 
 elemental_magic = Virtue(
@@ -424,8 +441,8 @@ class CharacterCreation:
             form(
                 hermetic_magus.label,
                 the_gift.label,
-                heartbeast.label,
-                the_enigma.label,
+                heartbeast_virtue.label,
+                the_enigma_virtue.label,
                 puissant_ability.label,
                 elemental_magic.label,
                 flawless_magic.label,
@@ -454,8 +471,8 @@ class CharacterCreation:
         player.house.value = e.target.textContent
         self.house_selection.remove()
         if player.house.value == "Bjornaer":
-            heartbeast.label.hidden = False
-            heartbeast_option.hidden = False
+            heartbeast_virtue.label.hidden = False
+            heartbeast_ability.hidden = False
         elif player.house.value == "Bonisagus":
             puissant_ability.label["input"].checked = True
             if houses["Bonisagus"].selection.value == "Researcher":
@@ -465,8 +482,8 @@ class CharacterCreation:
             puissant_ability.label["input"].disabled = True
             puissant_ability.label["select"].disabled = True
         elif player.house.value == "Criamon":
-            the_enigma.label.hidden = False
-            the_enigma_option.hidden = False
+            the_enigma_virtue.label.hidden = False
+            the_enigma_ability.hidden = False
         main.append(self.virtue_selection)
 
     def virtue_choice(self, e):
