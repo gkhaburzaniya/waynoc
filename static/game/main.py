@@ -182,6 +182,21 @@ class Ability:
             option_loc.hidden = value
 
 
+magic_theory = Ability("Magic Theory")
+intrigue = Ability("Intrigue")
+heartbeast_ability = Ability("Heartbeast", hidden=True)
+the_enigma_ability = Ability("The Enigma", hidden=True)
+
+
+def ability_options():
+    return [
+        magic_theory.option(),
+        intrigue.option(),
+        heartbeast_ability.option(),
+        the_enigma_ability.option(),
+    ]
+
+
 @dataclass
 class Virtue:
     name: str
@@ -262,20 +277,6 @@ the_enigma_virtue = Virtue(
     name="The Enigma", type="Hermetic", cost=1, disabled=True, hidden=True
 )
 
-magic_theory = Ability("Magic Theory")
-intrigue = Ability("Intrigue")
-heartbeast_ability = Ability("Heartbeast", hidden=True)
-the_enigma_ability = Ability("The Enigma", hidden=True)
-
-
-def ability_options():
-    return [
-        magic_theory.option(),
-        intrigue.option(),
-        heartbeast_ability.option(),
-        the_enigma_ability.option(),
-    ]
-
 
 affinity_with_ability = Virtue(
     name="Affinity with Ability", type="General", cost=1, options=ability_options()
@@ -348,6 +349,14 @@ blind = Virtue(name="Blind", type="General", cost=-3)
 crippled = Virtue(name="Crippled", type="General", cost=-3)
 deaf = Virtue(name="Deaf", type="General", cost=-3)
 
+all_virtues = [
+    hermetic_magus, heartbeast_virtue, the_enigma_virtue, affinity_with_ability,
+    puissant_ability, elemental_magic, flawless_magic, flexible_formulaic_magic,
+    deficient_technique, deft_form, clumsy_magic, careless_sorcerer,
+    adept_laboratory_student, giant_blood, ways_of_the_land, martial_block,
+    afflicted_tongue, arthritis, blind, crippled, deaf
+]
+
 
 class Player:
 
@@ -364,7 +373,7 @@ class Player:
         self.name = OnScreenValue("Name", "")
         self.age = Age("Age", 0)
         self.house = OnScreenValue("House", "")
-        self.virtues = [hermetic_magus, the_gift]
+        self.virtues = []
         self.flaws = []
 
         self.text = [EventText("You are born", "")]
@@ -439,6 +448,12 @@ class CharacterCreation:
                 classes=["table", "table-borderless", "table-sm"],
             ),
             form(
+                button(
+                    "Next",
+                    type="submit",
+                    classes=["btn", "btn-secondary"],
+                    on_click=self.virtue_choice,
+                ),
                 hermetic_magus.label,
                 the_gift.label,
                 heartbeast_virtue.label,
@@ -492,6 +507,8 @@ class CharacterCreation:
 
     def virtue_choice(self, e):
         self.virtue_selection.remove()
+        player.virtues = [virtue for virtue in all_virtues
+                          if virtue.label["input"][0].checked]
         start(e)
 
 
