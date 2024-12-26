@@ -187,7 +187,6 @@ class Virtue:
     name: str
     type: str
     cost: int
-    checked: bool = False
     disabled: bool = False
     hidden: bool = False
     options: list = field(default_factory=list)
@@ -206,7 +205,6 @@ class Virtue:
                     name=self.only_one,
                     type="checkbox",
                     classes=["form-check-input"],
-                    checked=self.checked,
                     disabled=self.disabled,
                     on_click=self.click,
                 ),
@@ -216,7 +214,7 @@ class Virtue:
                 em(f"{self.type}. "),
                 strong(f"Cost: {self.cost}"),
             ),
-            hidden=self.hidden
+            hidden=self.hidden,
         )
 
     def click(self, e):
@@ -249,21 +247,19 @@ hermetic_magus = Virtue(
     name="Hermetic Magus",
     type="Social Status",
     cost=0,
-    checked=True,
     disabled=True,
 )
 the_gift = Virtue(
     name="The Gift",
     type="Special",
     cost=0,
-    checked=True,
     disabled=True,
 )
 heartbeast_virtue = Virtue(
-    name="Heartbeast", type="Hermetic", cost=1, checked=True, disabled=True, hidden=True
+    name="Heartbeast", type="Hermetic", cost=1, disabled=True, hidden=True
 )
 the_enigma_virtue = Virtue(
-    name="The Enigma", type="Hermetic", cost=1, checked=True, disabled=True, hidden=True
+    name="The Enigma", type="Hermetic", cost=1, disabled=True, hidden=True
 )
 
 magic_theory = Ability("Magic Theory")
@@ -273,8 +269,12 @@ the_enigma_ability = Ability("The Enigma", hidden=True)
 
 
 def ability_options():
-    return [magic_theory.option(), intrigue.option(), heartbeast_ability.option(),
-            the_enigma_ability.option()]
+    return [
+        magic_theory.option(),
+        intrigue.option(),
+        heartbeast_ability.option(),
+        the_enigma_ability.option(),
+    ]
 
 
 affinity_with_ability = Virtue(
@@ -470,7 +470,10 @@ class CharacterCreation:
     def house_choice(self, e):
         player.house.value = e.target.textContent
         self.house_selection.remove()
+        the_gift.label["input"].checked = True
+        hermetic_magus.label["input"].checked = True
         if player.house.value == "Bjornaer":
+            heartbeast_virtue.label["input"].checked = True
             heartbeast_virtue.label.hidden = False
             heartbeast_ability.hidden = False
         elif player.house.value == "Bonisagus":
@@ -482,6 +485,7 @@ class CharacterCreation:
             puissant_ability.label["input"].disabled = True
             puissant_ability.label["select"].disabled = True
         elif player.house.value == "Criamon":
+            the_enigma_virtue.label["input"].checked = True
             the_enigma_virtue.label.hidden = False
             the_enigma_ability.hidden = False
         main.append(self.virtue_selection)
