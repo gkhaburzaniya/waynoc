@@ -277,7 +277,6 @@ the_enigma_virtue = Virtue(
     name="The Enigma", type="Hermetic", cost=1, disabled=True, hidden=True
 )
 
-
 affinity_with_ability = Virtue(
     name="Affinity with Ability", type="General", cost=1, options=ability_options()
 )
@@ -350,11 +349,11 @@ crippled = Virtue(name="Crippled", type="General", cost=-3)
 deaf = Virtue(name="Deaf", type="General", cost=-3)
 
 all_virtues = [
-    hermetic_magus, heartbeast_virtue, the_enigma_virtue, affinity_with_ability,
-    puissant_ability, elemental_magic, flawless_magic, flexible_formulaic_magic,
-    deficient_technique, deft_form, clumsy_magic, careless_sorcerer,
-    adept_laboratory_student, giant_blood, ways_of_the_land, martial_block,
-    afflicted_tongue, arthritis, blind, crippled, deaf
+    hermetic_magus, the_gift, heartbeast_virtue, the_enigma_virtue,
+    affinity_with_ability, puissant_ability, elemental_magic, flawless_magic,
+    flexible_formulaic_magic, deficient_technique, deft_form, clumsy_magic,
+    careless_sorcerer, adept_laboratory_student, giant_blood, ways_of_the_land,
+    martial_block, afflicted_tongue, arthritis, blind, crippled, deaf
 ]
 
 
@@ -454,28 +453,7 @@ class CharacterCreation:
                     classes=["btn", "btn-secondary"],
                     on_click=self.virtue_choice,
                 ),
-                hermetic_magus.label,
-                the_gift.label,
-                heartbeast_virtue.label,
-                the_enigma_virtue.label,
-                puissant_ability.label,
-                elemental_magic.label,
-                flawless_magic.label,
-                flexible_formulaic_magic.label,
-                deficient_technique.label,
-                careless_sorcerer.label,
-                clumsy_magic.label,
-                adept_laboratory_student.label,
-                affinity_with_ability.label,
-                deft_form.label,
-                giant_blood.label,
-                ways_of_the_land.label,
-                martial_block.label,
-                afflicted_tongue.label,
-                arthritis.label,
-                blind.label,
-                crippled.label,
-                deaf.label,
+                *(virtue.label for virtue in all_virtues)
             ),
         )
 
