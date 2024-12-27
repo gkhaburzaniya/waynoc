@@ -100,7 +100,6 @@ class OnScreenValue:
     def __init__(self, short_name, value):
         self.short_name = short_name
         self._value = span(value)
-        self.element = span(f"{self.short_name}: ", self._value)
 
     @property
     def value(self):
@@ -109,6 +108,11 @@ class OnScreenValue:
     @value.setter
     def value(self, value):
         self._value.textContent = value
+
+    @property
+    def element(self):
+        self._value = span(self.value)
+        return span(f"{self.short_name}: ", self._value)
 
 
 class OnScreenInt(OnScreenValue):
@@ -349,25 +353,42 @@ crippled = Virtue(name="Crippled", type="General", cost=-3)
 deaf = Virtue(name="Deaf", type="General", cost=-3)
 
 all_virtues = [
-    hermetic_magus, the_gift, heartbeast_virtue, the_enigma_virtue,
-    affinity_with_ability, puissant_ability, elemental_magic, flawless_magic,
-    flexible_formulaic_magic, deficient_technique, deft_form, clumsy_magic,
-    careless_sorcerer, adept_laboratory_student, giant_blood, ways_of_the_land,
-    martial_block, afflicted_tongue, arthritis, blind, crippled, deaf
+    hermetic_magus,
+    the_gift,
+    heartbeast_virtue,
+    the_enigma_virtue,
+    affinity_with_ability,
+    puissant_ability,
+    elemental_magic,
+    flawless_magic,
+    flexible_formulaic_magic,
+    deficient_technique,
+    deft_form,
+    clumsy_magic,
+    careless_sorcerer,
+    adept_laboratory_student,
+    giant_blood,
+    ways_of_the_land,
+    martial_block,
+    afflicted_tongue,
+    arthritis,
+    blind,
+    crippled,
+    deaf,
 ]
 
 
 class Player:
 
     def __init__(self):
-        self.intelligence = Characteristic("Int", -10)
-        self.perception = Characteristic("Per", -10)
-        self.strength = Characteristic("Str", -10)
-        self.stamina = Characteristic("Sta", -10)
-        self.presence = Characteristic("Prs", -10)
-        self.communication = Characteristic("Com", -10)
-        self.dexterity = Characteristic("Dex", -10)
-        self.quickness = Characteristic("Qik", -10)
+        self.intelligence = Characteristic("Int", 0)
+        self.perception = Characteristic("Per", 0)
+        self.strength = Characteristic("Str", 0)
+        self.stamina = Characteristic("Sta", 0)
+        self.presence = Characteristic("Prs", 0)
+        self.communication = Characteristic("Com", 0)
+        self.dexterity = Characteristic("Dex", 0)
+        self.quickness = Characteristic("Qik", 0)
 
         self.name = OnScreenValue("Name", "")
         self.age = Age("Age", 0)
@@ -376,7 +397,6 @@ class Player:
         self.flaws = []
 
         self.text = [EventText("You are born", "")]
-        self.childhood = Childhood(self)
 
     def change_name(self, new_name):
         self.name.value = new_name
@@ -387,7 +407,8 @@ class Player:
 def start(_):
     start_button.remove()
     custom_character_button.remove()
-    main.append(board)
+    player.childhood = Childhood(player)
+    main.append(new_board())
 
 
 def custom_character(_):
@@ -453,7 +474,18 @@ class CharacterCreation:
                     classes=["btn", "btn-secondary"],
                     on_click=self.virtue_choice,
                 ),
-                *(virtue.label for virtue in all_virtues)
+                *(virtue.label for virtue in all_virtues),
+            ),
+        )
+
+        self.characteristic_selection = div(
+            "What are your characteristics?",
+            characteristic_display(),
+            button(
+                "Next",
+                type="submit",
+                classes=["btn", "btn-secondary"],
+                on_click=self.characteristic_choice,
             ),
         )
 
@@ -485,8 +517,13 @@ class CharacterCreation:
 
     def virtue_choice(self, e):
         self.virtue_selection.remove()
-        player.virtues = [virtue for virtue in all_virtues
-                          if virtue.label["input"][0].checked]
+        player.virtues = [
+            virtue for virtue in all_virtues if virtue.label["input"][0].checked
+        ]
+        main.append(self.characteristic_selection)
+
+    def characteristic_choice(self, e):
+        self.characteristic_selection.remove()
         start(e)
 
 
@@ -507,30 +544,34 @@ events = div()
 player = Player()
 
 
+def characteristic_display():
+    return div(
+        table(
+            tbody(
+                tr(td(player.intelligence.element)),
+                tr(td(player.perception.element)),
+                tr(td(player.strength.element)),
+                tr(td(player.stamina.element)),
+                tr(td(player.presence.element)),
+                tr(td(player.communication.element)),
+                tr(td(player.dexterity.element)),
+                tr(td(player.quickness.element)),
+            ),
+            classes=[
+                "table",
+                "table-striped",
+                "table-borderless",
+                "table-hover",
+                "table-sm",
+            ],
+        ),
+        classes=["col-4", "col-md-2"],
+    )
+
+
 def new_board():
     return div(
-        div(
-            table(
-                tbody(
-                    tr(td(player.intelligence.element)),
-                    tr(td(player.perception.element)),
-                    tr(td(player.strength.element)),
-                    tr(td(player.stamina.element)),
-                    tr(td(player.presence.element)),
-                    tr(td(player.communication.element)),
-                    tr(td(player.dexterity.element)),
-                    tr(td(player.quickness.element)),
-                ),
-                classes=[
-                    "table",
-                    "table-striped",
-                    "table-borderless",
-                    "table-hover",
-                    "table-sm",
-                ],
-            ),
-            classes=["col-4", "col-md-2"],
-        ),
+        characteristic_display(),
         div(
             button(
                 "Next Season",
@@ -560,8 +601,6 @@ def new_board():
         classes=["row", "col-md-8", "offset-md-2"],
     )
 
-
-board = new_board()
 
 main.append(start_button, custom_character_button)
 
