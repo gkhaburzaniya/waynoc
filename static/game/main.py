@@ -19,6 +19,7 @@ from pyscript.web import (
     em,
     select,
     option,
+    kbd,
 )
 
 
@@ -112,7 +113,9 @@ class OnScreenValue:
     @property
     def element(self):
         self._value = span(self.value)
-        return span(f"{self.short_name}: ", self._value)
+        return span(
+            f" {self.short_name}: ", self._value, " ", classes=["text-monospace"]
+        )
 
 
 class OnScreenInt(OnScreenValue):
@@ -521,6 +524,7 @@ class CharacterCreation:
             virtue for virtue in all_virtues if virtue.label["input"][0].checked
         ]
         main.append(self.characteristic_selection)
+        self.characteristic_selection["button"].hidden = False
 
     def characteristic_choice(self, e):
         self.characteristic_selection.remove()
@@ -548,14 +552,94 @@ def characteristic_display():
     return div(
         table(
             tbody(
-                tr(td(player.intelligence.element)),
-                tr(td(player.perception.element)),
-                tr(td(player.strength.element)),
-                tr(td(player.stamina.element)),
-                tr(td(player.presence.element)),
-                tr(td(player.communication.element)),
-                tr(td(player.dexterity.element)),
-                tr(td(player.quickness.element)),
+                tr(
+                    td(
+                        button(
+                            "-", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
+                        ),
+                        player.intelligence.element,
+                        button(
+                            "+", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
+                        ),
+                    )
+                ),
+                tr(
+                    td(
+                        button(
+                            "-", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
+                        ),
+                        player.perception.element,
+                        button(
+                            "+", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
+                        ),
+                    )
+                ),
+                tr(
+                    td(
+                        button(
+                            "-", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
+                        ),
+                        player.strength.element,
+                        button(
+                            "+", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
+                        ),
+                    )
+                ),
+                tr(
+                    td(
+                        button(
+                            "-", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
+                        ),
+                        player.stamina.element,
+                        button(
+                            "+", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
+                        ),
+                    )
+                ),
+                tr(
+                    td(
+                        button(
+                            "-", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
+                        ),
+                        player.presence.element,
+                        button(
+                            "+", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
+                        ),
+                    )
+                ),
+                tr(
+                    td(
+                        button(
+                            "-", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
+                        ),
+                        player.communication.element,
+                        button(
+                            "+", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
+                        ),
+                    )
+                ),
+                tr(
+                    td(
+                        button(
+                            "-", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
+                        ),
+                        player.dexterity.element,
+                        button(
+                            "+", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
+                        ),
+                    )
+                ),
+                tr(
+                    td(
+                        button(
+                            "-", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
+                        ),
+                        player.quickness.element,
+                        button(
+                            "+", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
+                        ),
+                    )
+                ),
             ),
             classes=[
                 "table",
