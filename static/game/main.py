@@ -15,11 +15,9 @@ from pyscript.web import (
     h5,
     label,
     strong,
-    form,
     em,
     select,
     option,
-    kbd,
 )
 
 
@@ -440,7 +438,10 @@ def restart(_):
 class CharacterCreation:
     virtue_points_available = OnScreenInt("Virtue Points Available", 0)
     virtue_points_from_flaws = OnScreenInt("Points From Flaws (Max 10)", 0)
-    characteristic_points_available = OnScreenInt("Points", 7)
+    characteristic_points = OnScreenInt("Points", 7)
+    name_input = input_()
+    language_input = input_()
+    birthplace_input = input_()
 
     def __init__(self):
         self.house_selection = div(
@@ -471,7 +472,7 @@ class CharacterCreation:
                 ),
                 classes=["table", "table-borderless", "table-sm"],
             ),
-            form(
+            div(
                 button(
                     "Next",
                     type="submit",
@@ -488,7 +489,7 @@ class CharacterCreation:
                     tr(
                         td(
                             h5(
-                                CharacterCreation.characteristic_points_available.element
+                                CharacterCreation.characteristic_points.element
                             )
                         ),
                     )
@@ -503,6 +504,26 @@ class CharacterCreation:
                 classes=["btn", "btn-secondary"],
                 on_click=self.characteristic_choice,
             ),
+        )
+        self.early_childhood_selection = div(
+            div(
+                "What is your name?",
+                CharacterCreation.name_input,
+            ),
+            div(
+                "What is your primary language?",
+                CharacterCreation.language_input
+            ),
+            div(
+                "Where did you grow up?",
+                CharacterCreation.birthplace_input,
+            ),
+            button(
+                "Next",
+                type="submit",
+                classes=["btn", "btn-secondary"],
+                on_click=self.early_childhood_choice,
+            )
         )
 
     def start(self):
@@ -531,7 +552,7 @@ class CharacterCreation:
             the_enigma_ability.hidden = False
         main.append(self.virtue_selection)
 
-    def virtue_choice(self, e):
+    def virtue_choice(self, _):
         self.virtue_selection.remove()
         player.virtues = [
             virtue for virtue in all_virtues if virtue.label["input"][0].checked
@@ -539,8 +560,15 @@ class CharacterCreation:
         main.append(self.characteristic_selection)
         self.characteristic_selection["button"].hidden = False
 
-    def characteristic_choice(self, e):
+    def characteristic_choice(self, _):
         self.characteristic_selection.remove()
+        main.append(self.early_childhood_selection)
+
+    def early_childhood_choice(self, e):
+        self.early_childhood_selection.remove()
+        player.name.value = CharacterCreation.name_input.value
+        player.language = CharacterCreation.language_input.value
+        player.birthplace = CharacterCreation.birthplace_input.value
         start(e)
 
 
@@ -565,28 +593,28 @@ def single_display(characteristic):
     def decrease_characteristic(_):
         characteristic.value -= 1
         if characteristic.value == 2:
-            CharacterCreation.characteristic_points_available.value += 3
+            CharacterCreation.characteristic_points.value += 3
             plus_button.disabled = False
         elif characteristic.value in {1, -2}:
-            CharacterCreation.characteristic_points_available.value += 2
+            CharacterCreation.characteristic_points.value += 2
         elif characteristic.value in {0, -1}:
-            CharacterCreation.characteristic_points_available.value += 1
+            CharacterCreation.characteristic_points.value += 1
         elif characteristic.value == -3:
             minus_button.disabled = True
-            CharacterCreation.characteristic_points_available.value += 3
+            CharacterCreation.characteristic_points.value += 3
 
     def increase_characteristic(_):
         characteristic.value += 1
         if characteristic.value == -2:
-            CharacterCreation.characteristic_points_available.value -= 3
+            CharacterCreation.characteristic_points.value -= 3
             minus_button.disabled = False
         elif characteristic.value in {-1, 2}:
-            CharacterCreation.characteristic_points_available.value -= 2
+            CharacterCreation.characteristic_points.value -= 2
         elif characteristic.value in {0, 1}:
-            CharacterCreation.characteristic_points_available.value -= 1
+            CharacterCreation.characteristic_points.value -= 1
         elif characteristic.value == 3:
             plus_button.disabled = True
-            CharacterCreation.characteristic_points_available.value -= 3
+            CharacterCreation.characteristic_points.value -= 3
 
     minus_button = button(
         "-",
