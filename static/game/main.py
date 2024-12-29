@@ -548,98 +548,35 @@ events = div()
 player = Player()
 
 
+def single_display(characteristic):
+
+    return tr(
+        td(
+            button(
+                "-", hidden=True, classes=["btn", "btn-secondary", "btn-sm"],
+                onclick=lambda _: characteristic.__iadd__(-1)
+            ),
+            characteristic.element,
+            button(
+                "+", hidden=True, classes=["btn", "btn-secondary", "btn-sm"],
+                onclick=lambda _: characteristic.__iadd__(1)
+            ),
+        )
+    )
+
+
 def characteristic_display():
     return div(
         table(
             tbody(
-                tr(
-                    td(
-                        button(
-                            "-", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
-                        ),
-                        player.intelligence.element,
-                        button(
-                            "+", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
-                        ),
-                    )
-                ),
-                tr(
-                    td(
-                        button(
-                            "-", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
-                        ),
-                        player.perception.element,
-                        button(
-                            "+", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
-                        ),
-                    )
-                ),
-                tr(
-                    td(
-                        button(
-                            "-", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
-                        ),
-                        player.strength.element,
-                        button(
-                            "+", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
-                        ),
-                    )
-                ),
-                tr(
-                    td(
-                        button(
-                            "-", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
-                        ),
-                        player.stamina.element,
-                        button(
-                            "+", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
-                        ),
-                    )
-                ),
-                tr(
-                    td(
-                        button(
-                            "-", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
-                        ),
-                        player.presence.element,
-                        button(
-                            "+", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
-                        ),
-                    )
-                ),
-                tr(
-                    td(
-                        button(
-                            "-", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
-                        ),
-                        player.communication.element,
-                        button(
-                            "+", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
-                        ),
-                    )
-                ),
-                tr(
-                    td(
-                        button(
-                            "-", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
-                        ),
-                        player.dexterity.element,
-                        button(
-                            "+", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
-                        ),
-                    )
-                ),
-                tr(
-                    td(
-                        button(
-                            "-", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
-                        ),
-                        player.quickness.element,
-                        button(
-                            "+", hidden=True, classes=["btn", "btn-secondary", "btn-sm"]
-                        ),
-                    )
-                ),
+                single_display(player.intelligence),
+                single_display(player.perception),
+                single_display(player.strength),
+                single_display(player.stamina),
+                single_display(player.presence),
+                single_display(player.communication),
+                single_display(player.dexterity),
+                single_display(player.quickness),
             ),
             classes=[
                 "table",
