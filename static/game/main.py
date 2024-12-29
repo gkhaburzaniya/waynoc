@@ -439,9 +439,24 @@ class CharacterCreation:
     virtue_points_available = OnScreenInt("Virtue Points Available", 0)
     virtue_points_from_flaws = OnScreenInt("Points From Flaws (Max 10)", 0)
     characteristic_points = OnScreenInt("Points", 7)
-    name_input = input_()
-    language_input = input_()
-    birthplace_input = input_()
+    name_input = div(input_())
+    language_input = div(
+        label(input_(type="radio", name="language", value="English"), "English"),
+        label(
+            input_(
+                type="radio",
+                name="language",
+                value="Mandarin",
+            ),
+            "Mandarin",
+        ),
+        label(input_(type="radio", name="language", value="Spanish"), "Spanish"),
+    )
+    birthplace_input = div(
+        label(input_(type="radio", name="birthplace", value="China"), "China"),
+        label(input_(type="radio", name="birthplace", value="USA"), "USA"),
+        label(input_(type="radio", name="birthplace", value="Mexico"), "Mexico"),
+    )
 
     def __init__(self):
         self.house_selection = div(
@@ -487,11 +502,7 @@ class CharacterCreation:
             table(
                 tbody(
                     tr(
-                        td(
-                            h5(
-                                CharacterCreation.characteristic_points.element
-                            )
-                        ),
+                        td(h5(CharacterCreation.characteristic_points.element)),
                     )
                 ),
                 classes=["table", "table-borderless", "table-sm"],
@@ -510,10 +521,7 @@ class CharacterCreation:
                 "What is your name?",
                 CharacterCreation.name_input,
             ),
-            div(
-                "What is your primary language?",
-                CharacterCreation.language_input
-            ),
+            div("What is your primary language?", CharacterCreation.language_input),
             div(
                 "Where did you grow up?",
                 CharacterCreation.birthplace_input,
@@ -523,7 +531,7 @@ class CharacterCreation:
                 type="submit",
                 classes=["btn", "btn-secondary"],
                 on_click=self.early_childhood_choice,
-            )
+            ),
         )
 
     def start(self):
@@ -566,9 +574,17 @@ class CharacterCreation:
 
     def early_childhood_choice(self, e):
         self.early_childhood_selection.remove()
-        player.name.value = CharacterCreation.name_input.value
-        player.language = CharacterCreation.language_input.value
-        player.birthplace = CharacterCreation.birthplace_input.value
+        player.name.value = CharacterCreation.name_input["input"][0].value
+        player.language = next(
+            language.value
+            for language in CharacterCreation.language_input["input"]
+            if language.checked
+        )
+        player.birthplace = next(
+            birthplace.value
+            for birthplace in CharacterCreation.birthplace_input["input"]
+            if birthplace.checked
+        )
         start(e)
 
 
