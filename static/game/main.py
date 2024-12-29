@@ -157,7 +157,6 @@ class Characteristic(OnScreenInt):
         return self
 
 
-
 @dataclass
 class House:
     name: str
@@ -487,8 +486,11 @@ class CharacterCreation:
             table(
                 tbody(
                     tr(
-                        td(h5(
-                            CharacterCreation.characteristic_points_available.element)),
+                        td(
+                            h5(
+                                CharacterCreation.characteristic_points_available.element
+                            )
+                        ),
                     )
                 ),
                 classes=["table", "table-borderless", "table-sm"],
@@ -560,40 +562,43 @@ player = Player()
 
 
 def single_display(characteristic):
-    def change_characteristic(e):
-        nonlocal characteristic
-        if e.target.textContent == "-":
-            characteristic.value -= 1
-            if characteristic.value == 2:
-                CharacterCreation.characteristic_points_available.value += 3
-                plus_button.disabled = False
-            elif characteristic.value in {1, -2}:
-                CharacterCreation.characteristic_points_available.value += 2
-            elif characteristic.value in {0, -1}:
-                CharacterCreation.characteristic_points_available.value += 1
-            elif characteristic.value == -3:
-                minus_button.disabled = True
-                CharacterCreation.characteristic_points_available.value += 3
-        else:
-            characteristic.value += 1
-            if characteristic.value == -2:
-                CharacterCreation.characteristic_points_available.value -= 3
-                minus_button.disabled = False
-            elif characteristic.value in {-1, 2}:
-                CharacterCreation.characteristic_points_available.value -= 2
-            elif characteristic.value in {0, 1}:
-                CharacterCreation.characteristic_points_available.value -= 1
-            elif characteristic.value == 3:
-                plus_button.disabled = True
-                CharacterCreation.characteristic_points_available.value -= 3
+    def decrease_characteristic(_):
+        characteristic.value -= 1
+        if characteristic.value == 2:
+            CharacterCreation.characteristic_points_available.value += 3
+            plus_button.disabled = False
+        elif characteristic.value in {1, -2}:
+            CharacterCreation.characteristic_points_available.value += 2
+        elif characteristic.value in {0, -1}:
+            CharacterCreation.characteristic_points_available.value += 1
+        elif characteristic.value == -3:
+            minus_button.disabled = True
+            CharacterCreation.characteristic_points_available.value += 3
+
+    def increase_characteristic(_):
+        characteristic.value += 1
+        if characteristic.value == -2:
+            CharacterCreation.characteristic_points_available.value -= 3
+            minus_button.disabled = False
+        elif characteristic.value in {-1, 2}:
+            CharacterCreation.characteristic_points_available.value -= 2
+        elif characteristic.value in {0, 1}:
+            CharacterCreation.characteristic_points_available.value -= 1
+        elif characteristic.value == 3:
+            plus_button.disabled = True
+            CharacterCreation.characteristic_points_available.value -= 3
 
     minus_button = button(
-        "-", hidden=True, classes=["btn", "btn-secondary", "btn-sm"],
-        onclick=change_characteristic,
+        "-",
+        hidden=True,
+        classes=["btn", "btn-secondary", "btn-sm"],
+        onclick=decrease_characteristic,
     )
     plus_button = button(
-        "+", hidden=True, classes=["btn", "btn-secondary", "btn-sm"],
-        onclick=change_characteristic,
+        "+",
+        hidden=True,
+        classes=["btn", "btn-secondary", "btn-sm"],
+        onclick=increase_characteristic,
     )
     return tr(
         td(
