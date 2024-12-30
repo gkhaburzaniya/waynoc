@@ -248,6 +248,31 @@ ability_list = [
     parma_magica,
 ]
 
+# Arts - Techniques
+creo = Ability("Creo")
+intellego = Ability("Intellego")
+muto = Ability("Muto")
+perdo = Ability("Perdo")
+rego = Ability("Rego")
+
+techinque_list = [creo, intellego, muto, perdo, rego]
+
+# Arts - Form
+
+animal = Ability("Animal")
+aquam = Ability("Aquam")
+auram = Ability("Auram")
+corpus = Ability("Corpus")
+herbam = Ability("Herbam")
+ignem = Ability("Ignem")
+imaginem = Ability("Imaginem")
+mentem = Ability("Mentem")
+terram = Ability("Terram")
+vim = Ability("Vim")
+
+form_list = [animal, aquam, auram, corpus, herbam, ignem, imaginem, mentem, terram, vim]
+
+arts_list = techinque_list + form_list
 
 def ability_options():
     return [ability.option() for ability in ability_list]
@@ -360,30 +385,13 @@ deficient_technique = Virtue(
     name="Deficient Technique",
     type="Hermetic",
     cost=-3,
-    options=[
-        option("Creo"),
-        option("Intellego"),
-        option("Muto"),
-        option("Perdo"),
-        option("Rego"),
-    ],
+    options=[technique.option() for technique in techinque_list],
 )
 deft_form = Virtue(
     name="Deft Form",
     type="Hermetic",
     cost=1,
-    options=[
-        option("Animal"),
-        option("Aquam"),
-        option("Auram"),
-        option("Corpus"),
-        option("Herbam"),
-        option("Ignem"),
-        option("Imaginem"),
-        option("Mentem"),
-        option("Terram"),
-        option("Vim"),
-    ],
+    options=[form.option() for form in form_list],
 )
 careless_sorcerer = Virtue(name="Careless Sorcerer", type="Hermetic", cost=-1)
 clumsy_magic = Virtue(name="Clumsy Magic", type="Hermetic", cost=-1)
@@ -689,6 +697,7 @@ class CharacterCreation:
 
         self.later_life_selection = div(
             self.intro_text,
+            div(self.next_button),
             table(
                 tbody(tr(td(h5(self.experience_points.element)))),
                 classes=["table", "table-borderless", "table-sm"],
@@ -706,7 +715,6 @@ class CharacterCreation:
                 ),
                 classes=["col-4", "col-md-3"],
             ),
-            self.next_button,
         )
         main.append(self.later_life_selection)
 
@@ -728,9 +736,23 @@ class CharacterCreation:
             "Magic Theory 3, Artes Liberales 4, and Latin 5"
         )
         self.next_button.onclick = self.apprenticeship_choice
+        self.later_life_selection.append(
+            div(
+                table(
+                    self.abilities_body,
+                    classes=[
+                        "table",
+                        "table-striped",
+                        "table-borderless",
+                        "table-hover",
+                        "table-sm",
+                    ],
+                ),
+                classes=["col-8", "col-md-3"],
+            ),
+        )
 
     def apprenticeship_choice(self, e):
-        parma_magica.hidden = False
         self.later_life_selection.remove()
         player.age.value += 15
         start(e)
@@ -832,6 +854,41 @@ def single_ability_display(ability):
         td(
             minus_button,
             ability.element,
+            plus_button,
+        )
+    )
+
+
+def single_art_display(art):
+    def decrease_art(_):
+        art.value -= 1
+        plus_button.disabled = False
+        CharacterCreation.experience_points.value += (art.value + 1)
+        if art.value == 0:
+            minus_button.disabled = True
+
+    def increase_art(_):
+        art.value += 1
+        minus_button.disabled = False
+        CharacterCreation.experience_points.value -= art.value
+        if art.value == 10:
+            plus_button.disabled = True
+
+    minus_button = button(
+        "-",
+        classes=["btn", "btn-secondary", "btn-sm"],
+        disabled=True,
+        onclick=decrease_art,
+    )
+    plus_button = button(
+        "+",
+        classes=["btn", "btn-secondary", "btn-sm", "float-right"],
+        onclick=increase_art,
+    )
+    return tr(
+        td(
+            minus_button,
+            art.element,
             plus_button,
         )
     )
