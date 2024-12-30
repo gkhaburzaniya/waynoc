@@ -274,6 +274,7 @@ form_list = [animal, aquam, auram, corpus, herbam, ignem, imaginem, mentem, terr
 
 arts_list = techinque_list + form_list
 
+
 def ability_options():
     return [ability.option() for ability in ability_list]
 
@@ -455,6 +456,7 @@ class Player:
         self.house = OnScreenValue("House", "")
         self.virtues = []
         self.abilities = {ability: ability for ability in ability_list}
+        self.arts = {art: art for art in arts_list}
 
         self.text = [EventText("You are born", "")]
 
@@ -695,13 +697,7 @@ class CharacterCreation:
         )
         self.intro_text = span("What did you learn between ages 5 and 10?")
 
-        self.later_life_selection = div(
-            self.intro_text,
-            div(self.next_button),
-            table(
-                tbody(tr(td(h5(self.experience_points.element)))),
-                classes=["table", "table-borderless", "table-sm"],
-            ),
+        self.tables_div = div(
             div(
                 table(
                     self.abilities_body,
@@ -715,6 +711,17 @@ class CharacterCreation:
                 ),
                 classes=["col-4", "col-md-3"],
             ),
+            classes=["row"],
+        )
+
+        self.later_life_selection = div(
+            self.intro_text,
+            div(self.next_button),
+            table(
+                tbody(tr(td(h5(self.experience_points.element)))),
+                classes=["table", "table-borderless", "table-sm"],
+            ),
+            self.tables_div,
         )
         main.append(self.later_life_selection)
 
@@ -736,10 +743,10 @@ class CharacterCreation:
             "Magic Theory 3, Artes Liberales 4, and Latin 5"
         )
         self.next_button.onclick = self.apprenticeship_choice
-        self.later_life_selection.append(
+        self.tables_div.append(
             div(
                 table(
-                    self.abilities_body,
+                    tbody(*(single_art_display(art) for art in arts_list)),
                     classes=[
                         "table",
                         "table-striped",
@@ -748,7 +755,7 @@ class CharacterCreation:
                         "table-sm",
                     ],
                 ),
-                classes=["col-8", "col-md-3"],
+                classes=["col-4", "col-md-3", "offset-md-3"],
             ),
         )
 
@@ -757,6 +764,7 @@ class CharacterCreation:
         player.age.value += 15
         start(e)
         main.append(div(ability_list))
+        main.append(div(arts_list))
 
 
 page["#loading"][0].remove()
@@ -863,7 +871,7 @@ def single_art_display(art):
     def decrease_art(_):
         art.value -= 1
         plus_button.disabled = False
-        CharacterCreation.experience_points.value += (art.value + 1)
+        CharacterCreation.experience_points.value += art.value + 1
         if art.value == 0:
             minus_button.disabled = True
 
