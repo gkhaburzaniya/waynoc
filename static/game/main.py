@@ -537,8 +537,8 @@ class CharacterCreation:
             table(
                 tbody(
                     tr(
-                        td(h5(CharacterCreation.virtue_points_available.element)),
-                        td(h5(CharacterCreation.virtue_points_from_flaws.element)),
+                        td(h5(self.virtue_points_available.element)),
+                        td(h5(self.virtue_points_from_flaws.element)),
                     )
                 ),
                 classes=["table", "table-borderless", "table-sm"],
@@ -558,7 +558,7 @@ class CharacterCreation:
             table(
                 tbody(
                     tr(
-                        td(h5(CharacterCreation.characteristic_points.element)),
+                        td(h5(self.characteristic_points.element)),
                     )
                 ),
                 classes=["table", "table-borderless", "table-sm"],
@@ -575,16 +575,16 @@ class CharacterCreation:
         self.early_childhood_selection = div(
             div(
                 "What is your name?",
-                CharacterCreation.name_input,
+                self.name_input,
             ),
-            div("What is your primary language?", CharacterCreation.language_input),
+            div("What is your primary language?", self.language_input),
             div(
                 "Where did you grow up?",
-                CharacterCreation.birthplace_input,
+                self.birthplace_input,
             ),
             div(
                 "What kind of childhood did you have?",
-                CharacterCreation.childhood_input,
+                self.childhood_input,
             ),
             button(
                 "Next",
@@ -636,10 +636,10 @@ class CharacterCreation:
 
     def early_childhood_choice(self, e):
         self.early_childhood_selection.remove()
-        player.name.value = CharacterCreation.name_input["input"][0].value
-        language = CharacterCreation.language_input["input:checked"][0].value
-        birthplace = CharacterCreation.birthplace_input["input:checked"][0].value
-        childhood = CharacterCreation.childhood_input["input:checked"][0].value
+        player.name.value = self.name_input["input"][0].value
+        language = self.language_input["input:checked"][0].value
+        birthplace = self.birthplace_input["input:checked"][0].value
+        childhood = self.childhood_input["input:checked"][0].value
         player.age.value = 5
         player.abilities[language].value = 5
         if childhood == "Athletic":
@@ -656,6 +656,39 @@ class CharacterCreation:
             player.abilities[brawl].value = 2
             player.abilities[guile].value = 2
             player.abilities[stealth].value = 2
+
+        self.later_life_selection = div(
+            "What did you learn between ages 5 and 10?",
+            table(
+                tbody(tr(td(h5(self.experience_points.element)))),
+                classes=["table", "table-borderless", "table-sm"],
+            ),
+            div(
+                table(
+                    tbody(
+                        *(single_ability_display(ability) for ability in ability_list if not ability.hidden)
+                    ),
+                    classes=[
+                        "table",
+                        "table-striped",
+                        "table-borderless",
+                        "table-hover",
+                        "table-sm",
+                    ],
+                ),
+                classes=["col-4", "col-md-3"],
+            ),
+            button(
+                "Next",
+                type="submit",
+                classes=["btn", "btn-secondary"],
+                on_click=self.later_life_choice,
+            ),
+        )
+        main.append(self.later_life_selection)
+
+    def later_life_choice(self, e):
+        self.later_life_selection.remove()
         start(e)
         main.append(div(ability_list))
 
@@ -713,7 +746,7 @@ def single_characteristic_display(characteristic):
     plus_button = button(
         "+",
         hidden=True,
-        classes=["btn", "btn-secondary", "btn-sm"],
+        classes=["btn", "btn-secondary", "btn-sm", "float-right"],
         onclick=increase_characteristic,
     )
     return tr(
@@ -736,20 +769,19 @@ def single_ability_display(ability):
     def increase_ability(_):
         ability.value += 1
         minus_button.disabled = False
-        CharacterCreation.experience_points.value += (ability.value + 1) * 5
-        if ability.value == 0:
+        CharacterCreation.experience_points.value -= ability.value * 5
+        if ability.value == 10:
             plus_button.disabled = True
 
     minus_button = button(
         "-",
-        hidden=True,
         classes=["btn", "btn-secondary", "btn-sm"],
+        disabled=True,
         onclick=decrease_ability,
     )
     plus_button = button(
         "+",
-        hidden=True,
-        classes=["btn", "btn-secondary", "btn-sm"],
+        classes=["btn", "btn-secondary", "btn-sm", "float-right"],
         onclick=increase_ability,
     )
     return tr(
