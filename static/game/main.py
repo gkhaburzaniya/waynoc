@@ -174,6 +174,12 @@ class Ability:
     def __hash__(self):
         return hash(self.name)
 
+    def __eq__(self, other):
+        return self.name == other
+
+    def __repr__(self):
+        return self.name
+
     def option(self):
         new_option = option(self.name, hidden=self.hidden)
         self.option_locations.append(new_option)
@@ -432,7 +438,7 @@ class Player:
         self.age = Age("Age", 0)
         self.house = OnScreenValue("House", "")
         self.virtues = []
-        self.abilities = {}
+        self.abilities = {ability: 0 for ability in ability_list}
 
         self.text = [EventText("You are born", "")]
 
@@ -498,7 +504,7 @@ class CharacterCreation:
         label(input_(type="radio", name="birthplace", value="USA"), "USA"),
         label(input_(type="radio", name="birthplace", value="Mexico"), "Mexico"),
     )
-    childhood_type_input = div(
+    childhood_input = div(
         label(
             input_(type="radio", name="type", value="Athletic", checked=True),
             "Athletic",
@@ -577,7 +583,7 @@ class CharacterCreation:
             ),
             div(
                 "What kind of childhood did you have?",
-                CharacterCreation.childhood_type_input,
+                CharacterCreation.childhood_input,
             ),
             button(
                 "Next",
@@ -630,10 +636,27 @@ class CharacterCreation:
     def early_childhood_choice(self, e):
         self.early_childhood_selection.remove()
         player.name.value = CharacterCreation.name_input["input"][0].value
-        player.language = CharacterCreation.language_input["input:checked"][0].value
-        player.birthplace = CharacterCreation.birthplace_input["input:checked"][0].value
+        language = CharacterCreation.language_input["input:checked"][0].value
+        birthplace = CharacterCreation.birthplace_input["input:checked"][0].value
+        childhood = CharacterCreation.childhood_input["input:checked"][0].value
         player.age.value = 5
+        player.abilities[language] = 5
+        if childhood == "Athletic":
+            player.abilities[athletics] = 2
+            player.abilities[brawl] = 2
+            player.abilities[swim] = 2
+        elif childhood == "Exploring":
+            player.abilities[f"{birthplace} Lore"] = 2
+            player.abilities[athletics] = 1
+            player.abilities[awareness] = 1
+            player.abilities[stealth] = 1
+            player.abilities[survival] = 1
+        elif childhood == "Mischievous":
+            player.abilities[brawl] = 2
+            player.abilities[guile] = 2
+            player.abilities[stealth] = 2
         start(e)
+        main.append(div(player.abilities))
 
 
 page["#loading"][0].remove()
