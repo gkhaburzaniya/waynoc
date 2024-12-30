@@ -439,7 +439,7 @@ class CharacterCreation:
     virtue_points_available = OnScreenInt("Virtue Points Available", 0)
     virtue_points_from_flaws = OnScreenInt("Points From Flaws (Max 10)", 0)
     characteristic_points = OnScreenInt("Points", 7)
-    name_input = div(input_())
+    name_input = div(input_(value="George"))
     language_input = div(
         label(input_(type="radio", name="language", value="English"), "English"),
         label(
@@ -447,15 +447,27 @@ class CharacterCreation:
                 type="radio",
                 name="language",
                 value="Mandarin",
+                checked=True,
             ),
             "Mandarin",
         ),
         label(input_(type="radio", name="language", value="Spanish"), "Spanish"),
     )
     birthplace_input = div(
-        label(input_(type="radio", name="birthplace", value="China"), "China"),
+        label(
+            input_(type="radio", name="birthplace", value="China", checked=True),
+            "China",
+        ),
         label(input_(type="radio", name="birthplace", value="USA"), "USA"),
         label(input_(type="radio", name="birthplace", value="Mexico"), "Mexico"),
+    )
+    childhood_type_input = div(
+        label(
+            input_(type="radio", name="type", value="Athletic", checked=True),
+            "Athletic",
+        ),
+        label(input_(type="radio", name="type", value="Exploring"), "Exploring"),
+        label(input_(type="radio", name="type", value="Mischievous"), "Mischievous"),
     )
 
     def __init__(self):
@@ -526,6 +538,10 @@ class CharacterCreation:
                 "Where did you grow up?",
                 CharacterCreation.birthplace_input,
             ),
+            div(
+                "What kind of childhood did you have?",
+                CharacterCreation.childhood_type_input,
+            ),
             button(
                 "Next",
                 type="submit",
@@ -585,6 +601,7 @@ class CharacterCreation:
             for birthplace in CharacterCreation.birthplace_input["input"]
             if birthplace.checked
         )
+        player.age.value = 5
         start(e)
 
 
