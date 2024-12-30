@@ -499,6 +499,51 @@ animal_spells = [
 ]
 
 # Aquam Spells
+footsteps_slippery_oil = Spell("Footsteps of Slippery Oil", creo, aquam, 5)
+creeping_oil = Spell("Creeping Oil", creo, aquam, 15)
+mighty_torrent_water = Spell("Mighty Torrent of Water", creo, aquam, 20)
+
+clear_sight_naiad = Spell("Clear Sight of the Naiad", intellego, aquam, 5)
+subtle_taste_poison_purity = Spell("Subtle Taste of Poison and Purity", intellego,
+                                   aquam, 5)
+touch_pearls = Spell("Touch of the Pearls", intellego, aquam, 5)
+
+incantation_putrid_wine = Spell("Incantation of Putrid Wine", muto, aquam, 15)
+
+comfort_drenched_traveler = Spell("Comfort of the Drenched Traveller", perdo, aquam, 5)
+parching_wind = Spell("Parching Wind", perdo, aquam, 20)
+
+cloak_duck_feathers = Spell("Cloak of the Duck's Feathers", rego, aquam, 5)
+break_oncoming_wave = Spell("Break the Oncoming Wave", rego, aquam, 10)
+breath_winter = Spell("Breath of Winter", rego, aquam, 20)
+
+aquam_spells = [
+    footsteps_slippery_oil, creeping_oil, mighty_torrent_water, clear_sight_naiad,
+    subtle_taste_poison_purity, touch_pearls, incantation_putrid_wine,
+    comfort_drenched_traveler, parching_wind, break_oncoming_wave, breath_winter
+]
+
+# Auram Spells
+air_ghostly_form = Spell("Air's Ghostly Form", creo, auram, 5)
+chamber_spring_breezes = Spell("Chamber of Spring Breezes", creo, auram, 5)
+jupiter_resounding_blow = Spell("Jupiter's Resounding Blow", creo, auram, 10)
+
+true_sight_air = Spell("True Sight of the Air", intellego, auram, 15)
+whispering_winds = Spell("Whispering Winds", intellego, auram, 15)
+sailor_foretaste_morrow = Spell("Sailor's Foretaste of the Morrow", intellego, auram,
+                                20)
+
+room_stale_air = Spell("Room of Stale Air", perdo, auram, 15)
+quiet_raging_winds = Spell("Quiet the Raging Winds", perdo, auram, 20)
+
+wind_back = Spell("Wind at the Back", rego, auram, 5)
+ward_against_rain = Spell("Ward Against Rain", rego, auram, 10)
+
+auram_spells = [
+    air_ghostly_form, chamber_spring_breezes, jupiter_resounding_blow, true_sight_air,
+    whispering_winds, sailor_foretaste_morrow, room_stale_air, quiet_raging_winds,
+    wind_back, ward_against_rain
+]
 
 
 class Player:
