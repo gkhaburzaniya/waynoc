@@ -197,6 +197,7 @@ class Ability(OnScreenInt):
 
 
 athletics = Ability("Athletics")
+artes_liberales = Ability("Artes Liberales")
 awareness = Ability("Awareness")
 brawl = Ability("Brawl")
 guile = Ability("Guile")
@@ -204,6 +205,7 @@ intrigue = Ability("Intrigue")
 
 # Languages
 english = Ability("English")
+latin = Ability("Latin")
 mandarin = Ability("Mandarin")
 spanish = Ability("Spanish")
 
@@ -212,21 +214,26 @@ china_lore = Ability("China Lore")
 mexico_lore = Ability("Mexico Lore")
 usa_lore = Ability("USA Lore")
 
-magic_theory = Ability("Magic Theory")
 stealth = Ability("Stealth")
 survival = Ability("Survival")
 swim = Ability("Swim")
+
+# Magic
+magic_theory = Ability("Magic Theory")
+parma_magica = Ability("Parma Magica", hidden=True)
 
 heartbeast_ability = Ability("Heartbeast", hidden=True)
 the_enigma_ability = Ability("The Enigma", hidden=True)
 
 ability_list = [
     athletics,
+    artes_liberales,
     awareness,
     brawl,
     guile,
     intrigue,
     english,
+    latin,
     mandarin,
     spanish,
     china_lore,
@@ -238,6 +245,7 @@ ability_list = [
     swim,
     heartbeast_ability,
     the_enigma_ability,
+    parma_magica,
 ]
 
 
@@ -611,6 +619,9 @@ class CharacterCreation:
 
         main.append(self.characteristic_selection)
         self.characteristic_selection["button"].hidden = False
+        magic_theory.hidden = True
+        heartbeast_ability.hidden = True
+        the_enigma_ability.hidden = True
 
     def characteristic_choice(self, _):
         self.characteristic_selection.remove()
@@ -667,23 +678,24 @@ class CharacterCreation:
             onclick=self.later_life_choice,
         )
 
-        abilities_body = tbody(
+        self.abilities_body = tbody(
             *(
                 single_ability_display(ability)
                 for ability in ability_list
                 if not ability.hidden
             )
         )
+        self.intro_text = span("What did you learn between ages 5 and 10?")
 
         self.later_life_selection = div(
-            "What did you learn between ages 5 and 10?",
+            self.intro_text,
             table(
                 tbody(tr(td(h5(self.experience_points.element)))),
                 classes=["table", "table-borderless", "table-sm"],
             ),
             div(
                 table(
-                    abilities_body,
+                    self.abilities_body,
                     classes=[
                         "table",
                         "table-striped",
@@ -700,9 +712,25 @@ class CharacterCreation:
 
     def later_life_choice(self, _):
         player.age.value += 5
+        parma_magica.value = 1
+        magic_theory.value = 1
+        magic_theory.hidden = False
+        self.abilities_body.append(single_ability_display(magic_theory))
+        for button_ in self.abilities_body["button"]:
+            if button_.textContent == "-":
+                button_.disabled = True
+        self.experience_points.value = 230
+        if latin.value < 1:
+            latin.value = 1
+            self.experience_points.value -= 5
+        self.intro_text.textContent = (
+            "What did you learn in your apprenticeship? Recommended to have at least "
+            "Magic Theory 3, Artes Liberales 4, and Latin 5"
+        )
         self.next_button.onclick = self.apprenticeship_choice
 
     def apprenticeship_choice(self, e):
+        parma_magica.hidden = False
         self.later_life_selection.remove()
         player.age.value += 15
         start(e)
