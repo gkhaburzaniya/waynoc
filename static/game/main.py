@@ -171,6 +171,9 @@ class Ability:
         self.name = name
         self.hidden = hidden
 
+    def __hash__(self):
+        return hash(self.name)
+
     def option(self):
         new_option = option(self.name, hidden=self.hidden)
         self.option_locations.append(new_option)
@@ -211,27 +214,29 @@ swim = Ability("Swim")
 heartbeast_ability = Ability("Heartbeast", hidden=True)
 the_enigma_ability = Ability("The Enigma", hidden=True)
 
+ability_list = [
+    athletics,
+    awareness,
+    brawl,
+    guile,
+    intrigue,
+    english,
+    mandarin,
+    spanish,
+    china_lore,
+    mexico_lore,
+    usa_lore,
+    magic_theory,
+    stealth,
+    survival,
+    swim,
+    heartbeast_ability,
+    the_enigma_ability,
+]
+
 
 def ability_options():
-    return [
-        athletics.option(),
-        awareness.option(),
-        brawl.option(),
-        guile.option(),
-        intrigue.option(),
-        english.option(),
-        mandarin.option(),
-        spanish.option(),
-        china_lore.option(),
-        mexico_lore.option(),
-        usa_lore.option(),
-        magic_theory.option(),
-        stealth.option(),
-        survival.option(),
-        swim.option(),
-        heartbeast_ability.option(),
-        the_enigma_ability.option(),
-    ]
+    return [ability.option() for ability in ability_list]
 
 
 @dataclass
@@ -427,7 +432,7 @@ class Player:
         self.age = Age("Age", 0)
         self.house = OnScreenValue("House", "")
         self.virtues = []
-        self.flaws = []
+        self.abilities = {}
 
         self.text = [EventText("You are born", "")]
 
@@ -594,6 +599,7 @@ class CharacterCreation:
             heartbeast_virtue.label["input"].checked = True
             heartbeast_virtue.label.hidden = False
             heartbeast_ability.hidden = False
+            player.abilities[heartbeast_ability] = 1
         elif player.house.value == "Bonisagus":
             puissant_ability.label["input"].checked = True
             if houses["Bonisagus"].selection.value == "Researcher":
@@ -606,6 +612,7 @@ class CharacterCreation:
             the_enigma_virtue.label["input"].checked = True
             the_enigma_virtue.label.hidden = False
             the_enigma_ability.hidden = False
+            player.abilities[the_enigma_ability] = 1
         main.append(self.virtue_selection)
 
     def virtue_choice(self, _):
