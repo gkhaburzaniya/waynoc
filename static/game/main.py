@@ -187,16 +187,48 @@ class Ability:
             option_loc.hidden = value
 
 
-magic_theory = Ability("Magic Theory")
+athletics = Ability("Athletics")
+awareness = Ability("Awareness")
+brawl = Ability("Brawl")
+guile = Ability("Guile")
 intrigue = Ability("Intrigue")
+
+# Languages
+english = Ability("English")
+mandarin = Ability("Mandarin")
+spanish = Ability("Spanish")
+
+# Lores
+china_lore = Ability("China Lore")
+mexico_lore = Ability("Mexico Lore")
+usa_lore = Ability("USA Lore")
+
+magic_theory = Ability("Magic Theory")
+stealth = Ability("Stealth")
+survival = Ability("Survival")
+swim = Ability("Swim")
+
 heartbeast_ability = Ability("Heartbeast", hidden=True)
 the_enigma_ability = Ability("The Enigma", hidden=True)
 
 
 def ability_options():
     return [
-        magic_theory.option(),
+        athletics.option(),
+        awareness.option(),
+        brawl.option(),
+        guile.option(),
         intrigue.option(),
+        english.option(),
+        mandarin.option(),
+        spanish.option(),
+        china_lore.option(),
+        mexico_lore.option(),
+        usa_lore.option(),
+        magic_theory.option(),
+        stealth.option(),
+        survival.option(),
+        swim.option(),
         heartbeast_ability.option(),
         the_enigma_ability.option(),
     ]
@@ -591,16 +623,8 @@ class CharacterCreation:
     def early_childhood_choice(self, e):
         self.early_childhood_selection.remove()
         player.name.value = CharacterCreation.name_input["input"][0].value
-        player.language = next(
-            language.value
-            for language in CharacterCreation.language_input["input"]
-            if language.checked
-        )
-        player.birthplace = next(
-            birthplace.value
-            for birthplace in CharacterCreation.birthplace_input["input"]
-            if birthplace.checked
-        )
+        player.language = CharacterCreation.language_input["input:checked"][0].value
+        player.birthplace = CharacterCreation.birthplace_input["input:checked"][0].value
         player.age.value = 5
         start(e)
 
