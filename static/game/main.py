@@ -164,24 +164,24 @@ class House:
         self.selection = select(hidden=True)
 
 
-class Ability:
+class Ability(OnScreenInt):
 
-    def __init__(self, name, hidden=False):
+    def __init__(self, short_name, hidden=False):
         self.option_locations = []
-        self.name = name
         self.hidden = hidden
+        super().__init__(short_name, 0)
 
     def __hash__(self):
-        return hash(self.name)
+        return hash(self.short_name)
 
     def __eq__(self, other):
-        return self.name == other
+        return self.short_name == other
 
     def __repr__(self):
-        return self.name
+        return f"{self.short_name}: {self.value}"
 
     def option(self):
-        new_option = option(self.name, hidden=self.hidden)
+        new_option = option(self.short_name, hidden=self.hidden)
         self.option_locations.append(new_option)
         return new_option
 
@@ -438,7 +438,7 @@ class Player:
         self.age = Age("Age", 0)
         self.house = OnScreenValue("House", "")
         self.virtues = []
-        self.abilities = {ability: 0 for ability in ability_list}
+        self.abilities = {ability: ability for ability in ability_list}
 
         self.text = [EventText("You are born", "")]
 
@@ -482,6 +482,7 @@ class CharacterCreation:
     virtue_points_available = OnScreenInt("Virtue Points Available", 0)
     virtue_points_from_flaws = OnScreenInt("Points From Flaws (Max 10)", 0)
     characteristic_points = OnScreenInt("Points", 7)
+    experience_points = OnScreenInt("XP", 75)
     name_input = div(input_(value="George"))
     language_input = div(
         label(input_(type="radio", name="language", value="English"), "English"),
@@ -605,7 +606,7 @@ class CharacterCreation:
             heartbeast_virtue.label["input"].checked = True
             heartbeast_virtue.label.hidden = False
             heartbeast_ability.hidden = False
-            player.abilities[heartbeast_ability] = 1
+            heartbeast_ability.value = 1
         elif player.house.value == "Bonisagus":
             puissant_ability.label["input"].checked = True
             if houses["Bonisagus"].selection.value == "Researcher":
@@ -618,7 +619,7 @@ class CharacterCreation:
             the_enigma_virtue.label["input"].checked = True
             the_enigma_virtue.label.hidden = False
             the_enigma_ability.hidden = False
-            player.abilities[the_enigma_ability] = 1
+            the_enigma_ability.value = 1
         main.append(self.virtue_selection)
 
     def virtue_choice(self, _):
@@ -640,23 +641,23 @@ class CharacterCreation:
         birthplace = CharacterCreation.birthplace_input["input:checked"][0].value
         childhood = CharacterCreation.childhood_input["input:checked"][0].value
         player.age.value = 5
-        player.abilities[language] = 5
+        player.abilities[language].value = 5
         if childhood == "Athletic":
-            player.abilities[athletics] = 2
-            player.abilities[brawl] = 2
-            player.abilities[swim] = 2
+            player.abilities[athletics].value = 2
+            player.abilities[brawl].value = 2
+            player.abilities[swim].value = 2
         elif childhood == "Exploring":
-            player.abilities[f"{birthplace} Lore"] = 2
-            player.abilities[athletics] = 1
-            player.abilities[awareness] = 1
-            player.abilities[stealth] = 1
-            player.abilities[survival] = 1
+            player.abilities[f"{birthplace} Lore"].value = 2
+            player.abilities[athletics].value = 1
+            player.abilities[awareness].value = 1
+            player.abilities[stealth].value = 1
+            player.abilities[survival].value = 1
         elif childhood == "Mischievous":
-            player.abilities[brawl] = 2
-            player.abilities[guile] = 2
-            player.abilities[stealth] = 2
+            player.abilities[brawl].value = 2
+            player.abilities[guile].value = 2
+            player.abilities[stealth].value = 2
         start(e)
-        main.append(div(player.abilities))
+        main.append(div(ability_list))
 
 
 page["#loading"][0].remove()
@@ -676,7 +677,7 @@ events = div()
 player = Player()
 
 
-def single_display(characteristic):
+def single_characteristic_display(characteristic):
     def decrease_characteristic(_):
         characteristic.value -= 1
         if characteristic.value == 2:
@@ -724,18 +725,54 @@ def single_display(characteristic):
     )
 
 
+def single_ability_display(ability):
+    def decrease_ability(_):
+        ability.value -= 1
+        plus_button.disabled = False
+        CharacterCreation.experience_points.value += (ability.value + 1) * 5
+        if ability.value == 0:
+            minus_button.disabled = True
+
+    def increase_ability(_):
+        ability.value += 1
+        minus_button.disabled = False
+        CharacterCreation.experience_points.value += (ability.value + 1) * 5
+        if ability.value == 0:
+            plus_button.disabled = True
+
+    minus_button = button(
+        "-",
+        hidden=True,
+        classes=["btn", "btn-secondary", "btn-sm"],
+        onclick=decrease_ability,
+    )
+    plus_button = button(
+        "+",
+        hidden=True,
+        classes=["btn", "btn-secondary", "btn-sm"],
+        onclick=increase_ability,
+    )
+    return tr(
+        td(
+            minus_button,
+            ability.element,
+            plus_button,
+        )
+    )
+
+
 def characteristic_display():
     return div(
         table(
             tbody(
-                single_display(player.intelligence),
-                single_display(player.perception),
-                single_display(player.strength),
-                single_display(player.stamina),
-                single_display(player.presence),
-                single_display(player.communication),
-                single_display(player.dexterity),
-                single_display(player.quickness),
+                single_characteristic_display(player.intelligence),
+                single_characteristic_display(player.perception),
+                single_characteristic_display(player.strength),
+                single_characteristic_display(player.stamina),
+                single_characteristic_display(player.presence),
+                single_characteristic_display(player.communication),
+                single_characteristic_display(player.dexterity),
+                single_characteristic_display(player.quickness),
             ),
             classes=[
                 "table",
