@@ -472,6 +472,35 @@ class Spell:
             CharacterCreation.spell_levels_available.value += self.level
 
 
+# Animal Spells
+soothe_pains_beast = Spell("Soothe Pains of the Beast", creo, animal, 20)
+true_rest_injured_brute = Spell("True Rest of the Injured Brute", creo, animal, 20)
+
+image_beast = Spell("Image of the Beast", intellego, animal, 5)
+shiver_lycanthrope = Spell("Shiver of the Lycanthrope", intellego, animal, 10)
+
+beast_outlandish_size = Spell("Beast of Outlandish Size", muto, animal, 15)
+doublet_impenetrable_silk = Spell("Doublet of Impenetrable Silk", muto, animal, 15)
+growth_creeping_things = Spell("Growth of the Creeping Things", muto, animal, 15)
+
+decay_fur_hide = Spell("Decay Fur and Hide", perdo, animal, 10)
+agony_beast = Spell("Agony of the Beast", perdo, animal, 15)
+blunt_viper_fangs = Spell("Blunt the Viper's Fangs", perdo, animal, 20)
+
+disguise_putrid_aroma = Spell("Disguise of the Putrid Aroma", rego, animal, 5)
+circle_beast_warding = Spell("Circle of Beast Warding", rego, animal, 5)
+soothe_ferocious_bear = Spell("Soothe the Ferocious Bear", rego, animal, 10)
+
+animal_spells = [
+    soothe_pains_beast, true_rest_injured_brute, image_beast, shiver_lycanthrope,
+    beast_outlandish_size, doublet_impenetrable_silk, growth_creeping_things,
+    decay_fur_hide, agony_beast, blunt_viper_fangs, disguise_putrid_aroma,
+    circle_beast_warding, soothe_ferocious_bear
+]
+
+# Aquam Spells
+
+
 class Player:
 
     def __init__(self):
