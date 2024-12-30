@@ -532,67 +532,6 @@ class CharacterCreation:
             ),
             classes=["col"],
         )
-        self.virtue_selection = div(
-            "What are your virtues and flaws?",
-            table(
-                tbody(
-                    tr(
-                        td(h5(self.virtue_points_available.element)),
-                        td(h5(self.virtue_points_from_flaws.element)),
-                    )
-                ),
-                classes=["table", "table-borderless", "table-sm"],
-            ),
-            div(
-                button(
-                    "Next",
-                    type="submit",
-                    classes=["btn", "btn-secondary"],
-                    on_click=self.virtue_choice,
-                ),
-                *(virtue.label for virtue in all_virtues),
-            ),
-        )
-
-        self.characteristic_selection = div(
-            table(
-                tbody(
-                    tr(
-                        td(h5(self.characteristic_points.element)),
-                    )
-                ),
-                classes=["table", "table-borderless", "table-sm"],
-            ),
-            "What are your characteristics?",
-            characteristic_display(),
-            button(
-                "Next",
-                type="submit",
-                classes=["btn", "btn-secondary"],
-                on_click=self.characteristic_choice,
-            ),
-        )
-        self.early_childhood_selection = div(
-            div(
-                "What is your name?",
-                self.name_input,
-            ),
-            div("What is your primary language?", self.language_input),
-            div(
-                "Where did you grow up?",
-                self.birthplace_input,
-            ),
-            div(
-                "What kind of childhood did you have?",
-                self.childhood_input,
-            ),
-            button(
-                "Next",
-                type="submit",
-                classes=["btn", "btn-secondary"],
-                on_click=self.early_childhood_choice,
-            ),
-        )
 
     def start(self):
         main.append(self.house_selection)
@@ -620,6 +559,29 @@ class CharacterCreation:
             the_enigma_virtue.label.hidden = False
             the_enigma_ability.hidden = False
             the_enigma_ability.value = 1
+
+        self.virtue_selection = div(
+            "What are your virtues and flaws?",
+            table(
+                tbody(
+                    tr(
+                        td(h5(self.virtue_points_available.element)),
+                        td(h5(self.virtue_points_from_flaws.element)),
+                    )
+                ),
+                classes=["table", "table-borderless", "table-sm"],
+            ),
+            div(
+                button(
+                    "Next",
+                    type="submit",
+                    classes=["btn", "btn-secondary"],
+                    on_click=self.virtue_choice,
+                ),
+                *(virtue.label for virtue in all_virtues),
+            ),
+        )
+
         main.append(self.virtue_selection)
 
     def virtue_choice(self, _):
@@ -627,11 +589,52 @@ class CharacterCreation:
         player.virtues = [
             virtue for virtue in all_virtues if virtue.label["input"][0].checked
         ]
+
+        self.characteristic_selection = div(
+            table(
+                tbody(
+                    tr(
+                        td(h5(self.characteristic_points.element)),
+                    )
+                ),
+                classes=["table", "table-borderless", "table-sm"],
+            ),
+            "What are your characteristics?",
+            characteristic_display(),
+            button(
+                "Next",
+                type="submit",
+                classes=["btn", "btn-secondary"],
+                on_click=self.characteristic_choice,
+            ),
+        )
+
         main.append(self.characteristic_selection)
         self.characteristic_selection["button"].hidden = False
 
     def characteristic_choice(self, _):
         self.characteristic_selection.remove()
+        self.early_childhood_selection = div(
+            div(
+                "What is your name?",
+                self.name_input,
+            ),
+            div("What is your primary language?", self.language_input),
+            div(
+                "Where did you grow up?",
+                self.birthplace_input,
+            ),
+            div(
+                "What kind of childhood did you have?",
+                self.childhood_input,
+            ),
+            button(
+                "Next",
+                type="submit",
+                classes=["btn", "btn-secondary"],
+                on_click=self.early_childhood_choice,
+            ),
+        )
         main.append(self.early_childhood_selection)
 
     def early_childhood_choice(self, e):
@@ -666,7 +669,11 @@ class CharacterCreation:
             div(
                 table(
                     tbody(
-                        *(single_ability_display(ability) for ability in ability_list if not ability.hidden)
+                        *(
+                            single_ability_display(ability)
+                            for ability in ability_list
+                            if not ability.hidden
+                        )
                     ),
                     classes=[
                         "table",
@@ -689,8 +696,11 @@ class CharacterCreation:
 
     def later_life_choice(self, e):
         self.later_life_selection.remove()
+        player.age.value += 5
         start(e)
         main.append(div(ability_list))
+
+    # def aprrenticeship_choice(self, e):
 
 
 page["#loading"][0].remove()
