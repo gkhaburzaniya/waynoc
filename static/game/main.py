@@ -110,10 +110,14 @@ class OnScreenValue:
 
     @property
     def element(self):
-        self._value = span(self.value)
-        return span(
-            f" {self.short_name}: ", self._value, " ", classes=["text-monospace"]
-        )
+        try:
+            return self._element
+        except AttributeError:
+            self._value = span(self.value)
+            self._element = span(
+                f" {self.short_name}: ", self._value, " ", classes=["text-monospace"]
+            )
+            return self._element
 
 
 class OnScreenInt(OnScreenValue):
@@ -439,6 +443,35 @@ all_virtues = [
 ]
 
 
+@dataclass
+class Spell:
+    name: str
+    technique: Ability
+    form: Ability
+    level: int
+
+    def __post_init__(self):
+        self.label = div(
+            label(
+                input_(
+                    type="checkbox",
+                    classes=["form-check-input"],
+                    onclick=self.click,
+                ),
+                f"{self.name}:",
+                em(f"{self.technique.short_name} {self.form.short_name}"),
+                strong(f"Level: {self.level}"),
+            ),
+            hidden=True,
+        )
+
+    def click(self, e):
+        if e.target.checked:
+            CharacterCreation.spell_levels_available.value -= self.level
+        else:
+            CharacterCreation.spell_levels_available.value += self.level
+
+
 class Player:
 
     def __init__(self):
@@ -457,6 +490,7 @@ class Player:
         self.virtues = []
         self.abilities = {ability: ability for ability in ability_list}
         self.arts = {art: art for art in arts_list}
+        self.spells = []
 
         self.text = [EventText("You are born", "")]
 
@@ -467,10 +501,12 @@ class Player:
 
 
 def start(_):
+    global board
     start_button.remove()
     custom_character_button.remove()
     player.childhood = Childhood(player)
-    main.append(new_board())
+    board = new_board()
+    main.append(board)
 
 
 def custom_character(_):
@@ -499,6 +535,7 @@ def restart(_):
 class CharacterCreation:
     virtue_points_available = OnScreenInt("Virtue Points Available", 0)
     virtue_points_from_flaws = OnScreenInt("Points From Flaws (Max 10)", 0)
+    spell_levels_available = OnScreenInt("Spell Levels Available", 120)
     characteristic_points = OnScreenInt("Points", 7)
     experience_points = OnScreenInt("XP", 75)
     name_input = div(input_(value="George"))
@@ -718,11 +755,17 @@ class CharacterCreation:
             self.intro_text,
             div(self.next_button),
             table(
-                tbody(tr(td(h5(self.experience_points.element)))),
+                tbody(
+                    tr(
+                        td(h5(self.experience_points.element)),
+                        td(h5(self.spell_levels_available.element)),
+                    )
+                ),
                 classes=["table", "table-borderless", "table-sm"],
             ),
             self.tables_div,
         )
+        self.spell_levels_available.element.hidden = True
         main.append(self.later_life_selection)
 
     def later_life_choice(self, _):
@@ -758,6 +801,7 @@ class CharacterCreation:
                 classes=["col-4", "col-md-3", "offset-md-3"],
             ),
         )
+        self.spell_levels_available.element.hidden = False
 
     def apprenticeship_choice(self, e):
         self.later_life_selection.remove()
