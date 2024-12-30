@@ -269,7 +269,7 @@ class Virtue:
                     type="checkbox",
                     classes=["form-check-input"],
                     disabled=self.disabled,
-                    on_click=self.click,
+                    onclick=self.click,
                 ),
                 self.selection,
                 f"{self.name}:",
@@ -523,7 +523,7 @@ class CharacterCreation:
                         name,
                         type="submit",
                         classes=["btn", "btn-secondary"],
-                        on_click=self.house_choice,
+                        onclick=self.house_choice,
                     ),
                     house.selection,
                     house.description,
@@ -576,7 +576,7 @@ class CharacterCreation:
                     "Next",
                     type="submit",
                     classes=["btn", "btn-secondary"],
-                    on_click=self.virtue_choice,
+                    onclick=self.virtue_choice,
                 ),
                 *(virtue.label for virtue in all_virtues),
             ),
@@ -605,7 +605,7 @@ class CharacterCreation:
                 "Next",
                 type="submit",
                 classes=["btn", "btn-secondary"],
-                on_click=self.characteristic_choice,
+                onclick=self.characteristic_choice,
             ),
         )
 
@@ -632,12 +632,12 @@ class CharacterCreation:
                 "Next",
                 type="submit",
                 classes=["btn", "btn-secondary"],
-                on_click=self.early_childhood_choice,
+                onclick=self.early_childhood_choice,
             ),
         )
         main.append(self.early_childhood_selection)
 
-    def early_childhood_choice(self, e):
+    def early_childhood_choice(self, _):
         self.early_childhood_selection.remove()
         player.name.value = self.name_input["input"][0].value
         language = self.language_input["input:checked"][0].value
@@ -660,6 +660,21 @@ class CharacterCreation:
             player.abilities[guile].value = 2
             player.abilities[stealth].value = 2
 
+        self.next_button = button(
+            "Next",
+            type="submit",
+            classes=["btn", "btn-secondary"],
+            onclick=self.later_life_choice,
+        )
+
+        abilities_body = tbody(
+            *(
+                single_ability_display(ability)
+                for ability in ability_list
+                if not ability.hidden
+            )
+        )
+
         self.later_life_selection = div(
             "What did you learn between ages 5 and 10?",
             table(
@@ -668,13 +683,7 @@ class CharacterCreation:
             ),
             div(
                 table(
-                    tbody(
-                        *(
-                            single_ability_display(ability)
-                            for ability in ability_list
-                            if not ability.hidden
-                        )
-                    ),
+                    abilities_body,
                     classes=[
                         "table",
                         "table-striped",
@@ -685,34 +694,31 @@ class CharacterCreation:
                 ),
                 classes=["col-4", "col-md-3"],
             ),
-            button(
-                "Next",
-                type="submit",
-                classes=["btn", "btn-secondary"],
-                on_click=self.later_life_choice,
-            ),
+            self.next_button,
         )
         main.append(self.later_life_selection)
 
-    def later_life_choice(self, e):
-        self.later_life_selection.remove()
+    def later_life_choice(self, _):
         player.age.value += 5
+        self.next_button.onclick = self.apprenticeship_choice
+
+    def apprenticeship_choice(self, e):
+        self.later_life_selection.remove()
+        player.age.value += 15
         start(e)
         main.append(div(ability_list))
-
-    # def aprrenticeship_choice(self, e):
 
 
 page["#loading"][0].remove()
 main = page["main"][0]
 start_button = button(
-    "Start", type="submit", classes=["btn", "btn-secondary"], on_click=start
+    "Start", type="submit", classes=["btn", "btn-secondary"], onclick=start
 )
 custom_character_button = button(
     "Custom Character",
     type="submit",
     classes=["btn", "btn-secondary"],
-    on_click=custom_character,
+    onclick=custom_character,
 )
 
 events = div()
@@ -836,13 +842,13 @@ def new_board():
                 "Next Season",
                 type="submit",
                 classes=["btn", "btn-secondary"],
-                on_click=advance,
+                onclick=advance,
             ),
             button(
                 "Restart",
                 type="submit",
                 classes=["btn", "btn-secondary"],
-                on_click=restart,
+                onclick=restart,
             ),
             table(
                 tbody(
