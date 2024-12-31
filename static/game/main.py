@@ -545,6 +545,36 @@ auram_spells = [
     wind_back, ward_against_rain
 ]
 
+# Corpus Spells
+bind_wound = Spell("Bind Wound", creo, corpus, 10)
+charm_against_putrefaction = Spell("Charm Against Putrefaction", creo, corpus, 10)
+chirurgeon_healing_touch = Spell("The Chirurgeon's Healing Touch", creo, corpus, 20)
+
+physician_eye = Spell("Physician's Eye", intellego, corpus, 5)
+revealed_flaws_mortal_flesh = Spell("Revealed Flaws of Mortal Flesh", intellego, corpus,
+                                    10)
+inexorable_search = Spell("The Inexorable Search", intellego, corpus, 20)
+
+disguise_new_visage = Spell("Disguise of the New Visage", muto, corpus, 15)
+preternatural_growth_shrinking = Spell("Preternatural Growth and Shrinking", muto,
+                                       corpus, 15)
+arm_infant = Spell("Arm of the Infant", muto, corpus, 20)
+
+touch_goose_feather = Spell("Touch of the Goose Feather", perdo, corpus, 5)
+dust_dust = Spell("Dust to Dust", perdo, corpus, 15)
+wound_weeps = Spell("The Wound That Weeps", perdo, corpus, 15)
+
+curse_unruly_tongue = Spell("Curse of the Unruly Tongue", rego, corpus, 5)
+spasms_uncontrolled_hand = Spell("Spams of the Uncontrolled Hand", rego, corpus, 5)
+rise_feathery_body = Spell("Rise of the Feathery Body", rego, corpus, 10)
+
+corpus_spells = [
+    bind_wound, charm_against_putrefaction, chirurgeon_healing_touch, physician_eye,
+    revealed_flaws_mortal_flesh, inexorable_search, disguise_new_visage,
+    preternatural_growth_shrinking, arm_infant, touch_goose_feather, dust_dust,
+    wound_weeps, curse_unruly_tongue, spasms_uncontrolled_hand, rise_feathery_body
+]
+
 
 class Player:
 
