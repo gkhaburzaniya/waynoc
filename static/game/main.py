@@ -1189,7 +1189,6 @@ class CharacterCreation:
                     tbody(*(spell.row for spell in all_spells)),
                     classes=[
                         "table",
-                        "table-striped",
                         "table-borderless",
                         "table-hover",
                         "table-sm",
@@ -1288,6 +1287,10 @@ def single_ability_display(ability):
         CharacterCreation.experience_points.value += (ability.value + 1) * 5
         if ability.value == 0:
             minus_button.disabled = True
+        if ability is magic_theory:
+            for spell in all_spells:
+                if not learnable_spell(spell):
+                    spell.row.hidden = True
 
     def increase_ability(_):
         ability.value += 1
@@ -1295,6 +1298,10 @@ def single_ability_display(ability):
         CharacterCreation.experience_points.value -= ability.value * 5
         if ability.value == 10:
             plus_button.disabled = True
+        if ability is magic_theory:
+            for spell in all_spells:
+                if learnable_spell(spell):
+                    spell.row.hidden = False
 
     minus_button = button(
         "-",
@@ -1323,6 +1330,9 @@ def single_art_display(art):
         CharacterCreation.experience_points.value += art.value + 1
         if art.value == 0:
             minus_button.disabled = True
+        for spell in spell_lists[art]:
+            if not learnable_spell(spell):
+                spell.row.hidden = True
 
     def increase_art(_):
         art.value += 1
