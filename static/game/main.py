@@ -458,11 +458,10 @@ class Spell:
                     classes=["form-check-input"],
                     onclick=self.click,
                 ),
-                f"{self.name}:",
-                em(f"{self.technique.short_name} {self.form.short_name}"),
+                f"{self.name}<br>",
+                em(f"{self.technique.short_name} {self.form.short_name} "),
                 strong(f"Level: {self.level}"),
             ),
-            hidden=True,
         )
 
     def click(self, e):
@@ -1175,6 +1174,21 @@ class CharacterCreation:
                 classes=["col-4", "col-md-3", "offset-md-3"],
             ),
         )
+        self.tables_div.append(
+            div(
+                table(
+                    tbody(*(single_spell_display(spell) for spell in spells_list)),
+                    classes=[
+                        "table",
+                        "table-striped",
+                        "table-borderless",
+                        "table-hover",
+                        "table-sm",
+                    ],
+                ),
+                classes=["col-4", "col-md-3", "offset-md-3"],
+            ),
+        )
         self.spell_levels_available.element.hidden = False
 
     def apprenticeship_choice(self, e):
@@ -1282,6 +1296,14 @@ def single_ability_display(ability):
             minus_button,
             ability.element,
             plus_button,
+        )
+    )
+
+
+def single_spell_display(spell):
+    return tr(
+        td(
+            spell.label
         )
     )
 
