@@ -843,7 +843,7 @@ creo_spells = [spell for spell in spells_list if spell.technique == creo]
 intellego_spells = [spell for spell in spells_list if spell.technique == intellego]
 muto_spells = [spell for spell in spells_list if spell.technique == muto]
 perdo_spells = [spell for spell in spells_list if spell.technique == perdo]
-rego_spells = [spell for spell in spell_list if spell.technique == rego]
+rego_spells = [spell for spell in spells_list if spell.technique == rego]
 
 
 class Player:
@@ -1181,6 +1181,7 @@ class CharacterCreation:
         self.later_life_selection.remove()
         player.age.value += 15
         start(e)
+        main.append(div(player.virtues))
         main.append(div(ability_list))
         main.append(div(arts_list))
 
