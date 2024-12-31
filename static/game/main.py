@@ -575,6 +575,35 @@ corpus_spells = [
     wound_weeps, curse_unruly_tongue, spasms_uncontrolled_hand, rise_feathery_body
 ]
 
+# Herbam Spells
+conjure_sturdy_vine = Spell("Conjure the Sturdy Vine", creo, herbam, 5)
+trap_entwining_vines = Spell("Trap of the Entwining Vines", creo, herbam, 10)
+bridge_wood = Spell("Bridge of Wood", creo, herbam, 20)
+
+hunt_wild_herb = Spell("Hunt for the Wild Herb", intellego, herbam, 5)
+intuition_forest = Spell("Intuition of the Forest", intellego, herbam, 10)
+shriek_impending_shafts = Spell("Shriek of the Impending Shafts", intellego, herbam,
+                                 15)
+
+pass_unyielding_portal = Spell("Pass the Unyielding Portal", muto, herbam, 5)
+transformation_thorny_staff = Spell("Transformation of the Thorny Staff", muto, herbam,
+                                    10)
+
+curse_rotted_wood = Spell("Curse of the Rotted Wood", perdo, herbam, 5)
+wizard_autumn = Spell("Wizards's Autumn", perdo, herbam, 15)
+plant_withering_bane = Spell("Plant's Withering Bane", perdo, herbam, 20)
+
+dance_staves = Spell("Dance of the Staves", rego, herbam, 5)
+repel_wooden_shafts = Spell("Repel the Wooden Shafts", rego, herbam, 10)
+strike_angered_branch = Spell("Strike of the Angered Branch", rego, herbam, 15)
+
+herbam_spells = [
+    conjure_sturdy_vine, trap_entwining_vines, bridge_wood, hunt_wild_herb,
+    intuition_forest, shriek_impending_shafts, pass_unyielding_portal,
+    transformation_thorny_staff, curse_rotted_wood, wizard_autumn, plant_withering_bane,
+    dance_staves, repel_wooden_shafts, strike_angered_branch
+]
+
 
 class Player:
 
