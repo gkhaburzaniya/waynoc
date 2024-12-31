@@ -492,10 +492,19 @@ circle_beast_warding = Spell("Circle of Beast Warding", rego, animal, 5)
 soothe_ferocious_bear = Spell("Soothe the Ferocious Bear", rego, animal, 10)
 
 animal_spells = [
-    soothe_pains_beast, true_rest_injured_brute, image_beast, shiver_lycanthrope,
-    beast_outlandish_size, doublet_impenetrable_silk, growth_creeping_things,
-    decay_fur_hide, agony_beast, blunt_viper_fangs, disguise_putrid_aroma,
-    circle_beast_warding, soothe_ferocious_bear
+    soothe_pains_beast,
+    true_rest_injured_brute,
+    image_beast,
+    shiver_lycanthrope,
+    beast_outlandish_size,
+    doublet_impenetrable_silk,
+    growth_creeping_things,
+    decay_fur_hide,
+    agony_beast,
+    blunt_viper_fangs,
+    disguise_putrid_aroma,
+    circle_beast_warding,
+    soothe_ferocious_bear,
 ]
 
 # Aquam Spells
@@ -504,8 +513,9 @@ creeping_oil = Spell("Creeping Oil", creo, aquam, 15)
 mighty_torrent_water = Spell("Mighty Torrent of Water", creo, aquam, 20)
 
 clear_sight_naiad = Spell("Clear Sight of the Naiad", intellego, aquam, 5)
-subtle_taste_poison_purity = Spell("Subtle Taste of Poison and Purity", intellego,
-                                   aquam, 5)
+subtle_taste_poison_purity = Spell(
+    "Subtle Taste of Poison and Purity", intellego, aquam, 5
+)
 touch_pearls = Spell("Touch of the Pearls", intellego, aquam, 5)
 
 incantation_putrid_wine = Spell("Incantation of Putrid Wine", muto, aquam, 15)
@@ -518,9 +528,17 @@ break_oncoming_wave = Spell("Break the Oncoming Wave", rego, aquam, 10)
 breath_winter = Spell("Breath of Winter", rego, aquam, 20)
 
 aquam_spells = [
-    footsteps_slippery_oil, creeping_oil, mighty_torrent_water, clear_sight_naiad,
-    subtle_taste_poison_purity, touch_pearls, incantation_putrid_wine,
-    comfort_drenched_traveler, parching_wind, break_oncoming_wave, breath_winter
+    footsteps_slippery_oil,
+    creeping_oil,
+    mighty_torrent_water,
+    clear_sight_naiad,
+    subtle_taste_poison_purity,
+    touch_pearls,
+    incantation_putrid_wine,
+    comfort_drenched_traveler,
+    parching_wind,
+    break_oncoming_wave,
+    breath_winter,
 ]
 
 # Auram Spells
@@ -530,8 +548,9 @@ jupiter_resounding_blow = Spell("Jupiter's Resounding Blow", creo, auram, 10)
 
 true_sight_air = Spell("True Sight of the Air", intellego, auram, 15)
 whispering_winds = Spell("Whispering Winds", intellego, auram, 15)
-sailor_foretaste_morrow = Spell("Sailor's Foretaste of the Morrow", intellego, auram,
-                                20)
+sailor_foretaste_morrow = Spell(
+    "Sailor's Foretaste of the Morrow", intellego, auram, 20
+)
 
 room_stale_air = Spell("Room of Stale Air", perdo, auram, 15)
 quiet_raging_winds = Spell("Quiet the Raging Winds", perdo, auram, 20)
@@ -540,9 +559,16 @@ wind_back = Spell("Wind at the Back", rego, auram, 5)
 ward_against_rain = Spell("Ward Against Rain", rego, auram, 10)
 
 auram_spells = [
-    air_ghostly_form, chamber_spring_breezes, jupiter_resounding_blow, true_sight_air,
-    whispering_winds, sailor_foretaste_morrow, room_stale_air, quiet_raging_winds,
-    wind_back, ward_against_rain
+    air_ghostly_form,
+    chamber_spring_breezes,
+    jupiter_resounding_blow,
+    true_sight_air,
+    whispering_winds,
+    sailor_foretaste_morrow,
+    room_stale_air,
+    quiet_raging_winds,
+    wind_back,
+    ward_against_rain,
 ]
 
 # Corpus Spells
@@ -551,13 +577,15 @@ charm_against_putrefaction = Spell("Charm Against Putrefaction", creo, corpus, 1
 chirurgeon_healing_touch = Spell("The Chirurgeon's Healing Touch", creo, corpus, 20)
 
 physician_eye = Spell("Physician's Eye", intellego, corpus, 5)
-revealed_flaws_mortal_flesh = Spell("Revealed Flaws of Mortal Flesh", intellego, corpus,
-                                    10)
+revealed_flaws_mortal_flesh = Spell(
+    "Revealed Flaws of Mortal Flesh", intellego, corpus, 10
+)
 inexorable_search = Spell("The Inexorable Search", intellego, corpus, 20)
 
 disguise_new_visage = Spell("Disguise of the New Visage", muto, corpus, 15)
-preternatural_growth_shrinking = Spell("Preternatural Growth and Shrinking", muto,
-                                       corpus, 15)
+preternatural_growth_shrinking = Spell(
+    "Preternatural Growth and Shrinking", muto, corpus, 15
+)
 arm_infant = Spell("Arm of the Infant", muto, corpus, 20)
 
 touch_goose_feather = Spell("Touch of the Goose Feather", perdo, corpus, 5)
@@ -569,10 +597,21 @@ spasms_uncontrolled_hand = Spell("Spams of the Uncontrolled Hand", rego, corpus,
 rise_feathery_body = Spell("Rise of the Feathery Body", rego, corpus, 10)
 
 corpus_spells = [
-    bind_wound, charm_against_putrefaction, chirurgeon_healing_touch, physician_eye,
-    revealed_flaws_mortal_flesh, inexorable_search, disguise_new_visage,
-    preternatural_growth_shrinking, arm_infant, touch_goose_feather, dust_dust,
-    wound_weeps, curse_unruly_tongue, spasms_uncontrolled_hand, rise_feathery_body
+    bind_wound,
+    charm_against_putrefaction,
+    chirurgeon_healing_touch,
+    physician_eye,
+    revealed_flaws_mortal_flesh,
+    inexorable_search,
+    disguise_new_visage,
+    preternatural_growth_shrinking,
+    arm_infant,
+    touch_goose_feather,
+    dust_dust,
+    wound_weeps,
+    curse_unruly_tongue,
+    spasms_uncontrolled_hand,
+    rise_feathery_body,
 ]
 
 # Herbam Spells
@@ -582,12 +621,12 @@ bridge_wood = Spell("Bridge of Wood", creo, herbam, 20)
 
 hunt_wild_herb = Spell("Hunt for the Wild Herb", intellego, herbam, 5)
 intuition_forest = Spell("Intuition of the Forest", intellego, herbam, 10)
-shriek_impending_shafts = Spell("Shriek of the Impending Shafts", intellego, herbam,
-                                15)
+shriek_impending_shafts = Spell("Shriek of the Impending Shafts", intellego, herbam, 15)
 
 pass_unyielding_portal = Spell("Pass the Unyielding Portal", muto, herbam, 5)
-transformation_thorny_staff = Spell("Transformation of the Thorny Staff", muto, herbam,
-                                    10)
+transformation_thorny_staff = Spell(
+    "Transformation of the Thorny Staff", muto, herbam, 10
+)
 
 curse_rotted_wood = Spell("Curse of the Rotted Wood", perdo, herbam, 5)
 wizard_autumn = Spell("Wizards's Autumn", perdo, herbam, 15)
@@ -598,10 +637,20 @@ repel_wooden_shafts = Spell("Repel the Wooden Shafts", rego, herbam, 10)
 strike_angered_branch = Spell("Strike of the Angered Branch", rego, herbam, 15)
 
 herbam_spells = [
-    conjure_sturdy_vine, trap_entwining_vines, bridge_wood, hunt_wild_herb,
-    intuition_forest, shriek_impending_shafts, pass_unyielding_portal,
-    transformation_thorny_staff, curse_rotted_wood, wizard_autumn, plant_withering_bane,
-    dance_staves, repel_wooden_shafts, strike_angered_branch
+    conjure_sturdy_vine,
+    trap_entwining_vines,
+    bridge_wood,
+    hunt_wild_herb,
+    intuition_forest,
+    shriek_impending_shafts,
+    pass_unyielding_portal,
+    transformation_thorny_staff,
+    curse_rotted_wood,
+    wizard_autumn,
+    plant_withering_bane,
+    dance_staves,
+    repel_wooden_shafts,
+    strike_angered_branch,
 ]
 
 # Ignem Spells
@@ -626,10 +675,21 @@ leap_fire = Spell("Leap of the Fire", rego, ignem, 10)
 light_shaft_night = Spell("Light Shaft of the Night", rego, ignem, 20)
 
 ignem_spells = [
-    palm_flame, heat_searing_forge, lamp_without_flame, tales_ashes, shadows_fires_past,
-    vision_heat_light, many_hued_conflagration, show_flames_smokes, prison_flames,
-    gloom_evening, winter_icy_touch, soothe_raging_flames, tremulous_vault, leap_fire,
-    light_shaft_night
+    palm_flame,
+    heat_searing_forge,
+    lamp_without_flame,
+    tales_ashes,
+    shadows_fires_past,
+    vision_heat_light,
+    many_hued_conflagration,
+    show_flames_smokes,
+    prison_flames,
+    gloom_evening,
+    winter_icy_touch,
+    soothe_raging_flames,
+    tremulous_vault,
+    leap_fire,
+    light_shaft_night,
 ]
 
 # Imaginem Spells
@@ -646,17 +706,27 @@ notes_delightful_sound = Spell("Notes of a Delightful Sound", muto, imaginem, 10
 
 taste_dulled_tongue = Spell("Taste of the Dulled Tongue", perdo, imaginem, 5)
 illusion_cool_flames = Spell("Illusion of Cool Flames", perdo, imaginem, 10)
-invisibility_standing_wizard = Spell("Invisibility of the Standing Wizard", perdo,
-                                     imaginem, 15)
+invisibility_standing_wizard = Spell(
+    "Invisibility of the Standing Wizard", perdo, imaginem, 15
+)
 
 illusion_shifted_image = Spell("Illusion of the Shifted Image", rego, imaginem, 10)
 wizard_sidestep = Spell("Wizard's Sidestep", rego, imaginem, 10)
 
 imaginem_spells = [
-    phantasm_talking_head, phantasmal_animal, prying_eyes, discern_own_illusions,
-    ear_distant_voices, taste_spices_herbs, aura_ennobled_presence,
-    notes_delightful_sound, taste_dulled_tongue, illusion_cool_flames,
-    invisibility_standing_wizard, illusion_shifted_image, wizard_sidestep
+    phantasm_talking_head,
+    phantasmal_animal,
+    prying_eyes,
+    discern_own_illusions,
+    ear_distant_voices,
+    taste_spices_herbs,
+    aura_ennobled_presence,
+    notes_delightful_sound,
+    taste_dulled_tongue,
+    illusion_cool_flames,
+    invisibility_standing_wizard,
+    illusion_shifted_image,
+    wizard_sidestep,
 ]
 
 # Mentem Spells
@@ -664,12 +734,15 @@ words_unbroken_silence = Spell("Words of the Unbroken Silence", creo, mentem, 10
 panic_trembling_heart = Spell("Panic of the Trembling Heart", creo, mentem, 15)
 rising_ire = Spell("Rising Ire", creo, mentem, 15)
 
-sight_transparent_motive = Spell("Sight of the Transparent Motive", intellego, mentem,
-                                 10)
-perception_conflicting_motives = Spell("Perception of the Conflicting Motives",
-                                       intellego, mentem, 15)
-frost_breath_spoken_lie = Spell("Frosty Breath of the Spoken Lie", intellego, mentem,
-                                20)
+sight_transparent_motive = Spell(
+    "Sight of the Transparent Motive", intellego, mentem, 10
+)
+perception_conflicting_motives = Spell(
+    "Perception of the Conflicting Motives", intellego, mentem, 15
+)
+frost_breath_spoken_lie = Spell(
+    "Frosty Breath of the Spoken Lie", intellego, mentem, 20
+)
 
 tip_tongue = Spell("Tip of the Tongue", perdo, mentem, 5)
 trust_childlike_faith = Spell("Trust of Childlike Faith", perdo, mentem, 10)
@@ -680,10 +753,18 @@ snap_awakening = Spell("Snap of Awakening", rego, mentem, 10)
 confusion_numbed_will = Spell("Confusion of the Numbed Will", rego, mentem, 15)
 
 mentem_spells = [
-    words_unbroken_silence, panic_trembling_heart, rising_ire, sight_transparent_motive,
-    perception_conflicting_motives, frost_breath_spoken_lie, tip_tongue,
-    trust_childlike_faith, calm_motion_heart, call_slumber, snap_awakening,
-    confusion_numbed_will
+    words_unbroken_silence,
+    panic_trembling_heart,
+    rising_ire,
+    sight_transparent_motive,
+    perception_conflicting_motives,
+    frost_breath_spoken_lie,
+    tip_tongue,
+    trust_childlike_faith,
+    calm_motion_heart,
+    call_slumber,
+    snap_awakening,
+    confusion_numbed_will,
 ]
 
 # Terram Spells
@@ -691,8 +772,9 @@ seal_earth = Spell("Seal the Earth", creo, terram, 15)
 touch_midas = Spell("Touch of Midas", creo, terram, 20)
 
 eyes_eons = Spell("Eyes of the Eons", intellego, terram, 10)
-eyes_treacherous_terrain = Spell("Eyes of the Treacherous Terrain", intellego, terram,
-                                 15)
+eyes_treacherous_terrain = Spell(
+    "Eyes of the Treacherous Terrain", intellego, terram, 15
+)
 miner_keen_eye = Spell("The Miner's Keen Eye", intellego, terram, 20)
 
 supple_iron_rigid_rope = Spell("Supple Iron and Rigid Rope", muto, terram, 10)
@@ -700,8 +782,9 @@ object_increased_size = Spell("Object of Increased Size", muto, terram, 15)
 rock_viscid_clay = Spell("Rock of Viscid Clay", muto, terram, 15)
 
 fist_shattering = Spell("Fist of Shattering", perdo, terram, 10)
-rusted_decay_ten_score_years = Spell("Rusted Decay of Ten-Score Years", perdo, terram,
-                                     10)
+rusted_decay_ten_score_years = Spell(
+    "Rusted Decay of Ten-Score Years", perdo, terram, 10
+)
 pit_gaping_earth = Spell("Pit of the Gaping Earth", perdo, terram, 15)
 
 unseen_arm = Spell("Unseen Arm", rego, terram, 5)
@@ -709,10 +792,20 @@ trackless_step = Spell("Trackless Step", rego, terram, 10)
 wielding_invisible_sling = Spell("Wielding the Invisible Sling", rego, terram, 10)
 
 terram_spells = [
-    seal_earth, touch_midas, eyes_eons, eyes_treacherous_terrain, miner_keen_eye,
-    supple_iron_rigid_rope, object_increased_size, rock_viscid_clay, fist_shattering,
-    rusted_decay_ten_score_years, pit_gaping_earth, unseen_arm, trackless_step,
-    wielding_invisible_sling
+    seal_earth,
+    touch_midas,
+    eyes_eons,
+    eyes_treacherous_terrain,
+    miner_keen_eye,
+    supple_iron_rigid_rope,
+    object_increased_size,
+    rock_viscid_clay,
+    fist_shattering,
+    rusted_decay_ten_score_years,
+    pit_gaping_earth,
+    unseen_arm,
+    trackless_step,
+    wielding_invisible_sling,
 ]
 
 # Vim Spells
@@ -725,13 +818,25 @@ piercing_faerie_veil = Spell("Piercing the Faerie Veil", intellego, vim, 20)
 gather_essence_beast = Spell("Gather the Essence of the Beast", rego, vim, 15)
 
 vim_spells = [
-    phantom_gift, scales_magical_weight, sense_nature_vis, sense_nature_vis,
-    piercing_faerie_veil, gather_essence_beast
+    phantom_gift,
+    scales_magical_weight,
+    sense_nature_vis,
+    sense_nature_vis,
+    piercing_faerie_veil,
+    gather_essence_beast,
 ]
 
 spells_list = (
-        animal_spells + aquam_spells + auram_spells + corpus_spells + herbam_spells +
-        ignem_spells + imaginem_spells + mentem_spells + terram_spells + vim_spells
+    animal_spells
+    + aquam_spells
+    + auram_spells
+    + corpus_spells
+    + herbam_spells
+    + ignem_spells
+    + imaginem_spells
+    + mentem_spells
+    + terram_spells
+    + vim_spells
 )
 
 creo_spells = [spell for spell in spells_list if spell.technique == creo]
