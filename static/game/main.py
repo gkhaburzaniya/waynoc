@@ -463,6 +463,7 @@ class Spell:
                 strong(f"Level: {self.level}"),
             ),
         )
+        self.row = tr(td(self.label), hidden=True)
 
     def click(self, e):
         if e.target.checked:
@@ -825,24 +826,32 @@ vim_spells = [
     gather_essence_beast,
 ]
 
-spells_list = (
-    animal_spells
-    + aquam_spells
-    + auram_spells
-    + corpus_spells
-    + herbam_spells
-    + ignem_spells
-    + imaginem_spells
-    + mentem_spells
-    + terram_spells
-    + vim_spells
+all_spells = (
+        animal_spells
+        + aquam_spells
+        + auram_spells
+        + corpus_spells
+        + herbam_spells
+        + ignem_spells
+        + imaginem_spells
+        + mentem_spells
+        + terram_spells
+        + vim_spells
 )
 
-creo_spells = [spell for spell in spells_list if spell.technique == creo]
-intellego_spells = [spell for spell in spells_list if spell.technique == intellego]
-muto_spells = [spell for spell in spells_list if spell.technique == muto]
-perdo_spells = [spell for spell in spells_list if spell.technique == perdo]
-rego_spells = [spell for spell in spells_list if spell.technique == rego]
+creo_spells = [spell for spell in all_spells if spell.technique == creo]
+intellego_spells = [spell for spell in all_spells if spell.technique == intellego]
+muto_spells = [spell for spell in all_spells if spell.technique == muto]
+perdo_spells = [spell for spell in all_spells if spell.technique == perdo]
+rego_spells = [spell for spell in all_spells if spell.technique == rego]
+
+spell_lists = {
+    animal: animal_spells, aquam: aquam_spells, auram: auram_spells,
+    corpus: corpus_spells, herbam: herbam_spells, ignem: ignem_spells,
+    imaginem: imaginem_spells, mentem: mentem_spells, terram: terram_spells,
+    vim: vim_spells,
+    creo: creo_spells, intellego: intellego_spells, muto: muto_spells,
+    perdo: perdo_spells, rego: rego_spells}
 
 
 class Player:
@@ -1177,7 +1186,7 @@ class CharacterCreation:
         self.tables_div.append(
             div(
                 table(
-                    tbody(*(single_spell_display(spell) for spell in spells_list)),
+                    tbody(*(spell.row for spell in all_spells)),
                     classes=[
                         "table",
                         "table-striped",
@@ -1190,12 +1199,15 @@ class CharacterCreation:
             ),
         )
         self.spell_levels_available.element.hidden = False
+        for spell in all_spells:
+            if learnable_spell(spell):
+                spell.row.hidden = False
 
     def apprenticeship_choice(self, e):
         self.later_life_selection.remove()
         player.age.value += 15
         player.spells = [
-            spell for spell in spells_list if spell.label["input"][0].checked
+            spell for spell in all_spells if spell.label["input"][0].checked
         ]
         start(e)
         main.append(div(player.virtues))
@@ -1304,14 +1316,6 @@ def single_ability_display(ability):
     )
 
 
-def single_spell_display(spell):
-    return tr(
-        td(
-            spell.label
-        )
-    )
-
-
 def single_art_display(art):
     def decrease_art(_):
         art.value -= 1
@@ -1326,6 +1330,9 @@ def single_art_display(art):
         CharacterCreation.experience_points.value -= art.value
         if art.value == 10:
             plus_button.disabled = True
+        for spell in spell_lists[art]:
+            if learnable_spell(spell):
+                spell.row.hidden = False
 
     minus_button = button(
         "-",
@@ -1344,6 +1351,14 @@ def single_art_display(art):
             art.element,
             plus_button,
         )
+    )
+
+
+def learnable_spell(spell):
+    return (
+            player.abilities[magic_theory].value * 3 + player.intelligence.value +
+            player.arts[spell.technique].value + player.arts[spell.form].value
+            >= spell.level
     )
 
 
