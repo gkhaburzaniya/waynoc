@@ -1171,7 +1171,7 @@ class CharacterCreation:
                         "table-sm",
                     ],
                 ),
-                classes=["col-4", "col-md-3", "offset-md-3"],
+                classes=["col-4", "col-md-3"],
             ),
         )
         self.tables_div.append(
@@ -1186,7 +1186,7 @@ class CharacterCreation:
                         "table-sm",
                     ],
                 ),
-                classes=["col-4", "col-md-3", "offset-md-3"],
+                classes=["col-4", "col-md-3"],
             ),
         )
         self.spell_levels_available.element.hidden = False
