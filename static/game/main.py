@@ -1194,10 +1194,14 @@ class CharacterCreation:
     def apprenticeship_choice(self, e):
         self.later_life_selection.remove()
         player.age.value += 15
+        player.spells = [
+            spell for spell in spells_list if spell.label["input"][0].checked
+        ]
         start(e)
         main.append(div(player.virtues))
         main.append(div(ability_list))
         main.append(div(arts_list))
+        main.append(div(player.spells))
 
 
 page["#loading"][0].remove()
