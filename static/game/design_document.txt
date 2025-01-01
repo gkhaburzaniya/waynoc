@@ -1,0 +1,14 @@
+Game Design Document: Waynoc 0
+
+Overview
+Three trainable skills: Social, Mental, and Physical.
+
+Core Gameplay Loop
+Combat: Sort-of-tower defense. Except the monsters are just chasing you around the map.
+Physical skills govern how fast your character moves. Mental how much damage your
+magical blast does. Social, how many NPCs help you out.
+
+Progression: Players earn XP through time passing which they can allocate to improve one
+of the three skills. Rate of monster appearances goes up with time.
+
+NPCs: Sort of just stand around at the bottom of the map shooting weak magic blasts.
