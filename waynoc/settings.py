@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     "blog",
     "movienite",
     "ars",
+    "prototype",
 ]
 
 MIDDLEWARE = [
