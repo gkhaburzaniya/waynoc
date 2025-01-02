@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.views import View
 
 
-class Game(View):
-    template_name = "game/game.html"
+class Ars(View):
+    template_name = "ars/ars.html"
 
     @classmethod
     def get(cls, request):

@@ -21,7 +21,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "blog",
     "movienite",
-    "game",
+    "ars",
 ]
 
 MIDDLEWARE = [
