@@ -1,4 +1,5 @@
 from pyscript.web import page, div
+import asyncio
 from pyscript import when, window
 
 page["#loading"][0].remove()
@@ -16,11 +17,13 @@ class Player:
         self.x = 0
         self.y = 0
 
-    def move(self, x=0, y=0):
-        self.x += x
-        self.y += y
-        self.element.style["left"] = str(self.x) + "%"
-        self.element.style["bottom"] = str(self.y) + "%"
+    async def move(self, x=0, y=0):
+        while moving:
+            self.x += x
+            self.y += y
+            self.element.style["left"] = str(self.x) + "%"
+            self.element.style["bottom"] = str(self.y) + "%"
+            await asyncio.sleep(0.05)
 
 
 field = div(style={"width": "300px", "height": "300px",
@@ -40,12 +43,20 @@ main.append(field)
 # TODO make first movement not take significantly longer
 # TODO make movement bound by field
 @when("keydown", window)
-def move(event):
+def keydown(event):
+    global moving
+    moving = True
     if event.key == "ArrowUp":
-        player.move(y=5)
+        asyncio.ensure_future(player.move(y=5))
     elif event.key == "ArrowDown":
-        player.move(y=-5)
+        asyncio.ensure_future(player.move(y=-5))
     elif event.key == "ArrowLeft":
-        player.move(x=-5)
+        asyncio.ensure_future(player.move(x=-5))
     elif event.key == "ArrowRight":
-        player.move(x=5)
+        asyncio.ensure_future(player.move(x=5))
+
+
+@when("keyup", window)
+def keyup(_):
+    global moving
+    moving = False
