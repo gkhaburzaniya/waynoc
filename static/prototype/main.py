@@ -18,8 +18,8 @@ class Player:
     def __init__(self):
         self.element = div(
             style={
-                "width": "50px",
-                "height": "50px",
+                "width": "5%",
+                "height": "5%",
                 "position": "absolute",
                 "bottom": "0%",
                 "background-color": "blue",
@@ -29,21 +29,22 @@ class Player:
         )
 
     async def move(self):
+        move_speed = 2
         self.moving = True
         while (
             self.moving_left or self.moving_right or self.moving_up or self.moving_down
         ):
             if self.moving_right and self.x != 100:
-                self.x += 5
+                self.x += move_speed
                 self.element.style["left"] = str(self.x) + "%"
             elif self.moving_left and self.x != 0:
-                self.x -= 5
+                self.x -= move_speed
                 self.element.style["left"] = str(self.x) + "%"
             if self.moving_up and self.y != 100:
-                self.y += 5
+                self.y += move_speed
                 self.element.style["bottom"] = str(self.y) + "%"
             if self.moving_down and self.y != 0:
-                self.y -= 5
+                self.y -= move_speed
                 self.element.style["bottom"] = str(self.y) + "%"
             await asyncio.sleep(0.05)
         self.moving = False
@@ -61,8 +62,8 @@ field = div(
 )
 enemy = div(
     style={
-        "width": "50px",
-        "height": "50px",
+        "width": "5%",
+        "height": "5%",
         "background-color": "red",
         "border": "2px solid black",
     }
