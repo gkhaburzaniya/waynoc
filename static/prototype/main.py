@@ -5,6 +5,9 @@ from pyscript import when, window
 page["#loading"][0].remove()
 main = page["main"][0]
 
+moving_x = False
+moving_y = False
+
 
 class Player:
     def __init__(self):
@@ -18,11 +21,13 @@ class Player:
         self.y = 0
 
     async def move(self, x=0, y=0):
-        while moving:
-            self.x += x
-            self.y += y
-            self.element.style["left"] = str(self.x) + "%"
-            self.element.style["bottom"] = str(self.y) + "%"
+        while moving_x or moving_y:
+            if moving_x:
+                self.x += x
+                self.element.style["left"] = str(self.x) + "%"
+            if moving_y:
+                self.y += y
+                self.element.style["bottom"] = str(self.y) + "%"
             await asyncio.sleep(0.05)
 
 
@@ -44,19 +49,25 @@ main.append(field)
 # TODO make movement bound by field
 @when("keydown", window)
 def keydown(event):
-    global moving
-    moving = True
+    global moving_x, moving_y
     if event.key == "ArrowUp":
-        asyncio.ensure_future(player.move(y=5))
+        moving_y = True
+        asyncio.create_task(player.move(y=5))
     elif event.key == "ArrowDown":
-        asyncio.ensure_future(player.move(y=-5))
+        moving_y = True
+        asyncio.create_task(player.move(y=-5))
     elif event.key == "ArrowLeft":
-        asyncio.ensure_future(player.move(x=-5))
+        moving_x = True
+        asyncio.create_task(player.move(x=-5))
     elif event.key == "ArrowRight":
-        asyncio.ensure_future(player.move(x=5))
+        moving_x = True
+        asyncio.create_task(player.move(x=5))
 
 
 @when("keyup", window)
-def keyup(_):
-    global moving
-    moving = False
+def keyup(event):
+    global moving_x, moving_y
+    if event.key in ["ArrowUp", "ArrowDown"]:
+        moving_y = False
+    elif event.key in ["ArrowLeft", "ArrowRight"]:
+        moving_x = False
