@@ -33,16 +33,16 @@ class Player:
         while (
             self.moving_left or self.moving_right or self.moving_up or self.moving_down
         ):
-            if self.moving_right:
+            if self.moving_right and self.x != 100:
                 self.x += 5
                 self.element.style["left"] = str(self.x) + "%"
-            elif self.moving_left:
+            elif self.moving_left and self.x != 0:
                 self.x -= 5
                 self.element.style["left"] = str(self.x) + "%"
-            if self.moving_up:
+            if self.moving_up and self.y != 100:
                 self.y += 5
                 self.element.style["bottom"] = str(self.y) + "%"
-            if self.moving_down:
+            if self.moving_down and self.y != 0:
                 self.y -= 5
                 self.element.style["bottom"] = str(self.y) + "%"
             await asyncio.sleep(0.05)
