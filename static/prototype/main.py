@@ -5,69 +5,96 @@ from pyscript import when, window
 page["#loading"][0].remove()
 main = page["main"][0]
 
-moving_x = False
-moving_y = False
-
 
 class Player:
-    def __init__(self):
-        self.element = div(style={"width": "50px", "height": "50px",
-                                  "position": "absolute",
-                                  "bottom": "0%",
-                                  "background-color": "blue",
-                                  "border": "2px solid black",
-                                  "transition": "0.05s linear"})
-        self.x = 0
-        self.y = 0
+    moving_left = False
+    moving_right = False
+    moving_up = False
+    moving_down = False
+    moving = False
+    x = 0
+    y = 0
 
-    async def move(self, x=0, y=0):
-        while moving_x or moving_y:
-            if moving_x:
-                self.x += x
+    def __init__(self):
+        self.element = div(
+            style={
+                "width": "50px",
+                "height": "50px",
+                "position": "absolute",
+                "bottom": "0%",
+                "background-color": "blue",
+                "border": "2px solid black",
+                "transition": "0.05s linear",
+            }
+        )
+
+    async def move(self):
+        self.moving = True
+        while (
+            self.moving_left or self.moving_right or self.moving_up or self.moving_down
+        ):
+            if self.moving_right:
+                self.x += 5
                 self.element.style["left"] = str(self.x) + "%"
-            if moving_y:
-                self.y += y
+            elif self.moving_left:
+                self.x -= 5
+                self.element.style["left"] = str(self.x) + "%"
+            if self.moving_up:
+                self.y += 5
+                self.element.style["bottom"] = str(self.y) + "%"
+            if self.moving_down:
+                self.y -= 5
                 self.element.style["bottom"] = str(self.y) + "%"
             await asyncio.sleep(0.05)
+        self.moving = False
 
 
-field = div(style={"width": "300px", "height": "300px",
-                   "display": "flex",
-                   "position": "relative",
-                   "background-color": "grey",
-                   "border": "2px solid black"})
-enemy = div(style={"width": "50px", "height": "50px",
-                   "background-color": "red",
-                   "border": "2px solid black"})
+field = div(
+    style={
+        "width": "300px",
+        "height": "300px",
+        "display": "flex",
+        "position": "relative",
+        "background-color": "grey",
+        "border": "2px solid black",
+    }
+)
+enemy = div(
+    style={
+        "width": "50px",
+        "height": "50px",
+        "background-color": "red",
+        "border": "2px solid black",
+    }
+)
 player = Player()
 field.append(enemy)
 field.append(player.element)
 main.append(field)
 
 
-# TODO make first movement not take significantly longer
 # TODO make movement bound by field
 @when("keydown", window)
 def keydown(event):
-    global moving_x, moving_y
     if event.key == "ArrowUp":
-        moving_y = True
-        asyncio.create_task(player.move(y=5))
+        player.moving_up = True
     elif event.key == "ArrowDown":
-        moving_y = True
-        asyncio.create_task(player.move(y=-5))
+        player.moving_down = True
     elif event.key == "ArrowLeft":
-        moving_x = True
-        asyncio.create_task(player.move(x=-5))
+        player.moving_left = True
     elif event.key == "ArrowRight":
-        moving_x = True
-        asyncio.create_task(player.move(x=5))
+        player.moving_right = True
+    if not player.moving:
+        asyncio.create_task(player.move())
 
 
 @when("keyup", window)
 def keyup(event):
-    global moving_x, moving_y
-    if event.key in ["ArrowUp", "ArrowDown"]:
-        moving_y = False
-    elif event.key in ["ArrowLeft", "ArrowRight"]:
-        moving_x = False
+    if event.key == "ArrowUp":
+        player.moving_up = False
+    elif event.key == "ArrowDown":
+        player.moving_down = False
+    elif event.key in "ArrowLeft":
+        player.moving_left = False
+    elif event.key in "ArrowRight":
+        player.moving_right = False

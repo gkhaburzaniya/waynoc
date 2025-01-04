@@ -827,16 +827,16 @@ vim_spells = [
 ]
 
 all_spells = (
-        animal_spells
-        + aquam_spells
-        + auram_spells
-        + corpus_spells
-        + herbam_spells
-        + ignem_spells
-        + imaginem_spells
-        + mentem_spells
-        + terram_spells
-        + vim_spells
+    animal_spells
+    + aquam_spells
+    + auram_spells
+    + corpus_spells
+    + herbam_spells
+    + ignem_spells
+    + imaginem_spells
+    + mentem_spells
+    + terram_spells
+    + vim_spells
 )
 
 creo_spells = [spell for spell in all_spells if spell.technique == creo]
@@ -846,12 +846,22 @@ perdo_spells = [spell for spell in all_spells if spell.technique == perdo]
 rego_spells = [spell for spell in all_spells if spell.technique == rego]
 
 spell_lists = {
-    animal: animal_spells, aquam: aquam_spells, auram: auram_spells,
-    corpus: corpus_spells, herbam: herbam_spells, ignem: ignem_spells,
-    imaginem: imaginem_spells, mentem: mentem_spells, terram: terram_spells,
+    animal: animal_spells,
+    aquam: aquam_spells,
+    auram: auram_spells,
+    corpus: corpus_spells,
+    herbam: herbam_spells,
+    ignem: ignem_spells,
+    imaginem: imaginem_spells,
+    mentem: mentem_spells,
+    terram: terram_spells,
     vim: vim_spells,
-    creo: creo_spells, intellego: intellego_spells, muto: muto_spells,
-    perdo: perdo_spells, rego: rego_spells}
+    creo: creo_spells,
+    intellego: intellego_spells,
+    muto: muto_spells,
+    perdo: perdo_spells,
+    rego: rego_spells,
+}
 
 
 class Player:
@@ -1366,9 +1376,11 @@ def single_art_display(art):
 
 def learnable_spell(spell):
     return (
-            player.abilities[magic_theory].value * 3 + player.intelligence.value +
-            player.arts[spell.technique].value + player.arts[spell.form].value
-            >= spell.level
+        player.abilities[magic_theory].value * 3
+        + player.intelligence.value
+        + player.arts[spell.technique].value
+        + player.arts[spell.form].value
+        >= spell.level
     )
 
 
