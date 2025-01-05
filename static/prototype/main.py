@@ -43,17 +43,25 @@ class Player:
     def y(self, value):
         self.element.style["bottom"] = str(value) + "%"
 
+    @property
+    def width(self):
+        return int(self.element.style["width"][:-1])
+
+    @property
+    def height(self):
+        return int(self.element.style["height"][:-1])
+
     async def move(self):
-        move_speed = 2
+        move_speed = 1
         self.moving = True
         while (
             self.moving_left or self.moving_right or self.moving_up or self.moving_down
         ):
-            if self.moving_right and self.x != 100:
+            if self.moving_right and self.x != (100 - self.width):
                 self.x += move_speed
             elif self.moving_left and self.x != 0:
                 self.x -= move_speed
-            if self.moving_up and self.y != 100:
+            if self.moving_up and self.y != (100 - self.height):
                 self.y += move_speed
             if self.moving_down and self.y != 0:
                 self.y -= move_speed
@@ -68,7 +76,7 @@ field = div(
         "display": "flex",
         "position": "relative",
         "background-color": "grey",
-        "border": "2px solid black",
+        "border": "5px solid black",
     }
 )
 enemy = div(
