@@ -12,7 +12,6 @@ class Player:
     moving_up = False
     moving_down = False
     moving = False
-    y = 0
 
     def __init__(self):
         self.element = div(
@@ -36,6 +35,14 @@ class Player:
     def x(self, value):
         self.element.style["left"] = str(value) + "%"
 
+    @property
+    def y(self):
+        return int(self.element.style["bottom"][:-1])
+
+    @y.setter
+    def y(self, value):
+        self.element.style["bottom"] = str(value) + "%"
+
     async def move(self):
         move_speed = 2
         self.moving = True
@@ -43,15 +50,13 @@ class Player:
             self.moving_left or self.moving_right or self.moving_up or self.moving_down
         ):
             if self.moving_right and self.x != 100:
-                self.x = self.x + move_speed
+                self.x += move_speed
             elif self.moving_left and self.x != 0:
-                self.x = self.x - move_speed
+                self.x -= move_speed
             if self.moving_up and self.y != 100:
                 self.y += move_speed
-                self.element.style["bottom"] = str(self.y) + "%"
             if self.moving_down and self.y != 0:
                 self.y -= move_speed
-                self.element.style["bottom"] = str(self.y) + "%"
             await asyncio.sleep(0.05)
         self.moving = False
 
