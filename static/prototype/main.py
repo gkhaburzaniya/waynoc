@@ -16,11 +16,11 @@ class Player:
     def __init__(self):
         self.element = div(
             style={
-                "width": "5%",
-                "height": "5%",
+                "width": "15px",
+                "height": "15px",
                 "position": "absolute",
-                "left": "0%",
-                "bottom": "0%",
+                "left": "0px",
+                "bottom": "0px",
                 "background-color": "blue",
                 "border": "2px solid black",
                 "transition": "0.05s linear",
@@ -29,39 +29,39 @@ class Player:
 
     @property
     def x(self):
-        return int(self.element.style["left"][:-1])
+        return int(self.element.style["left"][:-2])
 
     @x.setter
     def x(self, value):
-        self.element.style["left"] = str(value) + "%"
+        self.element.style["left"] = str(value) + "px"
 
     @property
     def y(self):
-        return int(self.element.style["bottom"][:-1])
+        return int(self.element.style["bottom"][:-2])
 
     @y.setter
     def y(self, value):
-        self.element.style["bottom"] = str(value) + "%"
+        self.element.style["bottom"] = str(value) + "px"
 
     @property
     def width(self):
-        return int(self.element.style["width"][:-1])
+        return int(self.element.style["width"][:-2])
 
     @property
     def height(self):
-        return int(self.element.style["height"][:-1])
+        return int(self.element.style["height"][:-2])
 
     async def move(self):
-        move_speed = 1
+        move_speed = 5
         self.moving = True
         while (
             self.moving_left or self.moving_right or self.moving_up or self.moving_down
         ):
-            if self.moving_right and self.x != (100 - self.width):
+            if self.moving_right and self.x != (295 - self.width):
                 self.x += move_speed
             elif self.moving_left and self.x != 0:
                 self.x -= move_speed
-            if self.moving_up and self.y != (100 - self.height):
+            if self.moving_up and self.y != (295 - self.height):
                 self.y += move_speed
             if self.moving_down and self.y != 0:
                 self.y -= move_speed
@@ -71,8 +71,8 @@ class Player:
 
 field = div(
     style={
-        "width": "300px",
-        "height": "300px",
+        "width": "305px",
+        "height": "305px",
         "display": "flex",
         "position": "relative",
         "background-color": "grey",
@@ -81,8 +81,8 @@ field = div(
 )
 enemy = div(
     style={
-        "width": "5%",
-        "height": "5%",
+        "width": "15px",
+        "height": "15px",
         "background-color": "red",
         "border": "2px solid black",
     }
