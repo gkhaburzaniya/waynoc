@@ -123,11 +123,11 @@ def keydown(event):
 
 @when("keyup", window)
 def keyup(event):
-    if event.key == "ArrowUp":
+    if event.code == "ArrowUp":
         player.moving_up = False
-    elif event.key == "ArrowDown":
+    elif event.code == "ArrowDown":
         player.moving_down = False
-    elif event.key in "ArrowLeft":
+    elif event.code in "ArrowLeft":
         player.moving_left = False
-    elif event.key in "ArrowRight":
+    elif event.code in "ArrowRight":
         player.moving_right = False
