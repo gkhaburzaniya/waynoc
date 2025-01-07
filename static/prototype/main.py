@@ -21,7 +21,7 @@ class Player:
                 "position": "absolute",
                 "left": "0px",
                 "bottom": "0px",
-                "background-color": "blue",
+                "background-color": "green",
                 "border": "2px solid black",
                 "transition": "0.05s linear",
             }
@@ -93,16 +93,30 @@ field.append(player.element)
 main.append(field)
 
 
+def blast():
+    return div(
+        style={
+            "width": "5px",
+            "height": "5px",
+            "left": "0px",
+            "bottom": "0px",
+            "background-color": "blue",
+        }
+    )
+
+
 @when("keydown", window)
 def keydown(event):
-    if event.key == "ArrowUp":
+    if event.code == "ArrowUp":
         player.moving_up = True
-    elif event.key == "ArrowDown":
+    elif event.code == "ArrowDown":
         player.moving_down = True
-    elif event.key == "ArrowLeft":
+    elif event.code == "ArrowLeft":
         player.moving_left = True
-    elif event.key == "ArrowRight":
+    elif event.code == "ArrowRight":
         player.moving_right = True
+    elif event.code == "Space":
+        field.append(blast())
     if not player.moving:
         asyncio.create_task(player.move())
 
