@@ -102,12 +102,14 @@ async def blast():
             "left": f"{player.x}px",
             "bottom": f"{player.y}px",
             "background-color": "blue",
-            "transition": "10s linear"
+            "transition": "5s linear"
         }
     )
     field.append(mana_blast)
     await asyncio.sleep(0.05)
     mana_blast.style["bottom"] = "300px"
+    await asyncio.sleep(5)
+    mana_blast.remove()
 
 
 @when("keydown", window)
