@@ -12,6 +12,8 @@ class Player:
     moving_up = False
     moving_down = False
     moving = False
+    start_firing = False
+    firing = False
 
     def __init__(self):
         self.element = div(
@@ -68,6 +70,12 @@ class Player:
             await asyncio.sleep(0.05)
         self.moving = False
 
+    async def fire(self):
+        self.firing = True
+        while self.start_firing:
+            await blast()
+        self.firing = False
+
 
 field = div(
     style={
@@ -123,9 +131,11 @@ def keydown(event):
     elif event.code == "ArrowRight":
         player.moving_right = True
     elif event.code == "Space":
-        asyncio.create_task(blast())
+        player.start_firing = True
     if not player.moving:
         asyncio.create_task(player.move())
+    if not player.firing:
+        asyncio.create_task(player.fire())
 
 
 @when("keyup", window)
@@ -138,3 +148,5 @@ def keyup(event):
         player.moving_left = False
     elif event.code in "ArrowRight":
         player.moving_right = False
+    elif event.code in "Space":
+        player.start_firing = False
