@@ -93,8 +93,8 @@ field.append(player.element)
 main.append(field)
 
 
-def blast():
-    return div(
+async def blast():
+    mana_blast = div(
         style={
             "width": "5px",
             "height": "5px",
@@ -102,8 +102,12 @@ def blast():
             "left": f"{player.x}px",
             "bottom": f"{player.y}px",
             "background-color": "blue",
+            "transition": "10s linear"
         }
     )
+    field.append(mana_blast)
+    await asyncio.sleep(0.05)
+    mana_blast.style["bottom"] = "300px"
 
 
 @when("keydown", window)
@@ -117,7 +121,7 @@ def keydown(event):
     elif event.code == "ArrowRight":
         player.moving_right = True
     elif event.code == "Space":
-        field.append(blast())
+        asyncio.create_task(blast())
     if not player.moving:
         asyncio.create_task(player.move())
 
