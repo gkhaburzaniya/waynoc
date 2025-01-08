@@ -98,8 +98,9 @@ def blast():
         style={
             "width": "5px",
             "height": "5px",
-            "left": "0px",
-            "bottom": "0px",
+            "position": "absolute",
+            "left": f"{player.x}px",
+            "bottom": f"{player.y}px",
             "background-color": "blue",
         }
     )
