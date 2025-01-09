@@ -102,6 +102,7 @@ main.append(field)
 
 
 async def blast():
+    time = (300 - player.y)/200
     mana_blast = div(
         style={
             "width": "5px",
@@ -110,13 +111,13 @@ async def blast():
             "left": f"{player.x}px",
             "bottom": f"{player.y}px",
             "background-color": "blue",
-            "transition": "5s linear"
+            "transition": f"{time}s linear"
         }
     )
     field.append(mana_blast)
     await asyncio.sleep(0.05)
     mana_blast.style["bottom"] = "300px"
-    await asyncio.sleep(5)
+    await asyncio.sleep(time)
     mana_blast.remove()
 
 
