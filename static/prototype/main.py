@@ -117,8 +117,10 @@ async def blast():
     field.append(mana_blast)
     await asyncio.sleep(0.05)
     mana_blast.style["bottom"] = "300px"
-    await asyncio.sleep(time)
-    mana_blast.remove()
+
+    @when("transitionend", mana_blast)
+    def remove_blast(_):
+        mana_blast.remove()
 
 
 @when("keydown", window)
