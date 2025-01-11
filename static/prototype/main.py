@@ -1,4 +1,4 @@
-from pyscript.web import page, div
+from pyscript.web import page, div, style, p
 import asyncio
 from pyscript import when, window
 
@@ -57,7 +57,7 @@ class Player:
         move_speed = 5
         self.moving = True
         while (
-            self.moving_left or self.moving_right or self.moving_up or self.moving_down
+                self.moving_left or self.moving_right or self.moving_up or self.moving_down
         ):
             if self.moving_right and self.x != (295 - self.width):
                 self.x += move_speed
@@ -98,11 +98,19 @@ enemy = div(
 player = Player()
 field.append(enemy)
 field.append(player.element)
+main.append(style(
+    """
+    @keyframes slide-up {
+    100% {
+        bottom: 300px
+    }
+    """
+))
 main.append(field)
 
 
 async def blast():
-    time = (300 - player.y)/200
+    time = (300 - player.y) / 200
     mana_blast = div(
         style={
             "width": "5px",
@@ -111,14 +119,13 @@ async def blast():
             "left": f"{player.x}px",
             "bottom": f"{player.y}px",
             "background-color": "blue",
-            "transition": f"{time}s linear"
+            "animation": f"slide-up {time}s",
         }
     )
     field.append(mana_blast)
     await asyncio.sleep(0.05)
-    mana_blast.style["bottom"] = "300px"
 
-    @when("transitionend", mana_blast)
+    @when("animationend", mana_blast)
     def remove_blast(_):
         mana_blast.remove()
 
