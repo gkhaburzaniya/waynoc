@@ -119,7 +119,7 @@ async def blast():
     mana_blast.animate(
         to_js([{"bottom": "300px"}]), duration=flytime * 1000, easing="linear"
     ).onfinish = lambda _: mana_blast.remove()
-    await asyncio.sleep(0.1)
+    await asyncio.sleep(0.1) #Hangs if there's no sleep. Time controls rate of fire.
 
 
 @when("keydown", window)
