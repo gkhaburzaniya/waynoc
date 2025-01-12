@@ -6,6 +6,16 @@ page["#loading"][0].remove()
 main = page["main"][0]
 
 
+def animation(name, motion):
+    final_motion = "{"
+    for key, value in motion.items():
+        final_motion += key + "{" + value + "}"
+    final_motion += "}"
+    return style(
+        f"@keyframes {name} {final_motion}"
+    )
+
+
 class Player:
     moving_left = False
     moving_right = False
@@ -98,14 +108,7 @@ enemy = div(
 player = Player()
 field.append(enemy)
 field.append(player.element)
-main.append(style(
-    """
-    @keyframes slide-up {
-    100% {
-        bottom: 300px
-    }
-    """
-))
+main.append(div(animation("slide-up", {"100%": "bottom: 300px"})))
 main.append(field)
 
 
