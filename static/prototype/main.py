@@ -59,7 +59,7 @@ class Player:
         move_speed = 5
         self.moving = True
         while (
-                self.moving_left or self.moving_right or self.moving_up or self.moving_down
+            self.moving_left or self.moving_right or self.moving_up or self.moving_down
         ):
             if self.moving_right and self.x != (295 - self.width):
                 self.x += move_speed
@@ -101,11 +101,6 @@ player = Player()
 field.append(enemy)
 field.append(player.element)
 main.append(field)
-# foo = div("test", style={"position": "absolute", "bottom": "0px"})
-# main.append(foo)
-# def bar(*args, **kwargs):
-#     main.append(div("foobar"))
-# foo.animate(to_js([{"bottom": "300px"}]), duration=3000, easing="linear")
 
 
 async def blast():
@@ -121,11 +116,10 @@ async def blast():
         }
     )
     field.append(mana_blast)
-    mana_blast.animate(to_js([{"bottom": "300px"}]),
-                       duration=flytime*1000,
-                       easing="linear")
-    await asyncio.sleep(flytime)
-    mana_blast.remove()
+    mana_blast.animate(
+        to_js([{"bottom": "300px"}]), duration=flytime * 1000, easing="linear"
+    ).onfinish = lambda _: mana_blast.remove()
+    await asyncio.sleep(0.1)
 
 
 @when("keydown", window)
