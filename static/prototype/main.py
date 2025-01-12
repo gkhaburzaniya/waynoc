@@ -103,13 +103,13 @@ field.append(player.element)
 main.append(field)
 # foo = div("test", style={"position": "absolute", "bottom": "0px"})
 # main.append(foo)
-# def bar():
+# def bar(*args, **kwargs):
 #     main.append(div("foobar"))
-# foo.animate(to_js([{"bottom": "300px"}]), 3000, "linear")
+# foo.animate(to_js([{"bottom": "300px"}]), duration=3000, easing="linear")
 
 
 async def blast():
-    time = (300 - player.y) / 200
+    flytime = (300 - player.y) / 200
     mana_blast = div(
         style={
             "width": "5px",
@@ -121,8 +121,10 @@ async def blast():
         }
     )
     field.append(mana_blast)
-    mana_blast.animate(to_js([{"bottom": "300px"}]), time*1000, "linear")
-    await asyncio.sleep(time)
+    mana_blast.animate(to_js([{"bottom": "300px"}]),
+                       duration=flytime*1000,
+                       easing="linear")
+    await asyncio.sleep(flytime)
     mana_blast.remove()
 
 
