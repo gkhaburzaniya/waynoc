@@ -1,19 +1,11 @@
-from pyscript.web import page, div, style, p
 import asyncio
+
 from pyscript import when, window
+from pyscript.ffi import to_js, create_proxy
+from pyscript.web import page, div
 
 page["#loading"][0].remove()
 main = page["main"][0]
-
-
-def animation(name, motion):
-    final_motion = "{"
-    for key, value in motion.items():
-        final_motion += key + "{" + value + "}"
-    final_motion += "}"
-    return style(
-        f"@keyframes {name} {final_motion}"
-    )
 
 
 class Player:
@@ -108,8 +100,12 @@ enemy = div(
 player = Player()
 field.append(enemy)
 field.append(player.element)
-main.append(div(animation("slide-up", {"100%": "bottom: 300px"})))
 main.append(field)
+# foo = div("test", style={"position": "absolute", "bottom": "0px"})
+# main.append(foo)
+# def bar():
+#     main.append(div("foobar"))
+# foo.animate(to_js([{"bottom": "300px"}]), 3000, "linear")
 
 
 async def blast():
@@ -122,15 +118,12 @@ async def blast():
             "left": f"{player.x}px",
             "bottom": f"{player.y}px",
             "background-color": "blue",
-            "animation": f"slide-up {time}s",
         }
     )
     field.append(mana_blast)
-    await asyncio.sleep(0.05)
-
-    @when("animationend", mana_blast)
-    def remove_blast(_):
-        mana_blast.remove()
+    mana_blast.animate(to_js([{"bottom": "300px"}]), time*1000, "linear")
+    await asyncio.sleep(time)
+    mana_blast.remove()
 
 
 @when("keydown", window)
