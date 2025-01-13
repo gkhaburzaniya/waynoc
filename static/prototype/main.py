@@ -102,6 +102,8 @@ field.append(enemy)
 field.append(player.element)
 main.append(field)
 
+rate_of_fire = 0.1
+
 
 async def blast():
     flytime = (300 - player.y) / 200
@@ -119,7 +121,7 @@ async def blast():
     mana_blast.animate(
         to_js([{"bottom": "300px"}]), duration=flytime * 1000, easing="linear"
     ).onfinish = lambda _: mana_blast.remove()
-    await asyncio.sleep(0.1) #Hangs if there's no sleep. Time controls rate of fire.
+    await asyncio.sleep(rate_of_fire)  # Hangs if there's no sleep.
 
 
 @when("keydown", window)
