@@ -1,7 +1,7 @@
 import asyncio
 
 from pyscript import when, window
-from pyscript.ffi import to_js, create_proxy
+from pyscript.ffi import to_js
 from pyscript.web import page, div
 
 page["#loading"][0].remove()
@@ -59,7 +59,7 @@ class Player:
         move_speed = 5
         self.moving = True
         while (
-            self.moving_left or self.moving_right or self.moving_up or self.moving_down
+                self.moving_left or self.moving_right or self.moving_up or self.moving_down
         ):
             if self.moving_right and self.x != (295 - self.width):
                 self.x += move_speed
