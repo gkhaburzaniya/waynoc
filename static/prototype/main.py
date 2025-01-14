@@ -75,7 +75,15 @@ class Player:
     async def fire(self):
         self.firing = True
         while self.start_firing:
-            await blast()
+            mana_blast = await blast()
+            for _ in range(300):
+                mana_blast_rect = mana_blast.getBoundingClientRect()
+                enemy_rect = enemy.getBoundingClientRect()
+                if mana_blast_rect.top < enemy_rect.bottom:
+                    enemy.remove()
+                    mana_blast.remove()
+                await asyncio.sleep(0.01)  # TODO use requestAnimationFrame here
+
         self.firing = False
 
 
@@ -122,6 +130,7 @@ async def blast():
         to_js([{"bottom": "300px"}]), duration=flytime * 1000, easing="linear"
     ).onfinish = lambda _: mana_blast.remove()
     await asyncio.sleep(rate_of_fire)  # Hangs if there's no sleep.
+    return mana_blast
 
 
 @when("keydown", window)
