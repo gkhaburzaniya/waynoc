@@ -79,10 +79,10 @@ class Player:
             mana_blast = await blast()
             blasts.add(asyncio.create_task(blast_finish(mana_blast)))
 
+        self.firing = False
+
         for blast_task in blasts:
             await blast_task
-
-        self.firing = False
 
 
 def check_collision(mana_blast):
