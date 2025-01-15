@@ -59,7 +59,7 @@ class Player:
         move_speed = 5
         self.moving = True
         while (
-            self.moving_left or self.moving_right or self.moving_up or self.moving_down
+                self.moving_left or self.moving_right or self.moving_up or self.moving_down
         ):
             if self.moving_right and self.x != (295 - self.width):
                 self.x += move_speed
@@ -74,20 +74,32 @@ class Player:
 
     async def fire(self):
         self.firing = True
+        blasts = set()
         while self.start_firing:
             mana_blast = await blast()
 
             def check_collision():
                 mana_blast_rect = mana_blast.getBoundingClientRect()
                 enemy_rect = enemy.getBoundingClientRect()
-                if mana_blast_rect.top < enemy_rect.bottom:
+                if (
+                        mana_blast_rect.top < enemy_rect.bottom and
+                        mana_blast_rect.bottom > enemy_rect.top and
+                        mana_blast_rect.left < enemy_rect.right and
+                        mana_blast_rect.right > enemy_rect.left
+                ):
                     enemy.remove()
                     mana_blast.remove()
 
-            for _ in range(300):
-                check_collision()
-                await asyncio.sleep(0.01)
-                # main.append(div(window.requestAnimationFrame(check_collision)))
+            async def blast_finish():
+                for _ in range(300):
+                    check_collision()
+                    await asyncio.sleep(0.01)
+                    # main.append(div(window.requestAnimationFrame(check_collision)))
+
+            blasts.add(asyncio.create_task(blast_finish()))
+
+        for blast_task in blasts:
+            await blast_task
 
         self.firing = False
 
