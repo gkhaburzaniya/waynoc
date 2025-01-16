@@ -56,6 +56,7 @@ class Player:
         return int(self.element.style["height"][:-2])
 
     async def move(self):
+        # TODO Fix movement up and to the right while shooting
         move_speed = 5
         self.moving = True
         while (
@@ -88,17 +89,19 @@ class Player:
 async def blast_finish(mana_blast):
     def check_collision(_):
         mana_blast_rect = mana_blast.getBoundingClientRect()
-        enemy_rect = enemy.getBoundingClientRect()
-        if (
-            mana_blast_rect.top < enemy_rect.bottom
-            and mana_blast_rect.bottom > enemy_rect.top
-            and mana_blast_rect.left < enemy_rect.right
-            and mana_blast_rect.right > enemy_rect.left
-        ):
-            enemy.remove()
-            mana_blast.remove()
-        elif mana_blast_rect.top == 0:
-            pass
+        for enemy in enemies:
+            enemy_rect = enemy.getBoundingClientRect()
+            if (
+                mana_blast_rect.top < enemy_rect.bottom
+                and mana_blast_rect.bottom > enemy_rect.top
+                and mana_blast_rect.left < enemy_rect.right
+                and mana_blast_rect.right > enemy_rect.left
+            ):
+                enemy.remove()
+                mana_blast.remove()
+                return
+            elif mana_blast_rect.top == 0:
+                return
         else:
             window.requestAnimationFrame(create_proxy(check_collision))
 
@@ -115,16 +118,23 @@ field = div(
         "border": "5px solid black",
     }
 )
-enemy = div(
-    style={
-        "width": "15px",
-        "height": "15px",
-        "background-color": "red",
-        "border": "2px solid black",
-    }
-)
+
+
+def create_enemy():
+    return div(
+        style={
+            "width": "15px",
+            "height": "15px",
+            "background-color": "red",
+            "border": "2px solid black",
+        }
+    )
+
+
+enemies = [create_enemy(), create_enemy()]
 player = Player()
-field.append(enemy)
+field.append(enemies[0])
+field.append(enemies[1])
 field.append(player.element)
 main.append(field)
 
