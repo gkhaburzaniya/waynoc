@@ -1,7 +1,7 @@
 import asyncio
 
 from pyscript import when, window
-from pyscript.ffi import to_js
+from pyscript.ffi import to_js, create_proxy
 from pyscript.web import page, div
 
 page["#loading"][0].remove()
@@ -85,24 +85,22 @@ class Player:
             await blast_task
 
 
-def check_collision(mana_blast):
-    mana_blast_rect = mana_blast.getBoundingClientRect()
-    enemy_rect = enemy.getBoundingClientRect()
-    if (
-        mana_blast_rect.top < enemy_rect.bottom
-        and mana_blast_rect.bottom > enemy_rect.top
-        and mana_blast_rect.left < enemy_rect.right
-        and mana_blast_rect.right > enemy_rect.left
-    ):
-        enemy.remove()
-        mana_blast.remove()
-
-
 async def blast_finish(mana_blast):
-    for _ in range(60):
-        check_collision(mana_blast)
-        await asyncio.sleep(0.05)
-        # main.append(div(window.requestAnimationFrame(check_collision)))
+    def check_collision(_):
+        mana_blast_rect = mana_blast.getBoundingClientRect()
+        enemy_rect = enemy.getBoundingClientRect()
+        if (
+            mana_blast_rect.top < enemy_rect.bottom
+            and mana_blast_rect.bottom > enemy_rect.top
+            and mana_blast_rect.left < enemy_rect.right
+            and mana_blast_rect.right > enemy_rect.left
+        ):
+            enemy.remove()
+            mana_blast.remove()
+        else:
+            window.requestAnimationFrame(create_proxy(check_collision))
+
+    window.requestAnimationFrame(create_proxy(check_collision))
 
 
 field = div(
