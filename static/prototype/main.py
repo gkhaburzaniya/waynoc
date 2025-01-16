@@ -97,6 +97,8 @@ async def blast_finish(mana_blast):
         ):
             enemy.remove()
             mana_blast.remove()
+        elif mana_blast_rect.top == 0:
+            pass
         else:
             window.requestAnimationFrame(create_proxy(check_collision))
 
