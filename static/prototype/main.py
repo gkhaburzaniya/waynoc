@@ -135,7 +135,6 @@ def create_enemy():
 
 
 def kickoff():
-    main = page["main"][0]
     field.append(player.element)
     main.append(field)
     asyncio.create_task(spawn_enemies())
@@ -150,6 +149,7 @@ async def spawn_enemies():
         num += 1
 
 
+main = page["main"][0]
 enemies = {}
 rate_of_fire = 0.1
 player = Player()
