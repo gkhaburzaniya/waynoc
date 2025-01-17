@@ -6,7 +6,6 @@ from pyscript.ffi import to_js, create_proxy
 from pyscript.web import page, div
 
 page["#loading"][0].remove()
-main = page["main"][0]
 
 
 class Player:
@@ -134,14 +133,18 @@ def create_enemy():
     )
 
 
-enemies = {0: create_enemy(), 1: create_enemy()}
-player = Player()
-field.append(enemies[0])
-field.append(enemies[1])
-field.append(player.element)
-main.append(field)
+def main():
+    global enemies
+    main = page["main"][0]
+    enemies = {0: create_enemy(), 1: create_enemy()}
+    field.append(enemies[0])
+    field.append(enemies[1])
+    field.append(player.element)
+    main.append(field)
+
 
 rate_of_fire = 0.1
+player = Player()
 
 
 async def blast():
@@ -194,3 +197,5 @@ def keyup(event):
         player.moving_right = False
     elif event.code in "Space":
         player.start_firing = False
+
+main()
