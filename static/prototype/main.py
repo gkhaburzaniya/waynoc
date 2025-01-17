@@ -1,4 +1,5 @@
 import asyncio
+from random import random
 
 from pyscript import when, window
 from pyscript.ffi import to_js, create_proxy
@@ -125,6 +126,8 @@ def create_enemy():
         style={
             "width": "15px",
             "height": "15px",
+            "left": f"{random() * 300}px",
+            "position": "absolute",
             "background-color": "red",
             "border": "2px solid black",
         }
