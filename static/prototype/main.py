@@ -134,7 +134,7 @@ def create_enemy():
     )
 
 
-def main():
+def kickoff():
     main = page["main"][0]
     field.append(player.element)
     main.append(field)
@@ -207,4 +207,4 @@ def keyup(event):
         player.start_firing = False
 
 
-main()
+kickoff()
