@@ -135,21 +135,22 @@ def create_enemy():
 
 
 def main():
-    global enemies
     main = page["main"][0]
-    enemies = {0: create_enemy(), 1: create_enemy()}
-    field.append(enemies[0])
-    field.append(enemies[1])
     field.append(player.element)
     main.append(field)
+    asyncio.create_task(spawn_enemies())
 
 
-# async def spawn_enemies():
-#     while True:
-#         await asyncio.sleep(1)
-#         field.append(create_enemy())
+async def spawn_enemies():
+    num = 0
+    while True:
+        await asyncio.sleep(1)
+        enemies[num] = create_enemy()
+        field.append(enemies[num])
+        num += 1
 
 
+enemies = {}
 rate_of_fire = 0.1
 player = Player()
 
