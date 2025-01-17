@@ -99,6 +99,7 @@ async def blast_finish(mana_blast):
             ):
                 enemy.remove()
                 mana_blast.remove()
+                del enemies[num]
                 return
             elif mana_blast_rect.top == 0:
                 return
@@ -141,6 +142,12 @@ def main():
     field.append(enemies[1])
     field.append(player.element)
     main.append(field)
+
+
+# async def spawn_enemies():
+#     while True:
+#         await asyncio.sleep(1)
+#         field.append(create_enemy())
 
 
 rate_of_fire = 0.1
@@ -197,5 +204,6 @@ def keyup(event):
         player.moving_right = False
     elif event.code in "Space":
         player.start_firing = False
+
 
 main()
