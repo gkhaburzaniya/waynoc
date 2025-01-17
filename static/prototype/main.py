@@ -89,7 +89,7 @@ class Player:
 async def blast_finish(mana_blast):
     def check_collision(_):
         mana_blast_rect = mana_blast.getBoundingClientRect()
-        for enemy in enemies:
+        for num, enemy in enemies.items():
             enemy_rect = enemy.getBoundingClientRect()
             if (
                 mana_blast_rect.top < enemy_rect.bottom
@@ -131,7 +131,7 @@ def create_enemy():
     )
 
 
-enemies = [create_enemy(), create_enemy()]
+enemies = {0: create_enemy(), 1: create_enemy()}
 player = Player()
 field.append(enemies[0])
 field.append(enemies[1])
