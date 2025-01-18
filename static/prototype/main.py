@@ -162,8 +162,8 @@ async def blast():
             "width": "5px",
             "height": "5px",
             "position": "absolute",
-            "left": f"{player.x}px",
-            "bottom": f"{player.y}px",
+            "left": f"{player.x + 5}px",
+            "bottom": f"{player.y + 15}px",
             "background-color": "blue",
         }
     )
