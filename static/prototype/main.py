@@ -7,6 +7,7 @@ from pyscript.web import page, div
 
 page["#loading"][0].remove()
 MOB_SIZE = 15
+FIELD_SIZE = 300
 
 
 class Player:
@@ -149,7 +150,7 @@ player = Player()
 
 
 async def blast():
-    flytime = (300 - player.y) / 200  # flytime is in seconds
+    flytime = (FIELD_SIZE - player.y) / 200  # flytime is in seconds
     mana_blast = div(
         style={
             "width": "5px",
@@ -162,7 +163,7 @@ async def blast():
     )
     field.append(mana_blast)
     mana_blast.animate(
-        to_js([{"bottom": "300px"}]), duration=flytime * 1000, easing="linear"
+        to_js([{"bottom": f"{FIELD_SIZE}px"}]), duration=flytime * 1000, easing="linear"
     ).onfinish = lambda _: mana_blast.remove()
     await asyncio.sleep(rate_of_fire)  # Hangs if there's no sleep.
     return mana_blast
