@@ -6,6 +6,7 @@ from pyscript.ffi import to_js, create_proxy
 from pyscript.web import page, div
 
 page["#loading"][0].remove()
+MOB_SIZE = 15
 
 
 class Player:
@@ -20,8 +21,8 @@ class Player:
     def __init__(self):
         self.element = div(
             style={
-                "width": "15px",
-                "height": "15px",
+                "width": f"{MOB_SIZE}px",
+                "height": f"{MOB_SIZE}px",
                 "position": "absolute",
                 "left": "0px",
                 "bottom": "0px",
@@ -124,8 +125,8 @@ field = div(
 def create_enemy():
     return div(
         style={
-            "width": "15px",
-            "height": "15px",
+            "width": f"{MOB_SIZE}px",
+            "height": f"{MOB_SIZE}px",
             "left": f"{random() * 285}px",
             "position": "absolute",
             "background-color": "red",
@@ -163,7 +164,7 @@ async def blast():
             "height": "5px",
             "position": "absolute",
             "left": f"{player.x + 5}px",
-            "bottom": f"{player.y + 15}px",
+            "bottom": f"{player.y + MOB_SIZE}px",
             "background-color": "blue",
         }
     )
