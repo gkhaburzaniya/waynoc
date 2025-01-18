@@ -6,9 +6,14 @@ from pyscript.ffi import to_js, create_proxy
 from pyscript.web import page, div
 
 page["#loading"][0].remove()
+main = page["main"][0]
+
 MOB_SIZE = 15
 FIELD_SIZE = 300
 BLAST_SIZE = 5
+
+enemies = {}
+rate_of_fire = 0.1
 
 
 class Player:
@@ -80,6 +85,9 @@ class Player:
             await blast_task
 
 
+player = Player()
+
+
 async def blast_finish(mana_blast):
     def check_collision(_):
         mana_blast_rect = mana_blast.getBoundingClientRect()
@@ -140,12 +148,6 @@ async def spawn_enemies():
         enemies[num] = create_enemy()
         field.append(enemies[num])
         num += 1
-
-
-main = page["main"][0]
-enemies = {}
-rate_of_fire = 0.1
-player = Player()
 
 
 async def blast():
