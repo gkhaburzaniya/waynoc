@@ -1,10 +1,11 @@
 import asyncio
 from random import random
-from player import player, MOB_SIZE, FIELD_SIZE, enemies, field
 
 from pyscript import when, window
-from pyscript.ffi import to_js, create_proxy
 from pyscript.web import page, div
+
+from constants import MOB_SIZE, FIELD_SIZE
+from player import player, enemies, field
 
 page["#loading"][0].remove()
 main = page["main"][0]

@@ -1,12 +1,11 @@
 import asyncio
 
+from constants import FIELD_SIZE, MOB_SIZE, BLAST_SIZE
+
 from pyscript import window
 from pyscript.web import div
 from pyscript.ffi import to_js, create_proxy
 
-MOB_SIZE = 15
-FIELD_SIZE = 300
-BLAST_SIZE = 5
 
 enemies = {}
 field = div(
