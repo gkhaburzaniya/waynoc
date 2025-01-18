@@ -48,14 +48,6 @@ class Player:
     def y(self, value):
         self.element.style["bottom"] = str(value) + "px"
 
-    @property
-    def width(self):
-        return int(self.element.style["width"][:-2])
-
-    @property
-    def height(self):
-        return int(self.element.style["height"][:-2])
-
     async def move(self):
         # TODO Fix movement up and to the right while shooting
         move_speed = 5
@@ -63,11 +55,11 @@ class Player:
         while (
             self.moving_left or self.moving_right or self.moving_up or self.moving_down
         ):
-            if self.moving_right and self.x != (295 - self.width):
+            if self.moving_right and self.x != (295 - MOB_SIZE):
                 self.x += move_speed
             elif self.moving_left and self.x != 0:
                 self.x -= move_speed
-            if self.moving_up and self.y != (295 - self.height):
+            if self.moving_up and self.y != (295 - MOB_SIZE):
                 self.y += move_speed
             if self.moving_down and self.y != 0:
                 self.y -= move_speed
