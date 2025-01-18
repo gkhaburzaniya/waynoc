@@ -6,7 +6,8 @@
             type="module"
             src="{% static '.pyscript/node_modules/@pyscript/core/dist/core.js' %}">
     </script>
-    <script type="py" src="{% static 'prototype/main.py' %}"></script>
+    <script type="py" src="{% static 'prototype/main.py' %}"
+            config="{% static 'prototype/pyscript.toml' %}"></script>
 {% endblock %}
 
 {% block content %}

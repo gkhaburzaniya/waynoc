@@ -1,0 +1,4 @@
+name="Prototype"
+
+[files]
+"./player.py" = ""
