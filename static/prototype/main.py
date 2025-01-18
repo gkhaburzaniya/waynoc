@@ -8,6 +8,7 @@ from pyscript.web import page, div
 page["#loading"][0].remove()
 MOB_SIZE = 15
 FIELD_SIZE = 300
+BLAST_SIZE = 5
 
 
 class Player:
@@ -119,7 +120,7 @@ def create_enemy():
         style={
             "width": f"{MOB_SIZE}px",
             "height": f"{MOB_SIZE}px",
-            "left": f"{random() * 285}px",
+            "left": f"{random() * (FIELD_SIZE - MOB_SIZE)}px",
             "position": "absolute",
             "background-color": "red",
             "border": "2px solid black",
@@ -152,10 +153,10 @@ async def blast():
     flytime = player.y / 200  # flytime is in seconds
     mana_blast = div(
         style={
-            "width": "5px",
-            "height": "5px",
+            "width": f"{BLAST_SIZE}px",
+            "height": f"{BLAST_SIZE}px",
             "position": "absolute",
-            "left": f"{player.x + 5}px",
+            "left": f"{player.x + (MOB_SIZE - BLAST_SIZE)/2}px",
             "top": f"{player.y}px",
             "background-color": "blue",
         }
