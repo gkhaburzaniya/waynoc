@@ -26,7 +26,7 @@ class Player:
                 "height": f"{MOB_SIZE}px",
                 "position": "absolute",
                 "left": "0px",
-                "bottom": "0px",
+                "top": f"{FIELD_SIZE - MOB_SIZE}px",
                 "background-color": "green",
                 "border": "2px solid black",
                 "transition": "0.05s linear",
@@ -43,11 +43,11 @@ class Player:
 
     @property
     def y(self):
-        return int(self.element.style["bottom"][:-2])
+        return int(self.element.style["top"][:-2])
 
     @y.setter
     def y(self, value):
-        self.element.style["bottom"] = str(value) + "px"
+        self.element.style["top"] = str(value) + "px"
 
     async def move(self):
         # TODO Fix movement up and to the right while shooting
@@ -60,10 +60,10 @@ class Player:
                 self.x += move_speed
             elif self.moving_left and self.x != 0:
                 self.x -= move_speed
-            if self.moving_up and self.y != (FIELD_SIZE - MOB_SIZE):
-                self.y += move_speed
-            if self.moving_down and self.y != 0:
+            if self.moving_up and self.y != 0:
                 self.y -= move_speed
+            if self.moving_down and self.y != (FIELD_SIZE - MOB_SIZE):
+                self.y += move_speed
             await asyncio.sleep(0.05)
         self.moving = False
 
@@ -149,20 +149,20 @@ player = Player()
 
 
 async def blast():
-    flytime = (FIELD_SIZE - player.y) / 200  # flytime is in seconds
+    flytime = player.y / 200  # flytime is in seconds
     mana_blast = div(
         style={
             "width": "5px",
             "height": "5px",
             "position": "absolute",
             "left": f"{player.x + 5}px",
-            "bottom": f"{player.y + MOB_SIZE}px",
+            "top": f"{player.y}px",
             "background-color": "blue",
         }
     )
     field.append(mana_blast)
     mana_blast.animate(
-        to_js([{"bottom": f"{FIELD_SIZE}px"}]), duration=flytime * 1000, easing="linear"
+        to_js([{"top": "0px"}]), duration=flytime * 1000, easing="linear"
     ).onfinish = lambda _: mana_blast.remove()
     await asyncio.sleep(rate_of_fire)  # Hangs if there's no sleep.
     return mana_blast
