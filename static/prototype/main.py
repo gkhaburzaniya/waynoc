@@ -51,7 +51,6 @@ class Player:
         self.element.style["top"] = str(value) + "px"
 
     async def move(self):
-        # TODO Fix movement up and to the right while shooting
         move_speed = 5
         self.moving = True
         while (
@@ -63,7 +62,7 @@ class Player:
                 self.x -= move_speed
             if self.moving_up and self.y != 0:
                 self.y -= move_speed
-            if self.moving_down and self.y != (FIELD_SIZE - MOB_SIZE):
+            elif self.moving_down and self.y != (FIELD_SIZE - MOB_SIZE):
                 self.y += move_speed
             await asyncio.sleep(0.05)
         self.moving = False
