@@ -56,11 +56,11 @@ class Player:
         while (
             self.moving_left or self.moving_right or self.moving_up or self.moving_down
         ):
-            if self.moving_right and self.x != (295 - MOB_SIZE):
+            if self.moving_right and self.x != (FIELD_SIZE - MOB_SIZE):
                 self.x += move_speed
             elif self.moving_left and self.x != 0:
                 self.x -= move_speed
-            if self.moving_up and self.y != (295 - MOB_SIZE):
+            if self.moving_up and self.y != (FIELD_SIZE - MOB_SIZE):
                 self.y += move_speed
             if self.moving_down and self.y != 0:
                 self.y -= move_speed
@@ -105,12 +105,11 @@ async def blast_finish(mana_blast):
 
 field = div(
     style={
-        "width": "305px",
-        "height": "305px",
+        "width": f"{FIELD_SIZE}px",
+        "height": f"{FIELD_SIZE}px",
         "display": "flex",
         "position": "relative",
         "background-color": "grey",
-        "border": "5px solid black",
     }
 )
 
