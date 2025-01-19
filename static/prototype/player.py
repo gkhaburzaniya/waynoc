@@ -8,15 +8,6 @@ from pyscript.ffi import to_js, create_proxy
 
 
 enemies = {}
-field = div(
-    style={
-        "width": f"{FIELD_SIZE}px",
-        "height": f"{FIELD_SIZE}px",
-        "display": "flex",
-        "position": "relative",
-        "background-color": "grey",
-    }
-)
 
 
 class Player:
@@ -104,7 +95,7 @@ async def blast():
             "background-color": "blue",
         }
     )
-    field.append(mana_blast)
+    player.element.parent.append(mana_blast)
     mana_blast.animate(
         to_js([{"top": "0px"}]), duration=flytime * 1000, easing="linear"
     ).onfinish = lambda _: mana_blast.remove()

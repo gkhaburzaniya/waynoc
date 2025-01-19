@@ -5,10 +5,20 @@ from pyscript import when, window
 from pyscript.web import page, div
 
 from constants import MOB_SIZE, FIELD_SIZE
-from player import player, enemies, field
+from player import player, enemies
 
 page["#loading"][0].remove()
 main = page["main"][0]
+
+field = div(
+    style={
+        "width": f"{FIELD_SIZE}px",
+        "height": f"{FIELD_SIZE}px",
+        "display": "flex",
+        "position": "relative",
+        "background-color": "grey",
+    }
+)
 
 
 def create_enemy():
