@@ -85,6 +85,7 @@ player = Player()
 
 async def blast():
     flytime = player.y / 200  # flytime is in seconds
+    field = player.element.parent
     mana_blast = div(
         style={
             "width": f"{BLAST_SIZE}px",
@@ -95,7 +96,7 @@ async def blast():
             "background-color": "blue",
         }
     )
-    player.element.parent.append(mana_blast)
+    field.append(mana_blast)
     mana_blast.animate(
         to_js([{"top": "0px"}]), duration=flytime * 1000, easing="linear"
     ).onfinish = lambda _: mana_blast.remove()
