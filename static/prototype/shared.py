@@ -1,3 +1,5 @@
+enemies = {}
+
 MOB_SIZE = 15
 FIELD_SIZE = 300
 BLAST_SIZE = 5

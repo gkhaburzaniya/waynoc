@@ -4,8 +4,8 @@ from random import random
 from pyscript import when, window
 from pyscript.web import page, div
 
-from constants import MOB_SIZE, FIELD_SIZE
-from player import player, enemies
+from shared import MOB_SIZE, FIELD_SIZE, enemies
+from player import player
 
 page["#loading"][0].remove()
 main = page["main"][0]

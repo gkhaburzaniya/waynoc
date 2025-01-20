@@ -1,13 +1,10 @@
 import asyncio
 
-from constants import FIELD_SIZE, MOB_SIZE, BLAST_SIZE
+from shared import FIELD_SIZE, MOB_SIZE, BLAST_SIZE, enemies
 
 from pyscript import window
 from pyscript.web import div
 from pyscript.ffi import to_js, create_proxy
-
-
-enemies = {}
 
 
 class Player:

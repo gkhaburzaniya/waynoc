@@ -2,4 +2,4 @@ name="Prototype"
 
 [files]
 "./player.py" = ""
-"./constants.py" = ""
+"./shared.py" = ""
