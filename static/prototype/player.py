@@ -68,57 +68,57 @@ class Player:
         self.firing = True
         blasts = set()
         while self.start_firing:
-            mana_blast = await blast()
-            blasts.add(asyncio.create_task(blast_finish(mana_blast)))
+            mana_blast = await self.blast()
+            blasts.add(asyncio.create_task(self.blast_finish(mana_blast)))
 
         self.firing = False
 
         for blast_task in blasts:
             await blast_task
 
+    async def blast(self):
+        flytime = self.y / 200  # flytime is in seconds
+        field = self.element.parent
+        mana_blast = div(
+            style={
+                "width": f"{BLAST_SIZE}px",
+                "height": f"{BLAST_SIZE}px",
+                "position": "absolute",
+                "left": f"{player.x + (MOB_SIZE - BLAST_SIZE) / 2}px",
+                "top": f"{player.y}px",
+                "background-color": "blue",
+            }
+        )
+        field.append(mana_blast)
+        mana_blast.animate(
+            to_js([{"top": "0px"}]), duration=flytime * 1000, easing="linear"
+        ).onfinish = lambda _: mana_blast.remove()
+        await asyncio.sleep(player.rate_of_fire)  # Hangs if there's no sleep.
+        return mana_blast
+
+    async def blast_finish(self, mana_blast):
+        def check_collision(_):
+            mana_blast_rect = mana_blast.getBoundingClientRect()
+            for num, enemy in enemies.items():
+                enemy_rect = enemy.getBoundingClientRect()
+                if (
+                        mana_blast_rect.top < enemy_rect.bottom
+                        and mana_blast_rect.bottom > enemy_rect.top
+                        and mana_blast_rect.left < enemy_rect.right
+                        and mana_blast_rect.right > enemy_rect.left
+                ):
+                    enemy.remove()
+                    mana_blast.remove()
+                    del enemies[num]
+                    return
+                elif mana_blast_rect.top == 0:
+                    return
+            else:
+                window.requestAnimationFrame(create_proxy(check_collision))
+
+        window.requestAnimationFrame(create_proxy(check_collision))
+
 
 player = Player()
 
 
-async def blast():
-    flytime = player.y / 200  # flytime is in seconds
-    field = player.element.parent
-    mana_blast = div(
-        style={
-            "width": f"{BLAST_SIZE}px",
-            "height": f"{BLAST_SIZE}px",
-            "position": "absolute",
-            "left": f"{player.x + (MOB_SIZE - BLAST_SIZE)/2}px",
-            "top": f"{player.y}px",
-            "background-color": "blue",
-        }
-    )
-    field.append(mana_blast)
-    mana_blast.animate(
-        to_js([{"top": "0px"}]), duration=flytime * 1000, easing="linear"
-    ).onfinish = lambda _: mana_blast.remove()
-    await asyncio.sleep(player.rate_of_fire)  # Hangs if there's no sleep.
-    return mana_blast
-
-
-async def blast_finish(mana_blast):
-    def check_collision(_):
-        mana_blast_rect = mana_blast.getBoundingClientRect()
-        for num, enemy in enemies.items():
-            enemy_rect = enemy.getBoundingClientRect()
-            if (
-                mana_blast_rect.top < enemy_rect.bottom
-                and mana_blast_rect.bottom > enemy_rect.top
-                and mana_blast_rect.left < enemy_rect.right
-                and mana_blast_rect.right > enemy_rect.left
-            ):
-                enemy.remove()
-                mana_blast.remove()
-                del enemies[num]
-                return
-            elif mana_blast_rect.top == 0:
-                return
-        else:
-            window.requestAnimationFrame(create_proxy(check_collision))
-
-    window.requestAnimationFrame(create_proxy(check_collision))
