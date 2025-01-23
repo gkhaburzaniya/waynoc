@@ -2,7 +2,7 @@ import asyncio
 from random import random
 
 from pyscript import when, window
-from pyscript.web import page, div
+from pyscript.web import page, div, button
 
 from shared import MOB_SIZE, FIELD_SIZE, enemies
 from player import player

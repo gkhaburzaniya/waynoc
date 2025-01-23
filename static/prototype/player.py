@@ -96,7 +96,8 @@ class Player:
         await asyncio.sleep(player.rate_of_fire)  # Hangs if there's no sleep.
         return mana_blast
 
-    async def blast_finish(self, mana_blast):
+    @staticmethod
+    async def blast_finish(mana_blast):
         def check_collision(_):
             mana_blast_rect = mana_blast.getBoundingClientRect()
             for num, enemy in enemies.items():
