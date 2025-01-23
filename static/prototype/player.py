@@ -15,7 +15,8 @@ class Player:
     moving = False
     start_firing = False
     firing = False
-    rate_of_fire = 0.1
+    mental = 1
+    rate_of_fire = 0.5
 
     def __init__(self):
         self.element = div(
@@ -30,6 +31,10 @@ class Player:
                 "transition": "0.05s linear",
             }
         )
+
+    # @property
+    # def rate_of_fire(self):
+    #     return 0.1 + 2/self.mental
 
     @property
     def x(self):
@@ -46,6 +51,9 @@ class Player:
     @y.setter
     def y(self, value):
         self.element.style["top"] = str(value) + "px"
+
+    def mental_up(self):
+        self.mental += 1
 
     async def move(self):
         move_speed = 5

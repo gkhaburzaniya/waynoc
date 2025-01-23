@@ -20,12 +20,17 @@ field = div(
     }
 )
 
+mental_button = button(
+    "Mental", type="submit", classes=["btn", "btn-secondary"], onclick=player.mental_up
+)
+
 
 def create_enemy():
     return div(
         style={
             "width": f"{MOB_SIZE}px",
             "height": f"{MOB_SIZE}px",
+            "top": "50%",
             "left": f"{random() * (FIELD_SIZE - MOB_SIZE)}px",
             "position": "absolute",
             "background-color": "red",
