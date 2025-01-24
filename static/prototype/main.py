@@ -42,6 +42,7 @@ def create_enemy():
 def kickoff():
     field.append(player.element)
     main.append(field)
+    main.append(div(mental_button))
     asyncio.create_task(spawn_enemies())
 
 

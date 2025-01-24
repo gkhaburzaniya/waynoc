@@ -16,7 +16,6 @@ class Player:
     start_firing = False
     firing = False
     mental = 1
-    rate_of_fire = 0.5
 
     def __init__(self):
         self.element = div(
@@ -32,9 +31,11 @@ class Player:
             }
         )
 
-    # @property
-    # def rate_of_fire(self):
-    #     return 0.1 + 2/self.mental
+    @property
+    def rate_of_fire(self):
+        # TODO make starting rate_of_fire smaller. Currently causes bug where it goes
+        # through enemies sometimes
+        return 0.05 + .4/self.mental
 
     @property
     def x(self):
@@ -52,7 +53,7 @@ class Player:
     def y(self, value):
         self.element.style["top"] = str(value) + "px"
 
-    def mental_up(self):
+    def mental_up(self, _):
         self.mental += 1
 
     async def move(self):
