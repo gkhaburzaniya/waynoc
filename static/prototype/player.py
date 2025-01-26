@@ -36,6 +36,17 @@ class Player:
             onclick=self.mental_up,
         )
 
+        self.xp_div = div("XP: 0")
+
+    @property
+    def xp(self):
+        # "XP: 0" turns into 0
+        return int(self.xp_div.textContent.split()[1])
+
+    @xp.setter
+    def xp(self, value):
+        self.xp_div.textContent = "XP: " + str(value)
+
     @property
     def mental(self):
         # "Mental 1" turns into 1
@@ -67,7 +78,9 @@ class Player:
         self.element.style["top"] = str(value) + "px"
 
     def mental_up(self, _):
-        self.mental += 1
+        if self.xp > self.mental:
+            self.mental += 1
+            self.xp -= self.mental
 
     async def move(self):
         move_speed = 5

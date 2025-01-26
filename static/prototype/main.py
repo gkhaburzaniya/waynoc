@@ -2,10 +2,10 @@ import asyncio
 from random import random
 
 from pyscript import when, window
-from pyscript.web import page, div, button
+from pyscript.web import page, div
 
-from shared import MOB_SIZE, FIELD_SIZE, enemies
 from player import player
+from shared import MOB_SIZE, FIELD_SIZE, enemies
 
 page["#loading"][0].remove()
 main = page["main"][0]
@@ -35,6 +35,7 @@ def create_enemy():
 
 
 def kickoff():
+    main.append(player.xp_div)
     field.append(player.element)
     main.append(field)
     main.append(div(player.mental_button))
@@ -45,6 +46,7 @@ async def spawn_enemies():
     num = 0
     while True:
         await asyncio.sleep(1)
+        player.xp += 1
         enemies[num] = create_enemy()
         field.append(enemies[num])
         num += 1
