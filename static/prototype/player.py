@@ -15,7 +15,6 @@ class Player:
     moving = False
     start_firing = False
     firing = False
-    mental = 1
 
     def __init__(self):
         self.element = div(
@@ -36,6 +35,14 @@ class Player:
             classes=["btn", "btn-secondary"],
             onclick=self.mental_up,
         )
+
+    @property
+    def mental(self):
+        return int(self.mental_button.textContent.split()[1])
+
+    @mental.setter
+    def mental(self, value):
+        self.mental_button.textContent = "Mental " + str(value)
 
     @property
     def rate_of_fire(self):
