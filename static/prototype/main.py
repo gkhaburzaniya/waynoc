@@ -30,7 +30,6 @@ def create_enemy():
         style={
             "width": f"{MOB_SIZE}px",
             "height": f"{MOB_SIZE}px",
-            "top": "50%",
             "left": f"{random() * (FIELD_SIZE - MOB_SIZE)}px",
             "position": "absolute",
             "background-color": "red",

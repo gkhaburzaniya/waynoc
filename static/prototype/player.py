@@ -33,9 +33,7 @@ class Player:
 
     @property
     def rate_of_fire(self):
-        # TODO make starting rate_of_fire smaller. Currently causes bug where it goes
-        # through enemies sometimes
-        return 0.05 + .4/self.mental
+        return 0.05 + 2 / self.mental
 
     @property
     def x(self):
@@ -79,6 +77,7 @@ class Player:
         while self.start_firing:
             mana_blast = await self.blast()
             blasts.add(asyncio.create_task(self.blast_finish(mana_blast)))
+            await asyncio.sleep(self.rate_of_fire)
 
         self.firing = False
 
@@ -102,7 +101,7 @@ class Player:
         mana_blast.animate(
             to_js([{"top": "0px"}]), duration=flytime * 1000, easing="linear"
         ).onfinish = lambda _: mana_blast.remove()
-        await asyncio.sleep(player.rate_of_fire)  # Hangs if there's no sleep.
+        await asyncio.sleep(0)  # Hangs if there's no sleep.
         return mana_blast
 
     @staticmethod
@@ -112,10 +111,10 @@ class Player:
             for num, enemy in enemies.items():
                 enemy_rect = enemy.getBoundingClientRect()
                 if (
-                        mana_blast_rect.top < enemy_rect.bottom
-                        and mana_blast_rect.bottom > enemy_rect.top
-                        and mana_blast_rect.left < enemy_rect.right
-                        and mana_blast_rect.right > enemy_rect.left
+                    mana_blast_rect.top < enemy_rect.bottom
+                    and mana_blast_rect.bottom > enemy_rect.top
+                    and mana_blast_rect.left < enemy_rect.right
+                    and mana_blast_rect.right > enemy_rect.left
                 ):
                     enemy.remove()
                     mana_blast.remove()
@@ -130,5 +129,3 @@ class Player:
 
 
 player = Player()
-
-
