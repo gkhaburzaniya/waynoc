@@ -51,6 +51,7 @@ class Player:
 
     @property
     def x(self):
+        # "50px" turns into 50
         return int(self.element.style["left"][:-2])
 
     @x.setter
