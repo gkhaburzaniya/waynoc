@@ -38,6 +38,7 @@ class Player:
 
     @property
     def mental(self):
+        # "Mental 1" turns into 1
         return int(self.mental_button.textContent.split()[1])
 
     @mental.setter
