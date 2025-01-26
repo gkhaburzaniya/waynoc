@@ -20,10 +20,6 @@ field = div(
     }
 )
 
-mental_button = button(
-    "Mental", type="submit", classes=["btn", "btn-secondary"], onclick=player.mental_up
-)
-
 
 def create_enemy():
     return div(
@@ -41,7 +37,7 @@ def create_enemy():
 def kickoff():
     field.append(player.element)
     main.append(field)
-    main.append(div(mental_button))
+    main.append(div(player.mental_button))
     asyncio.create_task(spawn_enemies())
 
 

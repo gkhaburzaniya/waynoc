@@ -3,7 +3,7 @@ import asyncio
 from shared import FIELD_SIZE, MOB_SIZE, BLAST_SIZE, enemies
 
 from pyscript import window
-from pyscript.web import div
+from pyscript.web import div, button
 from pyscript.ffi import to_js, create_proxy
 
 
@@ -29,6 +29,12 @@ class Player:
                 "border": "2px solid black",
                 "transition": "0.05s linear",
             }
+        )
+        self.mental_button = button(
+            "Mental 1",
+            type="submit",
+            classes=["btn", "btn-secondary"],
+            onclick=self.mental_up,
         )
 
     @property
