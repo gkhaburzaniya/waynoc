@@ -2,7 +2,7 @@ import asyncio
 from random import random
 
 from pyscript import when, window
-from pyscript.web import page, div
+from pyscript.web import page, div, span
 from pyscript.ffi import to_js
 
 from player import player
@@ -36,8 +36,12 @@ def create_enemy():
     )
 
 
+score_span = span("Score: 0")
+
+
 def kickoff():
-    main.append(player.xp_div)
+    main.append(div(player.xp_span, score_span, style={"width": "300px"},
+                    classes=["d-flex", "justify-content-between"]))
     field.append(player.element)
     main.append(field)
     main.append(div(player.mental_button))
@@ -47,12 +51,12 @@ def kickoff():
 
 async def spawn_enemies():
     for num in range(500):
-        await asyncio.sleep(0.2 + 2/(num/5+1))
+        await asyncio.sleep(0.2 + 2 / (num / 5 + 1))
         enemy = create_enemy()
         enemies[num] = enemy
         field.append(enemy)
         enemy.animate(
-            to_js([{"top": f"{FIELD_SIZE-MOB_SIZE}px"}]),
+            to_js([{"top": f"{FIELD_SIZE - MOB_SIZE}px"}]),
             duration=10000,
             easing="linear",
             fill="forwards",

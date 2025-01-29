@@ -3,7 +3,7 @@ import asyncio
 from shared import FIELD_SIZE, MOB_SIZE, BLAST_SIZE, enemies
 
 from pyscript import window
-from pyscript.web import div, button
+from pyscript.web import div, span, button
 from pyscript.ffi import to_js, create_proxy
 
 
@@ -36,16 +36,16 @@ class Player:
             onclick=self.mental_up,
         )
 
-        self.xp_div = div("XP: 0")
+        self.xp_span = span("XP: 0")
 
     @property
     def xp(self):
         # "XP: 0" turns into 0
-        return int(self.xp_div.textContent.split()[1])
+        return int(self.xp_span.textContent.split()[1])
 
     @xp.setter
     def xp(self, value):
-        self.xp_div.textContent = "XP: " + str(value)
+        self.xp_span.textContent = "XP: " + str(value)
 
     @property
     def mental(self):
