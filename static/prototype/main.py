@@ -53,7 +53,9 @@ async def spawn_enemies():
         enemies[num] = enemy
         field.append(enemy)
         enemy.animate(
-            to_js([{"top": "0px"}, {"top": "100px"}]), duration=3000, easing="linear",
+            to_js([{"top": "100px"}]),
+            duration=3000,
+            easing="linear",
             fill="forwards",
         )
         num += 1
