@@ -40,8 +40,14 @@ score_span = span("Score: 0")
 
 
 def kickoff():
-    main.append(div(player.xp_span, score_span, style={"width": "300px"},
-                    classes=["d-flex", "justify-content-between"]))
+    main.append(
+        div(
+            player.xp_span,
+            score_span,
+            style={"width": "300px"},
+            classes=["d-flex", "justify-content-between"],
+        )
+    )
     field.append(player.element)
     main.append(field)
     main.append(div(player.mental_button))
@@ -60,7 +66,12 @@ async def spawn_enemies():
             duration=10000,
             easing="linear",
             fill="forwards",
-        )
+        ).onfinish = lambda _: decrease_score()
+
+
+def decrease_score():
+    # TODO simplify this with mutliple spans
+    score_span.textContent = "Score: " + str(int(score_span.textContent.split()[1]) - 1)
 
 
 async def gain_xp():
