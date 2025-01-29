@@ -42,13 +42,12 @@ def kickoff():
     main.append(field)
     main.append(div(player.mental_button))
     asyncio.create_task(spawn_enemies())
+    asyncio.create_task(gain_xp())
 
 
 async def spawn_enemies():
     for num in range(500):
         await asyncio.sleep(0.2 + 2/(num/5+1))
-        # TODO xp should gain at a constant rate
-        player.xp += 1
         enemy = create_enemy()
         enemies[num] = enemy
         field.append(enemy)
@@ -58,6 +57,12 @@ async def spawn_enemies():
             easing="linear",
             fill="forwards",
         )
+
+
+async def gain_xp():
+    while True:
+        await asyncio.sleep(1)
+        player.xp += 1
 
 
 @when("keydown", window)
