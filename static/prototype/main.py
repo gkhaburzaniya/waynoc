@@ -45,9 +45,9 @@ def kickoff():
 
 
 async def spawn_enemies():
-    num = 0
-    while True:
+    for num in range(500):
         await asyncio.sleep(0.2 + 2/(num/5+1))
+        # TODO xp should gain at a constant rate
         player.xp += 1
         enemy = create_enemy()
         enemies[num] = enemy
@@ -58,7 +58,6 @@ async def spawn_enemies():
             easing="linear",
             fill="forwards",
         )
-        num += 1
 
 
 @when("keydown", window)
