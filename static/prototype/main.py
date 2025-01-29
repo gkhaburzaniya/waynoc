@@ -47,7 +47,7 @@ def kickoff():
 async def spawn_enemies():
     num = 0
     while True:
-        await asyncio.sleep(1)
+        await asyncio.sleep(0.2 + 2/(num+1))
         player.xp += 1
         enemy = create_enemy()
         enemies[num] = enemy
