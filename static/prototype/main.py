@@ -3,6 +3,7 @@ from random import random
 
 from pyscript import when, window
 from pyscript.web import page, div
+from pyscript.ffi import to_js
 
 from player import player
 from shared import MOB_SIZE, FIELD_SIZE, enemies
@@ -26,6 +27,7 @@ def create_enemy():
         style={
             "width": f"{MOB_SIZE}px",
             "height": f"{MOB_SIZE}px",
+            "top": "0px",
             "left": f"{random() * (FIELD_SIZE - MOB_SIZE)}px",
             "position": "absolute",
             "background-color": "red",
@@ -47,8 +49,13 @@ async def spawn_enemies():
     while True:
         await asyncio.sleep(1)
         player.xp += 1
-        enemies[num] = create_enemy()
-        field.append(enemies[num])
+        enemy = create_enemy()
+        enemies[num] = enemy
+        field.append(enemy)
+        enemy.animate(
+            to_js([{"top": "0px"}, {"top": "100px"}]), duration=3000, easing="linear",
+            fill="forwards",
+        )
         num += 1
 
 
