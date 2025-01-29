@@ -30,7 +30,7 @@ class Player:
             }
         )
         self.mental_button = button(
-            "Mental 1",
+            "Mental 0",
             type="submit",
             classes=["btn", "btn-secondary"],
             onclick=self.mental_up,
@@ -58,7 +58,7 @@ class Player:
 
     @property
     def rate_of_fire(self):
-        return 0.05 + 2 / self.mental
+        return 0.05 + 2 / (self.mental + 1)
 
     @property
     def x(self):
