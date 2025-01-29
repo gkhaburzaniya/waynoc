@@ -54,7 +54,7 @@ async def spawn_enemies():
         field.append(enemy)
         enemy.animate(
             to_js([{"top": f"{FIELD_SIZE-MOB_SIZE}px"}]),
-            duration=3000,
+            duration=10000,
             easing="linear",
             fill="forwards",
         )
